@@ -117,8 +117,6 @@ def hello(request,page):
     paginator = Paginator(data,6)
     currentPage = int(page) #从url中获取当前页数
 
-
-
     try:
         print(page)
         showData = paginator.page(currentPage)#获取当前页码的记录

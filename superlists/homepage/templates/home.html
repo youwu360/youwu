@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>Bootstrap 101 Template</title>
+
+    <!-- Bootstrap -->
+
+        <link rel="stylesheet" href="/static/bootstrap.css" type="text/css" />
+        <link rel="stylesheet" href="/static/bootstrap-theme.css" type="text/css" />
+        <link rel="stylesheet" href="/static/homepage.css" type="text/css" />
+    <![endif]-->
+
+
+
+
+
+  </head>
+  <body>
+  <nav class="navbar navbar-default">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://www.baidu.com">
+         Brand<!--<img alt="Brand" src="http://www.lsmpic.com/static/image/common/logo.png"> -->
+      </a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Link_baidu <span class="sr-only">(current)</span></a></li>
+        <li><a href="http://www.baidu.com">Link_2_baidu</a></li>
+
+      </ul>
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<!-- 图片展现 -->
+
+  <div class="container"  >
+
+{% for line in showData %}
+
+    <div class="group">
+      <div class photo>
+        <a href={{ line.issue_url }} target="_blank" >
+          <img class="img" src= {{ line.cover_img }} alt={{ line.title  }} ></a>
+
+      </div>
+
+      <div class="shadow" >
+      </div>
+
+
+      <div  class="des_info_issue">
+
+          <a class="text" href={{ line.issue_url }} target="_blank">{{ line.title }}</a>
+
+
+      </div>
+    </div>
+
+{% endfor %}
+
+    </div>
+
+  <!-- 翻页 啦啦啦 -->
+
+  <nav aria-label="Page navigation">
+    <div class="container">
+
+     <ul class="pagination pagination-lg" >
+        {#上一页按钮开始#}
+        {# 如果当前页有上一页#}
+        {% if showData.has_previous %}
+            {#  当前页的上一页按钮正常使用#}
+            <li ><a href="/page={{ showData.previous_page_number }}">上一页</a></li>
+        {% else %}
+            {# 当前页的不存在上一页时,上一页的按钮不可用#}
+            <li class="disabled" ><a href="">上一页</a></li>
+        {% endif %}
+        {#上一页按钮结束#}
+        {# 页码开始#}
+        {% for num in pageGroup %}
+
+            {% if num == currentPage %}
+                <li class="active" ><a href="/page={{ num }}">{{ num }}</a></li>
+            {% else %}
+                <li ><a href="/page={{ num }}">{{ num }}</a></li>
+
+            {% endif %}
+        {% endfor %}
+        {#页码结束#}
+        {# 下一页按钮开始#}
+        {% if showData.has_next %}
+            <li ><a href="/page={{ showData.next_page_number }}">下一页</a></li>
+        {% else %}
+            <li class="disabled" ><a href="#">下一页</a></li>
+        {% endif %}
+        {# 下一页按钮结束#}
+    </ul>
+    </div>
+</nav>
+
+
+  </div>
+
+
+        <script src="/static/bootstrap.js" ></script>
+        <script src="/static/npm.js"></script>
+
+
+  </body>
+</html>

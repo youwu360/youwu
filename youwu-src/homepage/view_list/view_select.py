@@ -4,5 +4,5 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def select(request):
-    return HttpResponse("view_list.select")
+    return render(request, 'select.html')
 

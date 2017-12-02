@@ -22,7 +22,6 @@ urlpatterns = [
 
     url(r'^page=([0-9]{1,})/$', views.hello),
     url(r'^site_youwu/', include(site_youwu.urls)),
-
     url(r'^', admin.site.urls),
 ]
 

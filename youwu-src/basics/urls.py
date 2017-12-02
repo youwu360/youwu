@@ -1,4 +1,4 @@
-"""homepage URL Configuration
+"""site_youwu URL Configuration
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.11/topics/http/urls/
 Examples:
@@ -14,14 +14,14 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from homepage import views
-import homepage.urls
+from site_youwu import views
+import site_youwu.urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     url(r'^page=([0-9]{1,})/$', views.hello),
-    url(r'^homepage/', include(homepage.urls)),
+    url(r'^site_youwu/', include(site_youwu.urls)),
 
     url(r'^', admin.site.urls),
 ]

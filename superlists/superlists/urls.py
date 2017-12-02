@@ -21,7 +21,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^page=([0-9]{1,})/$',views.hello),
 
-
 ]
 
 

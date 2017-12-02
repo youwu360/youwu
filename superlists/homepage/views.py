@@ -140,3 +140,4 @@ def hello(request,page):
     print(pageGroup)
 
     return render(request,"home.html",{"showData":showData,"pageGroup":pageGroup,"currentPage":currentPage})
+

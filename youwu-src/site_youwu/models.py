@@ -1,5 +1,7 @@
 from django.db import models
 from datetime import datetime
+from django.utils import timezone
+
 
 # Create your models here.
 
@@ -11,7 +13,7 @@ class ablum(models.Model):
     picUrl = models.TextField()
     tag = models.CharField(max_length = 50)
     pictureCnt = models.IntegerField()
-    publishDate = models.DateField()
+    publishDate = models.CharField(max_length=15)
     cover = models.URLField()
     des = models.TextField()
     company = models.CharField(max_length = 30)
@@ -20,7 +22,8 @@ class ablum(models.Model):
 
 
 
-class star (models.Model):
+
+class star(models.Model):
     name = models.CharField(max_length = 50)  #个人名字
     birthday = models.CharField(max_length = 20) #生日
     threeD = models.CharField(max_length = 15)  #三维
@@ -30,7 +33,7 @@ class star (models.Model):
     des = models.TextField()   #个人描述
     tag = models.CharField(max_length = 50)   #个人标签
     cover = models.URLField()  #个人封面
-    lastModified = models.DateField(default=datetime.now())
+    lastModified = models.DateField(default=timezone.now)
 
 
 

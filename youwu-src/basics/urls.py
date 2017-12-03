@@ -18,11 +18,11 @@ from site_youwu import views
 import site_youwu.urls
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
 
     url(r'^page=([0-9]{1,})/$', views.hello),
     url(r'^site_youwu/', include(site_youwu.urls)),
     url(r'^', admin.site.urls),
 ]
+
 
 

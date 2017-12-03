@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import math
+from site_youwu.models import ablum
 
 
 # Create your views here.
@@ -114,7 +115,8 @@ data = [
      },
 ]
 
-def hello(request,page):
+def home_page(request,page):
+
 
     paginator = Paginator(data,6)
     currentPage = int(page) #从url中获取当前页数
@@ -127,19 +129,19 @@ def hello(request,page):
     except EmptyPage:
         showData = paginator.page(paginator.num_pages)#如果用户输入的页数不在系统的页码列表中时,显示最后一页的内容
 
-    print(showData.has_previous())
-    print(showData.has_next())
+    #print(showData.has_previous())
+    #print(showData.has_next())
 
     if currentPage > paginator.count:
         currentPage = paginator.count
-    print("currentPage",currentPage)
-    print("paginator.count",paginator.count)
+    #print("currentPage",currentPage)
+    #print("paginator.count",paginator.count)
 
     groupCount = 10
     group = math.ceil(currentPage/groupCount)  #当前分页在第几组
 
     pageGroup = Paginator(range(1,paginator.num_pages+1),groupCount).page(group).object_list
-    print(pageGroup)
+    #print(pageGroup)
 
     return render(request,"home.html",{"showData":showData,"pageGroup":pageGroup,"currentPage":currentPage})
 

@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterField(
-            model_name='ablum',
+            model_name='album',
             name='publishDate',
             field=models.CharField(max_length=15),
         ),

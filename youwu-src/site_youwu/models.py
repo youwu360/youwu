@@ -6,10 +6,10 @@ from django.utils import timezone
 # Create your models here.
 
 
-class ablum(models.Model):
-    name = models.CharField(max_length =100)
+class album(models.Model):
+    name = models.CharField(max_length = 100)
     starName = models.CharField(max_length = 50)
-    starID =models.IntegerField()
+    starID = models.IntegerField()
     picUrl = models.TextField()
     tag = models.CharField(max_length = 50)
     pictureCnt = models.IntegerField()
@@ -29,7 +29,7 @@ class star(models.Model):
     threeD = models.CharField(max_length = 15)  #三维
     hobby = models.CharField(max_length = 40)  #兴趣爱好
     wordPlace = models.CharField(max_length = 15)  #所在地
-    ablumID = models.CharField(max_length =300)  #专辑id 逗号隔开
+    albumID = models.CharField(max_length =300)  #专辑id 逗号隔开
     des = models.TextField()   #个人描述
     tag = models.CharField(max_length = 50)   #个人标签
     cover = models.URLField()  #个人封面

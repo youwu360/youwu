@@ -19,7 +19,7 @@ import site_youwu.urls
 
 urlpatterns = [
 
-    url(r'^page=([0-9]{1,})/$', views.hello),
+    url(r'^page=([0-9]{1,})/$', views.home_page),
     url(r'^site_youwu/', include(site_youwu.urls)),
     url(r'^', admin.site.urls),
 ]

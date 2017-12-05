@@ -28,7 +28,6 @@ def album_data():    #从文件中导入原始数据
         )
     file.close()
 
-#album_data()
 
 """
 def album_data_change():  #未调通
@@ -52,24 +51,26 @@ def album_data_change():  #未调通
     tag = models.CharField(max_length = 50)   #个人标签
     cover = models.URLField()  #个人封面
     lastModified = models.DateField(default=timezone.now)
+    
+    
 """
 
 def star_data():
-    temp = album.objects.all().values('name')
+    temp = album.objects.all().values('starName').distinct()   #获取所有明星的名字
     for line in temp:
 
         line['birthday'] = "1992.08.09"
         line['threeD'] = "90-87-100"
         line['hobby'] = "看书，游泳，购物"
         line['wordPlace'] = "北京"
-        line['albumID'] = album.objects.filter(name=line['name']).values('id')[0]["id"]
+        line['albumID'] = album.objects.filter(starName=line['starName']).values('id')[0]["id"]    #temp
         line['des'] = "貌美如花；貌美如花；貌美如花；貌美如花；貌美如花；貌美如花；"
         line['tag'] = "镁铝、女神、童颜"
         line['cover'] = "http://www.znns.com/d/file/p/2016-07-26/6a1d7e942857bac80a6f4b3106b8a34d.jpg"
         line['lastModified'] = datetime.now().strftime("%Y-%m-%d")
 
         star.objects.create(
-            name = line['name'],
+            name = line['starName'],
             birthday = line['birthday'],
             threeD = line['threeD'],
             hobby = line['hobby'],
@@ -83,6 +84,29 @@ def star_data():
 
         print(line)
 
-star_data()
+
+def set_album_starID():
+    album_id_starName = album.objects.all().values("id","starName")
+    for line in album_id_starName:
+        album_star_name = line['starName']
+        album_id = line['id']
+
+        print(album_star_name)
+        star_id = star.objects.filter(name=album_star_name).values('id')[0]['id']     #temp
+        album.objects.filter(id=album_id).update(starID = star_id)
 
 
+def set_temp_url_list():   #修改样例图片
+    url_sample = "http://ww4.sinaimg.cn/large/0060lm7Tly1fm5qfvzygej30xc1jngqh.jpg,http://ww2.sinaimg.cn/large/0060lm7Tly1fm5qfy411uj30xc1jnwjo.jpg,http://ww2.sinaimg.cn/large/0060lm7Tly1fm5qfzol9gj30xc1jnn3m.jpg,http://ww3.sinaimg.cn/large/0060lm7Tly1fm5qfzvyumj30xc1jndlr.jpg,http://ww2.sinaimg.cn/large/0060lm7Tly1fm5qg1szsqj30xc1jnwka.jpg,http://ww1.sinaimg.cn/large/0060lm7Tly1fm5qg399ngj30xc1jntev.jpg,http://ww1.sinaimg.cn/large/0060lm7Tly1fm5qg4ahw5j30xc1jn44g.jpg,http://ww1.sinaimg.cn/large/0060lm7Tly1fm5qg6o7ixj30xc1jntdu.jpg,http://ww1.sinaimg.cn/large/0060lm7Tly1fm5qg7jt4ej30xc1jndlr.jpg,http://ww2.sinaimg.cn/large/0060lm7Tly1fm5qg8ozkxj30xc1jnn1l.jpg,http://ww1.sinaimg.cn/large/0060lm7Tly1fm5qgcejofj30xc1jntdq.jpg,http://ww1.sinaimg.cn/large/0060lm7Tly1fm5qgd6ox4j30xc1jntdw.jpg,http://ww3.sinaimg.cn/large/0060lm7Tly1fm5qgj6i9pj30xc1jn43l.jpg,http://ww4.sinaimg.cn/large/0060lm7Tly1fm5qgl0996j30xc1jnjxm.jpg,http://ww3.sinaimg.cn/large/0060lm7Tly1fm5qglj1dtj30xc1jntdx.jpg,http://ww3.sinaimg.cn/large/0060lm7Tly1fm5qglq4t5j30xc1jnn56.jpg,http://ww4.sinaimg.cn/large/0060lm7Tly1fm5qgmkbdrj30xc1jn78f.jpg,http://ww4.sinaimg.cn/large/0060lm7Tly1fm5qgndr3pj30xc1jnn25.jpg,http://ww2.sinaimg.cn/large/0060lm7Tly1fm5qgp4hzhj30xc1jnjv5.jpg,http://ww2.sinaimg.cn/large/0060lm7Tly1fm5qgrer9mj30xc1jnte7.jpg"
+    album.objects.all().update(picUrl = url_sample)
+
+
+
+
+
+
+#album_data()
+#star_data()
+
+#set_album_starID()
+#set_temp_url_list()

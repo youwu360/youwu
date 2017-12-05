@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^page=([0-9]{1,})/$', views.home_page),
     url(r'^site_youwu/', include(site_youwu.urls)),
     url(r'^', admin.site.urls),
+    url(r'^albumID=([0-9]{1,})/pageID=([0-9]{1,})/$', views.album_page),
 ]
 
 

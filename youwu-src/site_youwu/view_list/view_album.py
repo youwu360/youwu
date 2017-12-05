@@ -38,7 +38,7 @@ class star(models.Model):
 """
 
 
-
+"""
 def recommend():
     range = album.objects.count()
     re_list = list()
@@ -46,9 +46,7 @@ def recommend():
     for i in range( 1,re_count + 1 ):
 
 
-
-
-
+"""
 
 
 

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- 专辑图片展现 -->
+<div class="text-center" >
+      <h3 >{{name}}</h3>
+    <div>
+
+        {% for tag in tag %}
+
+        <a target="_blank" href="www.baidu.com"><span class="label label-default"> {{tag}} </span> </a> <!--#待修改-->
+
+        {% endfor %}
+
+    </div>
+
+    <div class="container"><p class="album_des">{{des}}</p></div>
+
+  </div>
+
+
+ <!--图片展现-->
+
+<div class="contanier">
+
+    {% for url in showData %}
+        <img src={{url}} alt="">
+
+
+        {% endfor %}
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+{% endblock %}

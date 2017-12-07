@@ -3,6 +3,7 @@ from django.contrib import admin
 from . import views
 
 urlpatterns = [
-    url(r'^page=([0-9]{1,})/$', views.hello),
+    url(r'^page=([0-9]{1,})/$', views.home_page),
+
     url(r'^select/$', views.select),
 ]

@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='ablum',
+            name='album',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=100)),
@@ -40,7 +40,7 @@ class Migration(migrations.Migration):
                 ('threeD', models.CharField(max_length=15)),
                 ('hobby', models.CharField(max_length=40)),
                 ('wordPlace', models.CharField(max_length=15)),
-                ('ablumID', models.CharField(max_length=300)),
+                ('albumID', models.CharField(max_length=300)),
                 ('des', models.TextField()),
                 ('tag', models.CharField(max_length=50)),
                 ('cover', models.URLField()),

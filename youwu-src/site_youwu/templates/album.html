@@ -3,9 +3,14 @@
 {% block content %}
 
 <!-- 专辑图片展现 -->
-<div class="text-center" >
+
+
+<div class="thread">
+<div class=" text-center" >
       <h3 >{{name}}</h3>
-    <div>
+
+
+    <div class="album_des">
 
         {% for tag in tag %}
 
@@ -15,34 +20,58 @@
 
     </div>
 
-    <div class="container"><p class="album_des">{{des}}</p></div>
+    <div ><p class="album_des text-center">{{des}}</p></div>
 
-  </div>
+
 
 
  <!--图片展现-->
 
-<div class="contanier">
-
+<div class="">
     {% for url in showData %}
-        <img src={{url}} alt="">
+        <div ><img  class="album_img"  src={{url}} alt="" ></div>
+    {% endfor %}
+</div>
 
-
-        {% endfor %}
-
-
-
-
-
-
-
-
-
-
+</div>
 </div>
 
 
+  <nav aria-label="Page navigation">
+    <div class="container text-center ">
 
+     <ul class="pagination pagination-lg" >
+        {#上一页按钮开始#}
+        {# 如果当前页有上一页#}
+        {% if showData.has_previous %}
+            {#  当前页的上一页按钮正常使用#}
+            <li ><a href="/albumID={{albumID}}/pageID={{showData.previous_page_number}}/">上一页</a></li>
+        {% else %}
+            {# 当前页的不存在上一页时,上一页的按钮不可用#}
+            <li class="disabled" ><a href="">上一页</a></li>
+        {% endif %}
+        {#上一页按钮结束#}
+        {# 页码开始#}
+        {% for num in pageGroup %}
+
+            {% if num == pageID %}
+                <li class="active" ><a href="/albumID={{albumID}}/pageID={{ num }}/">{{ num }}</a></li>
+            {% else %}
+                <li ><a href="/albumID={{albumID}}/pageID={{ num }}">{{ num }}</a></li>
+
+            {% endif %}
+        {% endfor %}
+        {#页码结束#}
+        {# 下一页按钮开始#}
+        {% if showData.has_next %}
+            <li ><a href="/albumID={{albumID}}/pageID={{showData.next_page_number}}/">下一页</a></li>
+        {% else %}
+            <li class="disabled" ><a href="">下一页</a></li>
+        {% endif %}
+        {# 下一页按钮结束#}
+    </ul>
+    </div>
+</nav>
 
 
 

@@ -21,9 +21,6 @@ class album(models.Model):
     termID = models.PositiveIntegerField()   #第几期
     lastModified = models.DateField()
 
-
-
-
 class star(models.Model):
     name = models.CharField(max_length = 50)  #个人名字
     birthday = models.CharField(max_length = 20) #生日
@@ -37,27 +34,23 @@ class star(models.Model):
     lastModified = models.DateField(default=timezone.now)
 """
 
-
-"""
 def recommend():
-    range = album.objects.count()
-    re_list = list()
+    # 生成一个随机数数组
+    count_all = album.objects.count()
+    recom_list = list()
+    recom_list_length = 0
     re_count = 6
-    for i in range( 1,re_count + 1 ):
+
+    while recom_list_length <= re_count:
+
+        rand = random.randint(1,count_all)
+        if rand not in recom_list:
+            recom_list.append(rand)
+        recom_list_length = len(recom_list)
+    return recom_list
 
 
-"""
-
-
-
-
-
-
-
-
-
-
-def album_page(request,albumID,pageID):       #pageID 专辑下的第几页
+def album_page(request,albumID,pageID):       # pageID: 专辑下的第几页
     data = album.objects.filter(id = albumID)
     name = data.values('name')[0]['name']
     tag = data.values('tag')[0]['tag'].replace("'","").replace("[","").replace("]","").replace(" ","").split(',')   #原数据待修改
@@ -65,12 +58,13 @@ def album_page(request,albumID,pageID):       #pageID 专辑下的第几页
     print(tag)
 
     picUrlAll = data.values('picUrl')[0]['picUrl'].strip(",").split(',')
+    print("len of picUrlAll:", len(picUrlAll))
 
-
-    content_page = paging(picUrlAll,pageID,5,10)
+    content_page = paging(picUrlAll, pageID, 5, 10)   # 5个图片一个页面  每个页面展现10个分页tag
     showData = content_page['showData']
 
     pageGroup = content_page['pageGroup']
+
     star_name = data.values('starName')[0]['starName']
     starID = data.values("starID")[0]["starID"]
 
@@ -78,15 +72,20 @@ def album_page(request,albumID,pageID):       #pageID 专辑下的第几页
 
     star_des = star.objects.filter(id = starID ).values("des")[0]["des"]
 
+    pageID = int(pageID)
+    albumID = int(albumID)
+
+
+
     print(star_cover,star_des)
 
+    print(recommend())
 
+    print("showData:",showData)
 
-
-
-
-
-
+    print("albumID:",albumID)
+    print("pageID:", pageID)
+    print("pageGroup",pageGroup)
 
 
     return render(request,"album.html",locals())

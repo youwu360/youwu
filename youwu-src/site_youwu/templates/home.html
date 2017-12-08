@@ -48,7 +48,6 @@
         {#上一页按钮结束#}
         {# 页码开始#}
         {% for num in pageGroup %}
-
             {% if num == currentPage %}
                 <li class="active" ><a href="/page={{ num }}">{{ num }}</a></li>
             {% else %}

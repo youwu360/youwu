@@ -6,7 +6,7 @@
 
 
 <div class="thread">
-<div class=" text-center" >
+<div class="text-center" >
       <h3 >{{name}}</h3>
 
 
@@ -23,22 +23,20 @@
     <div ><p class="album_des text-center">{{des}}</p></div>
 
 
-
-
  <!--图片展现-->
 
-<div class="">
+<div >
     {% for url in showData %}
         <div ><img  class="album_img"  src={{url}} alt="" ></div>
     {% endfor %}
 </div>
 
 </div>
-</div>
+
 
 
   <nav aria-label="Page navigation">
-    <div class="container text-center ">
+    <div class=" text-center ">
 
      <ul class="pagination pagination-lg" >
         {#上一页按钮开始#}
@@ -72,8 +70,49 @@
     </ul>
     </div>
 </nav>
+<div class="star_box_title"><h4>女神资料</h4></div>
+    <div class="album_star_box ">
+        <div class="album_star_img text-center" >
+            <a target="_blank" href="www.baidu.com"><img src="{{star_cover}}"  alt=""></a>
+             <a target="_blank" href="www.baidu.com" style="display: block ;">{{star_name}}</a>
+            </div>
+
+        <div class="star_info_box">
+            <p>生日：{{star_birthday}}</p>
+            <p>所在地：{{star_wordPlace}}</p>
+            <p>三维：{{star_threeD}}</p>
+            <p>兴趣：{{star_hobby}}</p>
+            <p>描述：{{star_des}}</p>
+
+        </div>
+    </div>
+
+<div class="star_box_title"><h4>尤物美图推荐</h4></div>
+    <div class="recommend">
+        <div class="recommend_inside">
+
+   {% for line in recom_data %}
+    <div class="group">
+      <div class photo>
+        <a href={{ line.url }} target="_blank" >
+          <img class="img" src= {{ line.cover }} alt={{ line.name }} ></a>
+
+      </div>
+
+      <div class="shadow" ></div>
 
 
+      <div  class="des_info_issue">
 
+          <a class="text" href={{ line.url }} target="_blank">{{ line.name }}</a>
+
+      </div>
+    </div>
+
+{% endfor %}
+
+</div>
+    </div>
+</div>
 
 {% endblock %}

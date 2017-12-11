@@ -4,7 +4,10 @@ import django
 django.setup()
 from site_youwu.models import album
 from site_youwu.models import star
+from site_youwu.models import tags
 from  datetime import datetime
+from site_youwu.view_list.view_common import clean_str
+import math
 
 
 def album_data():    #从文件中导入原始数据
@@ -45,7 +48,7 @@ def album_data_change():  #未调通
     birthday = models.CharField(max_length = 20) #生日
     threeD = models.CharField(max_length = 15)  #三维
     hobby = models.CharField(max_length = 40)  #兴趣爱好
-    wordPlace = models.CharField(max_length = 15)  #所在地
+    workPlace = models.CharField(max_length = 15)  #所在地
     albumID = models.CharField(max_length =300)  #专辑id 逗号隔开
     des = models.TextField()   #个人描述
     tag = models.CharField(max_length = 50)   #个人标签
@@ -62,7 +65,7 @@ def star_data():
         line['birthday'] = "1992.08.09"
         line['threeD'] = "90-87-100"
         line['hobby'] = "看书，游泳，购物"
-        line['wordPlace'] = "北京"
+        line['workPlace'] = "北京"
         line['albumID'] = album.objects.filter(starName=line['starName']).values('id')[0]["id"]    #temp
         line['des'] = "貌美如花；貌美如花；貌美如花；貌美如花；貌美如花；貌美如花；"
         line['tag'] = "镁铝、女神、童颜"
@@ -74,7 +77,7 @@ def star_data():
             birthday = line['birthday'],
             threeD = line['threeD'],
             hobby = line['hobby'],
-            wordPlace = line['wordPlace'],
+            workPlace = line['workPlace'],
             albumID = line['albumID'],
             des = line['des'],
             tag = line['tag'],
@@ -101,12 +104,70 @@ def set_temp_url_list():   #修改样例图片
     album.objects.all().update(picUrl = url_sample)
 
 
+def get_all_album_tag():
+    temp = album.objects.all().values("tag")
+    tag_list = list()
+    for a in temp:
+        #print("a:",a)
+        a_list = clean_str(a["tag"]).split(",")
+        print("a_list", a_list,type(a_list))
+
+        for b in a_list:
+                if len(b) > 2 and b not in tag_list:
+                    tag_list.append(b)
+    print(tag_list)
+    print(len(tag_list))
+
+
+
+def get_type_dict():
+    tag_list = ['学生妹', '丝袜诱惑', '长筒袜', '美少女', '丝袜美女', '网络红人', '足球宝贝', 'ShowGirl', '丁字裤', '大尺度', '兔女郎', 'COSPLAY', '私房照', '丝袜美腿', '高跟鞋', '透视装', '萌妹操服', '日本美女', 'COSER', '人体艺术', '台湾美女', '圣诞美女', '肉丝袜']
+    tag_type_list = ['服饰','国家','身材','身份','地方']
+    i = 1
+    j = 5
+    res =list()
+
+    for a in tag_list:
+        temp = dict()
+        k = math.ceil(i/j)
+        temp["tagName"] = a
+        temp["tagID"] = i
+        temp["tagTypeID"] = k
+        temp["tagTypeName"] = tag_type_list[k-1]
+        #print(temp)
+        res.append(temp)
+
+        #list.append('{"tagName": "',a , '", "tagID": ',i , ', "tagType": ',k ,'"tagTypeID": "',tag_type_list[k-1],'},')
+        i = i + 1
+    return res
+
+
+
+def set_tag_data():
+    data = get_type_dict()
+    print(data)
+    for line in data:
+        albumid = ""
+        temp = album.objects.filter(tag__contains=line["tagName"]).values("id")
+        for a in temp:
+            albumid = albumid + "," + str(a["id"])
+        albumid = albumid.strip(",")
+
+        tags.objects.create(
+            tagName = line["tagName"],
+            tagID = line["tagID"],
+            tagTypeName = line["tagTypeName"],
+            tagTypeID = line["tagTypeID"],
+            albumID = albumid
+        )
 
 
 
 
-#album_data()
-#star_data()
-
-#set_album_starID()
-#set_temp_url_list()
+"""
+album_data()
+star_data()
+set_album_starID()
+set_temp_url_list()
+"""
+set_tag_data()

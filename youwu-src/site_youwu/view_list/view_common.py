@@ -1,5 +1,8 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from site_youwu.models import album
+from site_youwu.models import star
 import math
+import random
 
 
 def paging(data, current_page, content_cnt, page_num):   # 对内容分页，并且对分页进行分组
@@ -30,3 +33,39 @@ def paging(data, current_page, content_cnt, page_num):   # 对内容分页，并
 
     return {"showData":showData,"pageGroup":pageGroup}
 
+
+def getAlbumPageUrl(ablumID):
+    # 通过albumID 获取 专辑页的ulr
+    url = "/albumID=" + str(ablumID) + "/" + "pageID=1" + "/"
+    return url
+
+
+def recommend(x):
+    # 生成一个随机数数组
+    count_all = album.objects.count()
+    recom_list = list()
+    recom_list_length = 0
+    re_count = x
+    while recom_list_length < re_count:
+
+        rand = random.randint(1,count_all)
+        if rand not in recom_list:
+            recom_list.append(rand)
+        recom_list_length = len(recom_list)
+    return recom_list
+
+
+def addAttrToList(list,func,name,id):    # 对词典形成的list，通过函数进行增加内容
+    # list：内容列表
+    # func:函数
+    # name：增加的内容名称
+    # id：根据id 字段算出结果
+    for dic in list:
+        dic[name] = func(dic[id])
+
+
+def clean_str(string):
+    need_to_clean = [" ", "[", "]", "'"]
+    for a in need_to_clean:
+        string = string.replace(a, "")
+    return string

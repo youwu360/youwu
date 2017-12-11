@@ -39,7 +39,7 @@ class Migration(migrations.Migration):
                 ('birthday', models.CharField(max_length=20)),
                 ('threeD', models.CharField(max_length=15)),
                 ('hobby', models.CharField(max_length=40)),
-                ('wordPlace', models.CharField(max_length=15)),
+                ('workPlace', models.CharField(max_length=15)),
                 ('albumID', models.CharField(max_length=300)),
                 ('des', models.TextField()),
                 ('tag', models.CharField(max_length=50)),

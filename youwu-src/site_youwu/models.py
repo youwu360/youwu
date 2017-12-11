@@ -21,14 +21,12 @@ class album(models.Model):
     lastModified = models.DateField()
 
 
-
-
 class star(models.Model):
     name = models.CharField(max_length = 50)  #个人名字
     birthday = models.CharField(max_length = 20) #生日
     threeD = models.CharField(max_length = 15)  #三维
     hobby = models.CharField(max_length = 40)  #兴趣爱好
-    wordPlace = models.CharField(max_length = 15)  #所在地
+    workPlace = models.CharField(max_length = 15)  #所在地
     albumID = models.CharField(max_length =300)  #专辑id 逗号隔开
     des = models.TextField()   #个人描述
     tag = models.CharField(max_length = 50)   #个人标签
@@ -36,8 +34,12 @@ class star(models.Model):
     lastModified = models.DateField(default=timezone.now)
 
 
-
-
+class tags(models.Model):
+    tagName = models.CharField(max_length = 15)  #标签名字
+    tagID = models.IntegerField()    #标签ID
+    tagTypeName = models.CharField(max_length= 50)
+    tagTypeID = models.IntegerField()  #
+    albumID = models.TextField()  #对应的专辑ID
 
 
 

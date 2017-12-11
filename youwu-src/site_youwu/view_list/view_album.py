@@ -2,9 +2,9 @@ from django.shortcuts import render
 from django.shortcuts import HttpResponse
 from site_youwu.models import album
 from site_youwu.models import star
-from .view_common  import paging
-import random
-
+from .view_common import paging
+from .view_common import getAlbumPageUrl
+from .view_common import recommend
 
 """
 class album(models.Model):
@@ -34,28 +34,16 @@ class star(models.Model):
     lastModified = models.DateField(default=timezone.now)
 """
 
-def recommend():
-    # 生成一个随机数数组
-    count_all = album.objects.count()
-    recom_list = list()
-    recom_list_length = 0
-    re_count = 6
-
-    while recom_list_length <= re_count:
-
-        rand = random.randint(1,count_all)
-        if rand not in recom_list:
-            recom_list.append(rand)
-        recom_list_length = len(recom_list)
-    return recom_list
-
 
 def album_page(request,albumID,pageID):       # pageID: 专辑下的第几页
-    data = album.objects.filter(id = albumID)
+    #整数化
+    pageID = int(pageID)
+    albumID = int(albumID)
+
+    data = album.objects.filter(id=albumID)
     name = data.values('name')[0]['name']
     tag = data.values('tag')[0]['tag'].replace("'","").replace("[","").replace("]","").replace(" ","").split(',')   #原数据待修改
     des = data.values('des')[0]['des']
-    print(tag)
 
     picUrlAll = data.values('picUrl')[0]['picUrl'].strip(",").split(',')
     print("len of picUrlAll:", len(picUrlAll))
@@ -68,24 +56,28 @@ def album_page(request,albumID,pageID):       # pageID: 专辑下的第几页
     star_name = data.values('starName')[0]['starName']
     starID = data.values("starID")[0]["starID"]
 
+
+    # 明星信息
     star_cover = star.objects.filter(id = starID ).values("cover")[0]["cover"]
-
     star_des = star.objects.filter(id = starID ).values("des")[0]["des"]
+    star_birthday = star.objects.filter(id=starID).values("birthday")[0]["birthday"]
+    star_threeD =  star.objects.filter(id=starID).values("threeD")[0]["threeD"]
+    star_hobby = star.objects.filter(id=starID).values("hobby")[0]["hobby"]
+    star_wordPlace = star.objects.filter(id=starID).values("wordPlace")[0]["wordPlace"]
 
-    pageID = int(pageID)
-    albumID = int(albumID)
 
 
 
-    print(star_cover,star_des)
 
-    print(recommend())
+    # 图片推荐
 
-    print("showData:",showData)
+    albumID_list = recommend(8)
 
-    print("albumID:",albumID)
-    print("pageID:", pageID)
-    print("pageGroup",pageGroup)
+    temp_data = map(lambda x: album.objects.filter(id = x).values("id","name","cover")[0],albumID_list)
+    recom_data = list()
+    for a in temp_data:   # 增加url
+        a["url"] = getAlbumPageUrl(a["id"])
+        recom_data.append(a)
 
 
     return render(request,"album.html",locals())

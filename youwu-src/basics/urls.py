@@ -23,6 +23,8 @@ urlpatterns = [
     url(r'^site_youwu/', include(site_youwu.urls)),
     url(r'^', admin.site.urls),
     url(r'^albumID=([0-9]{1,})/pageID=([0-9]{1,})/$', views.album_page),
+    url(r'^starID=([0-9]{1,})/$', views.star_page),
+    url(r'^tagID=([0-9]{1,})/pageID=([0-9]{1,})/$', views.classify),
 ]
 
 

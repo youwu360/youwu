@@ -3,6 +3,10 @@ from django.shortcuts import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import math
 from site_youwu.models import album
+from site_youwu.models import star
+from .view_common import addAttrToList
+from .view_common import getAlbumPageUrl
+
 
 
 # Create your views here.
@@ -118,24 +122,25 @@ data = [
 def home_page(request,page):
 
 
-    paginator = Paginator(data,6)
+    data = album.objects.all().values("name","cover","id")
+
+    for line in data:
+        line["album_url"] = getAlbumPageUrl(line["id"])
+
+    paginator = Paginator(data,30)
     currentPage = int(page) #从url中获取当前页数
 
     try:
-        print(page)
         showData = paginator.page(currentPage)#获取当前页码的记录
     except PageNotAnInteger:
         showData = paginator.page(1)#如果用户输入的页码不是整数时,显示第1页的内容
     except EmptyPage:
         showData = paginator.page(paginator.num_pages)#如果用户输入的页数不在系统的页码列表中时,显示最后一页的内容
 
-    #print(showData.has_previous())
-    #print(showData.has_next())
+
 
     if currentPage > paginator.count:
         currentPage = paginator.count
-    #print("currentPage",currentPage)
-    #print("paginator.count",paginator.count)
 
     groupCount = 10
     group = math.ceil(currentPage/groupCount)  #当前分页在第几组
@@ -143,5 +148,6 @@ def home_page(request,page):
     pageGroup = Paginator(range(1,paginator.num_pages+1),groupCount).page(group).object_list
     #print(pageGroup)
 
-    return render(request,"home.html",{"showData":showData,"pageGroup":pageGroup,"currentPage":currentPage})
+
+    return render(request,"home.html",locals())
 

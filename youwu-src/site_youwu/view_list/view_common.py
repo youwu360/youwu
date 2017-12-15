@@ -1,6 +1,6 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from site_youwu.models import album
-from site_youwu.models import star
+from site_youwu.models import Album
+from site_youwu.models import Star
 import math
 import random
 
@@ -42,7 +42,7 @@ def getAlbumPageUrl(ablumID):
 
 def recommend(x):
     # 生成一个随机数数组
-    count_all = album.objects.count()
+    count_all = Album.objects.count()
     recom_list = list()
     recom_list_length = 0
     re_count = x

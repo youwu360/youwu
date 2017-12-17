@@ -3,7 +3,21 @@ from site_youwu.models import Album
 from site_youwu.models import Star
 import math
 import random
+import json
+import os
 
+
+def get_image_list(starId, albumId):
+    path = os.path.abspath(os.path.join(os.path.realpath(__file__),
+        "../../../../youwu-resource/data/url_info/"
+        + str(starId) + "."
+        + str(albumId)))
+    try:
+        file_open = open(path, 'r')
+        obj = json.load(file_open)
+    except:
+        obj = None
+    return obj
 
 def paging(data, current_page, content_cnt, page_num):   # 对内容分页，并且对分页进行分组
     # data:需要进行翻页的数据,通常是所有数据

@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.shortcuts import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import math
-from site_youwu.models import album
-from site_youwu.models import star
+from site_youwu.models import Album
+from site_youwu.models import Star
 from .view_common import addAttrToList
 from .view_common import getAlbumPageUrl
 
@@ -122,7 +122,7 @@ data = [
 def home_page(request,page):
 
 
-    data = album.objects.all().values("name","cover","id")
+    data = Album.objects.all().values("name", "cover", "id")
 
     for line in data:
         line["album_url"] = getAlbumPageUrl(line["id"])

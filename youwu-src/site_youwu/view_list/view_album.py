@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import HttpResponse
-from site_youwu.models import album
-from site_youwu.models import star
+from site_youwu.models import Album
+from site_youwu.models import Star
 from .view_common import paging
 from .view_common import getAlbumPageUrl
 from .view_common import recommend
@@ -40,7 +40,7 @@ def album_page(request,albumID,pageID):       # pageID: 专辑下的第几页
     pageID = int(pageID)
     albumID = int(albumID)
 
-    data = album.objects.filter(id=albumID)
+    data = Album.objects.filter(id=albumID)
     name = data.values('name')[0]['name']
     tag = data.values('tag')[0]['tag'].replace("'","").replace("[","").replace("]","").replace(" ","").split(',')   #原数据待修改
     des = data.values('des')[0]['des']
@@ -58,12 +58,12 @@ def album_page(request,albumID,pageID):       # pageID: 专辑下的第几页
 
 
     # 明星信息
-    star_cover = star.objects.filter(id = starID ).values("cover")[0]["cover"]
-    star_des = star.objects.filter(id = starID ).values("des")[0]["des"]
-    star_birthday = star.objects.filter(id=starID).values("birthday")[0]["birthday"]
-    star_threeD =  star.objects.filter(id=starID).values("threeD")[0]["threeD"]
-    star_hobby = star.objects.filter(id=starID).values("hobby")[0]["hobby"]
-    star_wordPlace = star.objects.filter(id=starID).values("wordPlace")[0]["wordPlace"]
+    star_cover = Star.objects.filter(id = starID).values("cover")[0]["cover"]
+    star_des = Star.objects.filter(id = starID).values("des")[0]["des"]
+    star_birthday = Star.objects.filter(id=starID).values("birthday")[0]["birthday"]
+    star_threeD =  Star.objects.filter(id=starID).values("threeD")[0]["threeD"]
+    star_hobby = Star.objects.filter(id=starID).values("hobby")[0]["hobby"]
+    star_wordPlace = Star.objects.filter(id=starID).values("wordPlace")[0]["wordPlace"]
 
 
 
@@ -73,7 +73,7 @@ def album_page(request,albumID,pageID):       # pageID: 专辑下的第几页
 
     albumID_list = recommend(8)
 
-    temp_data = map(lambda x: album.objects.filter(id = x).values("id","name","cover")[0],albumID_list)
+    temp_data = map(lambda x: Album.objects.filter(id = x).values("id", "name", "cover")[0], albumID_list)
     recom_data = list()
     for a in temp_data:   # 增加url
         a["url"] = getAlbumPageUrl(a["id"])

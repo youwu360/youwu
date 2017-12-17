@@ -3,43 +3,38 @@ from datetime import datetime
 from django.utils import timezone
 
 
-# Create your models here.
-
-
-class album(models.Model):
-    name = models.CharField(max_length = 100)
-    starName = models.CharField(max_length = 50)
-    starID = models.IntegerField()
-    picUrl = models.TextField()
-    tag = models.CharField(max_length = 50)
-    pictureCnt = models.IntegerField()
-    publishDate = models.CharField(max_length=15)
-    cover = models.URLField()
-    des = models.TextField()
-    company = models.CharField(max_length = 30)
-    termID = models.PositiveIntegerField()   #第几期
-    lastModified = models.DateField()
-
-
-class star(models.Model):
-    name = models.CharField(max_length = 50)  #个人名字
-    birthday = models.CharField(max_length = 20) #生日
-    threeD = models.CharField(max_length = 15)  #三维
-    hobby = models.CharField(max_length = 40)  #兴趣爱好
-    workPlace = models.CharField(max_length = 15)  #所在地
-    albumID = models.CharField(max_length =300)  #专辑id 逗号隔开
-    des = models.TextField()   #个人描述
-    tag = models.CharField(max_length = 50)   #个人标签
-    cover = models.URLField()  #个人封面
+class Album(models.Model):
+    starId = models.IntegerField(default=0)
+    albumId = models.IntegerField(default=0)
+    cover = models.CharField(max_length=100, null=True)
+    imageListFile = models.CharField(max_length=100, null=True)
+    pictureCnt = models.IntegerField(default=0, null=True)
+    # publishDate = models.DateField(null=True)
+    # description = models.TextField(null=True)
     lastModified = models.DateField(default=timezone.now)
 
 
-class tags(models.Model):
-    tagName = models.CharField(max_length = 15)  #标签名字
-    tagID = models.IntegerField()    #标签ID
-    tagTypeName = models.CharField(max_length= 50)
-    tagTypeID = models.IntegerField()  #
-    albumID = models.TextField()  #对应的专辑ID
+class Star(models.Model):
+    starId = models.IntegerField(default=0)
+    name = models.CharField(max_length=50)
+    birthday = models.CharField(max_length=20, null=True)
+    cover = models.URLField(default=None, null=True)
+    threeD = models.CharField(max_length=15, null=True)
+    height = models.IntegerField(default=None, null=True)
+    weight = models.FloatField(default=None, null=True)
+    hobby = models.CharField(max_length=40, null=True)
+    birthPlace = models.CharField(max_length=15, default="", null=True)
+    description = models.CharField(max_length=500, default="", null=True)
+    tag = models.CharField(max_length=50, default="", null=True)
+    lastModified = models.DateField(default=timezone.now)
+
+
+class Tags(models.Model):
+    tagName = models.CharField(max_length=15)
+    tagID = models.IntegerField()
+    tagTypeName = models.CharField(max_length=50)
+    tagTypeID = models.IntegerField()
+    albumID = models.TextField()
 
 
 

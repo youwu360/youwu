@@ -169,9 +169,13 @@ for album_id in starAlbum.keys():
     album_info['pictureCnt'] = len(starAlbum[album_id])
     insert_album(album_info)
 
-print(starAlbum)
-print(starAlbumCover.keys())
 
 with open('noMatchUrl.json', 'w') as outfile:
     json.dump(noMatchUrl, outfile)
+
+with open('starAlbumCover.json', 'w') as outfile:
+    json.dump(starAlbumCover, outfile)
+
+with open('starAlbum.json', 'w') as outfile:
+    json.dump(starAlbum, outfile)
 

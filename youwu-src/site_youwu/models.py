@@ -9,10 +9,8 @@ class Album(models.Model):
     cover = models.CharField(max_length=100, null=True)
     imageListFile = models.CharField(max_length=100, null=True)
     pictureCnt = models.IntegerField(default=0, null=True)
-    publishDate = models.DateField(null=True)
-    des = models.TextField(null=True)
-    company = models.CharField(max_length=30, null=True)
-    termID = models.PositiveIntegerField(null=True)
+    # publishDate = models.DateField(null=True)
+    # description = models.TextField(null=True)
     lastModified = models.DateField(default=timezone.now)
 
 

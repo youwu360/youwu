@@ -67,8 +67,6 @@ def album_page(request,albumID,pageID):       # pageID: 专辑下的第几页
 
 
 
-
-
     # 图片推荐
 
     albumID_list = recommend(8)

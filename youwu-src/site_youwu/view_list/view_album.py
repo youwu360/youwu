@@ -5,76 +5,46 @@ from site_youwu.models import Star
 from .view_common import paging
 from .view_common import getAlbumPageUrl
 from .view_common import recommend
-
-"""
-class album(models.Model):
-    name = models.CharField(max_length = 100)
-    starName = models.CharField(max_length = 50)
-    starID = models.IntegerField()
-    picUrl = models.TextField()
-    tag = models.CharField(max_length = 50)
-    pictureCnt = models.IntegerField()
-    publishDate = models.CharField(max_length=15)
-    cover = models.URLField()
-    des = models.TextField()
-    company = models.CharField(max_length = 30)
-    termID = models.PositiveIntegerField()   #第几期
-    lastModified = models.DateField()
-
-class star(models.Model):
-    name = models.CharField(max_length = 50)  #个人名字
-    birthday = models.CharField(max_length = 20) #生日
-    threeD = models.CharField(max_length = 15)  #三维
-    hobby = models.CharField(max_length = 40)  #兴趣爱好
-    wordPlace = models.CharField(max_length = 15)  #所在地
-    albumID = models.CharField(max_length =300)  #专辑id 逗号隔开
-    des = models.TextField()   #个人描述
-    tag = models.CharField(max_length = 50)   #个人标签
-    cover = models.URLField()  #个人封面
-    lastModified = models.DateField(default=timezone.now)
-"""
-
+from .view_common import get_image_list
 
 def album_page(request,albumID,pageID):       # pageID: 专辑下的第几页
     #整数化
-    pageID = int(pageID)
-    albumID = int(albumID)
+    pageId = int(pageID)
+    albumId = int(albumID)
 
-    data = Album.objects.filter(id=albumID)
+    data = Album.objects.filter(albumId = albumId)
     name = data.values('name')[0]['name']
     tag = data.values('tag')[0]['tag'].replace("'","").replace("[","").replace("]","").replace(" ","").split(',')   #原数据待修改
-    des = data.values('des')[0]['des']
+    des = data.values('description')[0]['description']
+    starId = data.values("starId")[0]["starId"]
 
-    picUrlAll = data.values('picUrl')[0]['picUrl'].strip(",").split(',')
-    print("len of picUrlAll:", len(picUrlAll))
+    image_list = get_image_list(starId,albumId)
 
-    content_page = paging(picUrlAll, pageID, 5, 10)   # 5个图片一个页面  每个页面展现10个分页tag
-    showData = content_page['showData']
+    page_content = paging(image_list, pageId, 5, 10)   # 5个图片一个页面  每个页面展现10个分页tag
+    showData = page_content['showData']
 
-    pageGroup = content_page['pageGroup']
+    pageGroup = page_content['pageGroup']
 
-    star_name = data.values('starName')[0]['starName']
-    starID = data.values("starID")[0]["starID"]
-
+    star_name = Star.objects.filter(starId = starId).values("name")[0]["name"]
 
     # 明星信息
-    star_cover = Star.objects.filter(id = starID).values("cover")[0]["cover"]
-    star_des = Star.objects.filter(id = starID).values("des")[0]["des"]
-    star_birthday = Star.objects.filter(id=starID).values("birthday")[0]["birthday"]
-    star_threeD =  Star.objects.filter(id=starID).values("threeD")[0]["threeD"]
-    star_hobby = Star.objects.filter(id=starID).values("hobby")[0]["hobby"]
-    star_wordPlace = Star.objects.filter(id=starID).values("wordPlace")[0]["wordPlace"]
+    star_cover = Star.objects.filter(starId = starId).values("cover")[0]["cover"]
+    star_des = Star.objects.filter(starId = starId).values("description")[0]["description"]
+    star_birthday = Star.objects.filter(starId=starId).values("birthday")[0]["birthday"]
+    star_threeD =  Star.objects.filter(starId=starId).values("threeD")[0]["threeD"]
+    star_hobby = Star.objects.filter(starId=starId).values("hobby")[0]["hobby"]
+    star_birthPlace = Star.objects.filter(starId=starId).values("birthPlace")[0]["birthPlace"]
 
 
 
-    # 图片推荐
+    # 专辑推荐
 
-    albumID_list = recommend(8)
+    albumId_list = recommend(8)
 
-    temp_data = map(lambda x: Album.objects.filter(id = x).values("id", "name", "cover")[0], albumID_list)
+    temp_data = map(lambda x: Album.objects.filter(albumId = x).values("albumId", "name", "cover")[0], albumId_list)
     recom_data = list()
     for a in temp_data:   # 增加url
-        a["url"] = getAlbumPageUrl(a["id"])
+        a["album_url"] = getAlbumPageUrl(a["albumId"])
         recom_data.append(a)
 
 

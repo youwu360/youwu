@@ -66,7 +66,12 @@ def recommend(x):
         if rand not in recom_list:
             recom_list.append(rand)
         recom_list_length = len(recom_list)
-    return recom_list
+
+    albumId = []
+    for line in recom_list:
+        albumId.append(Album.objects.filter(id = line).values("albumId")[0]["albumId"])
+
+    return albumId
 
 
 def addAttrToList(list,func,name,id):    # 对词典形成的list，通过函数进行增加内容

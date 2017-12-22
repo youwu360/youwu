@@ -10,7 +10,8 @@ import os.path
 from urllib.request import build_opener, ProxyHandler, URLError
 import urllib.request
 
-class CheckProxy(object):
+
+class ProxyScrapyer(object):
     def __init__(self):
         self.proxyFile = 'proxyFile.txt'
         self.testUrl = "https://www.baidu.com"
@@ -18,39 +19,49 @@ class CheckProxy(object):
         self.timeout = 3
         self.regex = re.compile(r'baid.com')
         self.aliveProxyList = []
-        # self.run()
 
-    def run(self):
+    def get_alive_proxy_list(self):
+        self.update_alive_proxy_list()
+        return self.aliveProxyList;
 
+    def update_alive_proxy_list(self):
         proxy_list = self.get_proxy_list()
         proxy_list = list(set(proxy_list))
-        print(proxy_list)
+        self.aliveProxyList.clear()
         for proxy in proxy_list:
             if threading.active_count() > self.threads:
                 time.sleep(1)
                 continue
             else:
-                t = threading.Thread(target=self.link_with_proxy, args={proxy,})
+                t = threading.Thread(target=self.link_with_proxy, args={proxy, })
                 t.start()
 
         while threading.active_count() > 1:
             print("remaining thread count : " + str(threading.active_count()))
             time.sleep(1)
 
-        print(self.aliveProxyList)
+    def get_alive_proxy_and_save_to_file(self):
+        alive_proxy = self.get_alive_proxy_list()
         with open(self.proxyFile, 'w') as fp:
-            json.dump(self.aliveProxyList, fp)
+            json.dump(alive_proxy, fp)
 
     def get_proxy_list(self):
         local_proxy = self.get_local_proxy()
         online_proxy = self.get_free_proxy_from_kuaidaili()
-        return local_proxy + online_proxy
+        return local_proxy + online_proxy + self.aliveProxyList
 
     def get_local_proxy(self):
         if os.path.exists(self.proxyFile):
-            with open(self.proxyFile) as fp:
-                proxy_list = json.load(fp)
-            return proxy_list
+            with open(self.proxyFile, 'r', encoding='utf-8') as fp:
+                content = fp.read()
+                if content:
+                    print(self.proxyFile + " is not null ")
+                    print('content :')
+                    print(content)
+                    proxy_list = json.loads(content, encoding='utf-8')
+                    return proxy_list
+                else:
+                    print(self.proxyFile + " is null ! ")
         return []
 
     def link_with_proxy(self, proxy):
@@ -64,12 +75,6 @@ class CheckProxy(object):
             print(proxy + " is available ! ")
         except:
             print(proxy + " is unavailable ! ")
-
-
-    def update_free_proxy(self):
-        free_proxy_list = self.get_free_proxy_from_kuaidaili()
-        with open(self.proxyFile, 'w') as fp:
-            json.dump(free_proxy_list, fp)
 
     def get_free_proxy_from_kuaidaili(self):
         free_proxy_list = []
@@ -105,5 +110,7 @@ class CheckProxy(object):
         print(len("".join(context)))
 
 
-a = CheckProxy()
-a.run()
+if __name__ == '__main__':
+    instance = ProxyScrapyer()
+    instance.get_alive_proxy_and_save_to_file()
+

@@ -5,9 +5,16 @@ from scrapy.selector import Selector
 from scrapy.http import Request
 from ..items import Info, ImageUrl
 from urllib.parse import urljoin
+import time
+from ..ProxyScrapyer import ProxyScrapyer
 
 
 class NvshensSpider(Spider):
+
+    proxy_scrapyer = ProxyScrapyer()
+    last_run_time = 0
+    proxy_list = []
+
     name = 'nvshens'
     domain = 'https://www.nvshens.com'
     allowed_domains = ['nvshens.com']
@@ -18,9 +25,12 @@ class NvshensSpider(Spider):
 
     url_all = {}
     img_all = {}
-    url_num_limit = 3000000
+    url_num_limit = 100
 
     def parse(self, response):
+        self.update_proxy()
+
+        print("parse ," + response.url)
         response = Selector(response)
 
         girl_info = response.xpath('/html/body/div[@id="wrapper"]'
@@ -72,5 +82,11 @@ class NvshensSpider(Spider):
                         self.url_all[url] = True
                         yield Request(url, callback=self.parse)
 
-
+    def update_proxy(self, proxy_time_out=30):
+        now = time.time()
+        if now - self.last_run_time > proxy_time_out:
+            print("proxy_list old :" + ",".join(self.proxy_list))
+            self.proxy_list = self.proxy_scrapyer.get_alive_proxy_list()
+            print("proxy_list new :" + ",".join(self.proxy_list))
+            self.last_run_time = now
 

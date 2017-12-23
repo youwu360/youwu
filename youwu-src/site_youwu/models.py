@@ -35,8 +35,8 @@ class Star(models.Model):
 
 class Tags(models.Model):
     tagName = models.CharField(max_length=15)
-    tagID = models.IntegerField()
+    tagId = models.IntegerField()
     tagTypeName = models.CharField(max_length=50)
-    tagTypeID = models.IntegerField()
-    albumID = models.TextField()
+    tagTypeId = models.IntegerField()
+    albumId = models.TextField()
 

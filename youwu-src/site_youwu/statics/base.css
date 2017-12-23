@@ -4,6 +4,8 @@ body {
     background-color: #f7f8fa;
     font-family: Simsun;
 
+
+
 }
 
 
@@ -102,8 +104,8 @@ img{
 
 
 .thread{
-    width: 1180px;
-    margin: 1px auto ;
+    width: 1102px;
+    margin: 1px auto 20px auto;
     background: #fff;
     border: 1px #eeeff2 solid;
 
@@ -164,11 +166,60 @@ img{
     width: 100%;
     height: 100%;
 
+}
+
+
+
+/*--------------------------------for star.html ---------------------------------------*/
+.star_page_info_box{
+    margin: 20px auto 20px 20px;
+    font-family: "Microsoft YaHei";
+
+
+
+}
+
+.star_page_name{
+    font-size: 20px;
+
+}
+.star_page_star_pic{
+    float: left;
+    width: 15%
+
+
+}
+.star_page_star_info{
+    margin: 0 auto 20px 180px;
+
+}
+
+.star_page_album_box_title{
+    margin: 30px 20px 20px 20px;
+    border-top: 1px #eeeff2 solid;
+
+
+}
+
+.star_page_albums{
+    margin: 20px auto 0 20px;
+
+}
+
+.star_page_recom_box{
+
+    width: 1350px;
+    text-align: center;
+    margin:0 auto;
+
 
 }
 
 
 
+/*--------------------------------for common_show_album.html ---------------------------------------*/
+.pagination_box{
+    text-align: center;
+    margin:0 auto;
 
-
-
+}

@@ -6,6 +6,7 @@ from .view_common import paging
 from .view_common import getAlbumPageUrl
 from .view_common import recommend
 from .view_common import get_image_list
+import json
 
 def album_page(request,albumID,pageID):       # pageID: 专辑下的第几页
     #整数化
@@ -20,14 +21,15 @@ def album_page(request,albumID,pageID):       # pageID: 专辑下的第几页
 
     image_list = get_image_list(starId,albumId)
 
+
     page_content = paging(image_list, pageId, 5, 10)   # 5个图片一个页面  每个页面展现10个分页tag
     showData = page_content['showData']
 
     pageGroup = page_content['pageGroup']
 
-    star_name = Star.objects.filter(starId = starId).values("name")[0]["name"]
 
     # 明星信息
+    star_name = Star.objects.filter(starId=starId).values("name")[0]["name"]
     star_cover = Star.objects.filter(starId = starId).values("cover")[0]["cover"]
     star_des = Star.objects.filter(starId = starId).values("description")[0]["description"]
     star_birthday = Star.objects.filter(starId=starId).values("birthday")[0]["birthday"]
@@ -35,7 +37,7 @@ def album_page(request,albumID,pageID):       # pageID: 专辑下的第几页
     star_hobby = Star.objects.filter(starId=starId).values("hobby")[0]["hobby"]
     star_birthPlace = Star.objects.filter(starId=starId).values("birthPlace")[0]["birthPlace"]
 
-
+    print(star_cover)
 
     # 专辑推荐
 
@@ -45,6 +47,7 @@ def album_page(request,albumID,pageID):       # pageID: 专辑下的第几页
     recom_data = list()
     for a in temp_data:   # 增加url
         a["album_url"] = getAlbumPageUrl(a["albumId"])
+        a["cover"] = json.loads(a["cover"])[0]
         recom_data.append(a)
 
 

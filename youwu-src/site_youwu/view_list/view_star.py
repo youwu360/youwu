@@ -5,12 +5,14 @@ from site_youwu.models import Star
 from .view_common import paging
 from .view_common import getAlbumPageUrl
 from .view_common import recommend
+import json
 
-def star_page(request,starId):
+def star_page(request,starId,pageId):
 
     # 基础信息
     starId = int(starId)
-    star_info = Star.objects.filter(id=starId)
+    pageId = int(pageId)
+    star_info = Star.objects.filter(starId=starId)
     star_name = star_info.values("name")[0]["name"]
     star_threeD = star_info.values("threeD")[0]["threeD"]
     star_hobby = star_info.values("hobby")[0]["hobby"]
@@ -19,19 +21,39 @@ def star_page(request,starId):
     star_cover = star_info.values("cover")[0]["cover"]
     star_height = star_info.values("height")[0]["height"]
     star_weight = star_info.values("weight")[0]["weight"]
+    star_description = star_info.values("description")[0]["description"]
 
     # star 对应的图册
-    album = Album.objects.filter(starID= starId).values("albumId", "name", "cover")
-    for a in album:   # 增加url
+    album_temp = Album.objects.filter(starId= starId).values("albumId", "name", "cover")
+    star_album = []
+    for a in album_temp:   # 增加url
+        a["cover"] = json.loads(a["cover"])[0]
         a["to_url"] = getAlbumPageUrl(a["albumId"])
+        star_album.append(a)
+
+
+    # 分页
+    page_content = paging(star_album, pageId, 40, 10)   # 40个图片一个页面  每个页面展现10个分页tag
+    showData = page_content['showData']
+    pageGroup = page_content['pageGroup']
+    currentPage = pageId
+
+    url_cut = "/starId=" + str(starId) + "/pageId="
 
     # 推荐图册
-    albumId_list = recommend(8)
+    albumId_list = recommend(10)
     temp_data = map(lambda x: Album.objects.filter(albumId = x).values("albumId", "name", "cover")[0], albumId_list)
     recom_data = list()
     for a in temp_data:   # 增加url
+        a["cover"] = json.loads(a["cover"])[0]
         a["album_url"] = getAlbumPageUrl(a["albumId"])
         recom_data.append(a)
+
+
+
+
+
+
 
 
     return render(request, "star.html", locals())

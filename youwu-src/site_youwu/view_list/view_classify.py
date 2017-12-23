@@ -6,7 +6,22 @@ from .view_common import paging
 from .view_common import getAlbumPageUrl
 from .view_common import recommend
 
-def classify(request,tagID,pageID):
+def classify_page_default(request,tagId,pageId):
+
+
+
+
+    return render(request, "classify.html", locals())
+
+
+
+
+def classify_page(request,tagId,pageId):
+
+    tagId = int(tagId)
+    pageId = int(pageId)
+
+
 
 
 

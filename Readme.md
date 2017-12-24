@@ -7,3 +7,4 @@ python manage.py runserver
 python manage.py createsuperuser
 
 scrapy crawl nvshens -o items.json -t json
+

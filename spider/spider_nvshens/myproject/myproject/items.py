@@ -18,4 +18,7 @@ class ImageUrl(scrapy.Item):
     image_url = scrapy.Field()
 
 
+class PageUrl(scrapy.Item):
+    page_url = scrapy.Field()
+
 

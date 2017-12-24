@@ -48,9 +48,9 @@ def paging(data, current_page, content_cnt, page_num):   # 对内容分页，并
     return {"showData":showData,"pageGroup":pageGroup}
 
 
-def getAlbumPageUrl(ablumID):
+def getAlbumPageUrl(ablumId):
     # 通过albumID 获取 专辑页的ulr
-    url = "/albumID=" + str(ablumID) + "/" + "pageID=1" + "/"
+    url = "/albumId=" + str(ablumId) + "/" + "pageId=1" + "/"
     return url
 
 
@@ -72,6 +72,19 @@ def recommend(x):
         albumId.append(Album.objects.filter(id = line).values("albumId")[0]["albumId"])
 
     return albumId
+
+
+def recom_albums(x):
+    albumId_list = recommend(x)
+    temp_data = map(lambda x: Album.objects.filter(albumId = x).values("albumId", "name", "cover")[0], albumId_list)
+    recom_data = list()
+    for a in temp_data:   # 增加url
+        a["cover"] = json.loads(a["cover"])[0]
+        a["album_url"] = getAlbumPageUrl(a["albumId"])
+        recom_data.append(a)
+    return recom_data
+
+
 
 
 def addAttrToList(list,func,name,id):    # 对词典形成的list，通过函数进行增加内容

@@ -5,6 +5,7 @@ from site_youwu.models import Star
 from .view_common import paging
 from .view_common import getAlbumPageUrl
 from .view_common import recommend
+from .view_common import recom_albums
 import json
 
 def star_page(request,starId,pageId):
@@ -41,17 +42,7 @@ def star_page(request,starId,pageId):
     url_cut = "/starId=" + str(starId) + "/pageId="
 
     # 推荐图册
-    albumId_list = recommend(10)
-    temp_data = map(lambda x: Album.objects.filter(albumId = x).values("albumId", "name", "cover")[0], albumId_list)
-    recom_data = list()
-    for a in temp_data:   # 增加url
-        a["cover"] = json.loads(a["cover"])[0]
-        a["album_url"] = getAlbumPageUrl(a["albumId"])
-        recom_data.append(a)
-
-
-
-
+    recom_data = recom_albums(10)
 
 
 

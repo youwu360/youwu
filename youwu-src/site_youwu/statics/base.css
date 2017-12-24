@@ -2,7 +2,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f7f8fa;
-    font-family: Simsun;
+    font-family: "Microsoft YaHei";
 
 
 
@@ -216,10 +216,53 @@ img{
 }
 
 
-
 /*--------------------------------for common_show_album.html ---------------------------------------*/
+
 .pagination_box{
     text-align: center;
     margin:0 auto;
+
+}
+
+/*------------------------------------ for classify.html -------------------------------------------*/
+.classify_title{
+    margin: 10px auto auto 20px;
+
+
+
+}
+.classify_tag{
+    margin: 10px auto 5px auto;
+
+}
+
+.classify_tag_span{
+    margin-right: 10px;
+    margin-left: 5px;
+}
+
+.classify_tag_name{
+    margin-right: 10px;
+    margin-left: 20px;
+    font-size: 14px;
+}
+
+.classify_album {
+    width: 1350px;
+    text-align: center;
+    margin:0 auto;
+}
+.classify_tag_active{
+    background-color: #337ab7;
+    display: inline-block;
+    padding: .2em .6em .3em;
+    font-size: 100%;
+    font-weight: bold;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
 
 }

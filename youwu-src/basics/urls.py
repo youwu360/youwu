@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^albumId=([0-9]{1,})/pageId=([0-9]{1,})/$', views.album_page),
     url(r'^starId=([0-9]{1,})/pageId=([0-9]{1,})/$', views.star_page),
     url(r'^tagId=([0-9]{1,})/pageId=([0-9]{1,})/$', views.classify_page),
+    url(r'^tag/$', views.classify_page_default),
 ]
 
 

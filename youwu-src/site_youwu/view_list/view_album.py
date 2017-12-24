@@ -8,10 +8,10 @@ from .view_common import recommend
 from .view_common import get_image_list
 import json
 
-def album_page(request,albumID,pageID):       # pageID: 专辑下的第几页
+def album_page(request,albumId,pageId):       # pageID: 专辑下的第几页
     #整数化
-    pageId = int(pageID)
-    albumId = int(albumID)
+    pageId = int(pageId)
+    albumId = int(albumId)
 
     data = Album.objects.filter(albumId = albumId)
     name = data.values('name')[0]['name']
@@ -24,7 +24,6 @@ def album_page(request,albumID,pageID):       # pageID: 专辑下的第几页
 
     page_content = paging(image_list, pageId, 5, 10)   # 5个图片一个页面  每个页面展现10个分页tag
     showData = page_content['showData']
-
     pageGroup = page_content['pageGroup']
 
 
@@ -37,7 +36,7 @@ def album_page(request,albumID,pageID):       # pageID: 专辑下的第几页
     star_hobby = Star.objects.filter(starId=starId).values("hobby")[0]["hobby"]
     star_birthPlace = Star.objects.filter(starId=starId).values("birthPlace")[0]["birthPlace"]
 
-    print(star_cover)
+
 
     # 专辑推荐
 

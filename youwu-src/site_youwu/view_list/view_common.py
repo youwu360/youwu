@@ -84,6 +84,18 @@ def recom_albums(x):
         recom_data.append(a)
     return recom_data
 
+def getAlbumInfoById(albumId_set):
+    albumId_list = []
+    for line in albumId_set:
+        albumId_list.append(line["albumId"])
+    
+    temp_data = map(lambda x: Album.objects.filter(albumId=x).values("albumId", "name", "cover")[0], albumId_list)
+    data = list()
+    for a in temp_data:  # 增加url
+        a["cover"] = json.loads(a["cover"])[0]
+        a["album_url"] = getAlbumPageUrl(a["albumId"])
+        data.append(a)
+    return data
 
 
 

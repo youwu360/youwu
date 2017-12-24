@@ -15,7 +15,7 @@ SPIDER_MODULES = ['myproject.spiders']
 NEWSPIDER_MODULE = 'myproject.spiders'
 
 FEED_EXPORT_ENCODING = 'utf-8'
-DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 1
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'myproject (+http://www.yourdomain.com)'

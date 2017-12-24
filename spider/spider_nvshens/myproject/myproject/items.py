@@ -22,3 +22,10 @@ class PageUrl(scrapy.Item):
     page_url = scrapy.Field()
 
 
+class TagPage(scrapy.Item):
+    tagName = scrapy.Field()
+    tagId = scrapy.Field()
+    tagTypeName = scrapy.Field()
+    tagTypeID = scrapy.Field()
+    albumIDList = scrapy.Field()
+

@@ -39,6 +39,6 @@ class Tags(models.Model):
     tagId = models.CharField(max_length=20, default="")
     tagTypeName = models.CharField(max_length=50, null=True)
     tagTypeId = models.IntegerField(null=True)
-    albumIDList = models.CharField(max_length=10000, null=True)
+    albumIdList = models.CharField(max_length=10000, null=True)
 
 

@@ -4,10 +4,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "basics.settings")
 import django
 import re
 import time
-
-
 django.setup()
-
 import json
 import random
 
@@ -22,11 +19,17 @@ info_key = 'info'
 image_url_key = 'image_url'
 
 
-pattern_star_cover = re.compile("[\w\d:\/\.]+\/girl\/\d+\/\d+\.jpg$")
-pattern_star_cover_s = re.compile("[\w\d:\/\.]+\/girl\/\d+\/\d+_s\.jpg$")
-pattern_album_cover = re.compile("[\w\d:\/\.]+/gallery/\d+/\d+/cover/[0-9]+\.jpg")
-pattern_album_image = re.compile("[\w\d:\/\.]+/gallery/\d+/\d+/\d+\.jpg")
-pattern_album_image_s = re.compile("[\w\d:\/\.]+/gallery/\d+/\d+/s/\d+\.jpg")
+pattern_star_cover = re.compile("https://img\.onvshen\.com:85/girl/\d+\/\d+(_s)?\.jpg")
+pattern_album_cover = re.compile("https://img\.onvshen\.com:85/gallery/\d+/\d+/cover/[0-9]+\.jpg")
+pattern_album_image = re.compile("https://img\.onvshen\.com:85/gallery/\d+/\d+(/s/)?/\d+\.jpg")
+
+
+assert pattern_star_cover.match("https://img.onvshen.com:85/girl/22100/22100.jpg")
+assert pattern_star_cover.match("https://img.onvshen.com:85/girl/22100/22100_s.jpg")
+assert pattern_album_cover.match("https://img.onvshen.com:85/gallery/22100/18017/cover/0.jpg")
+assert pattern_album_cover.match("https://img.onvshen.com:85/gallery/23391/22100/cover/0.jpg")
+assert pattern_album_image.match("https://img.onvshen.com:85/gallery/22100/18017/015.jpg")
+
 
 starCover = {}
 starInfo = {}
@@ -55,8 +58,8 @@ def append_album(album_id, url):
 def append(to, id, url):
     if id not in to:
         to[id] = []
-    to[id].append(url)
-
+    if url not in to[id]:
+        to[id].append(url)
 
 lineNum = 0
 lineNumLimit = 20000000
@@ -87,8 +90,7 @@ for line in file_object:
             print("error in parse : " + json.dumps(data[info_key]))
     elif image_url_key in data:
         image_url = data[image_url_key]
-        if pattern_star_cover.match(image_url) or \
-                pattern_star_cover_s.match(image_url):
+        if pattern_star_cover.match(image_url):
             try:
                 star_id = re.search(r'(\d+)', image_url[re.search('girl', image_url).span()[1]:]).group()
                 if star_id is not None:
@@ -107,8 +109,7 @@ for line in file_object:
                 append_album_cover(album_id, image_url)
             except:
                 print("pattern_album_cover fail : " + image_url)
-        elif pattern_album_image.match(image_url) or \
-                pattern_album_image_s.match(image_url):
+        elif pattern_album_image.match(image_url):
             try:
 
                 gallary_search = re.search('gallery', image_url)
@@ -131,8 +132,9 @@ for star_id in starInfo.keys():
         continue
     star_info = starInfo[star_id]
     star_info['cover'] = ''
-    if star_id in starCover:
-        star_info['cover'] = json.dumps(starCover[star_id])
+    star_id_str = str(star_id)
+    if star_id_str in starCover:
+        star_info['cover'] = json.dumps(starCover[star_id_str])
         print('star cover exists, starId : ' + str(star_id))
     else:
         print('star cover not exists, starId : ' + str(star_id))
@@ -178,4 +180,8 @@ with open('starAlbumCover.json', 'w') as outfile:
 
 with open('starAlbum.json', 'w') as outfile:
     json.dump(starAlbum, outfile)
+
+with open('starCover.json', 'w') as outfile:
+    json.dump(starCover, outfile)
+
 

@@ -6,8 +6,7 @@ import json
 import random
 import datetime
 
-from site_youwu.models import Star
-from site_youwu.models import Album
+from site_youwu.models import Star, Album, Tags
 
 
 def get_value_by_tag(line, tag):
@@ -101,5 +100,30 @@ def insert_album(info):
         return True
     except:
         print("insert error :" + str(info))
+    return False
 
+
+def insert_tags(tag):
+    if tag is None or type(tag) is not dict or 'tagId' not in tag:
+        print("insert tag fail " + json.dumps(tag))
+        return False
+
+    try:
+        exists = Tags.objects.get(tagId=tag['tagId'])
+        if exists is not None:
+            print("start delete tag : tagId:" + str(tag['tagId']))
+            exists.delete()
+            print("end delete tag : tagId:" + str(tag['tagId']))
+    except:
+        pass
+
+    try:
+        Tags.objects.create(
+            tagId = tag['tagId'],
+            tagName = tag['tagName'],
+            albumIDList = tag['albumIDList'],
+        )
+        return True
+    except:
+        print("insert error :" + str(tag))
     return False

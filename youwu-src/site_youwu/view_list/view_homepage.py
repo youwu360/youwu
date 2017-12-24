@@ -11,121 +11,19 @@ from .view_common import getAlbumPageUrl
 
 # Create your views here.
 
-data = [
-    {
-        "title":"UGirls 尤果写真 No.320  Modo 陈夕",
-        "issue_url":"http://www.lsmpic.com/thread-17264-1-1.html",
-        "cover_img":"http://ww2.sinaimg.cn/large/0060lm7Tly1flvnxn2erfj30rs0xcmzb.jpg"
-     },
-    {
-        "title":"UGirls 尤果写真 No.320  Modo 陈夕",
-        "issue_url":"http://www.lsmpic.com/thread-17264-1-1.html",
-        "cover_img":"http://ww2.sinaimg.cn/large/0060lm7Tly1flvnxn2erfj30rs0xcmzb.jpg"
-     },
-        {
-        "title":"UGirls 尤果写真 No.320  Modo 陈夕",
-        "issue_url":"http://www.lsmpic.com/thread-17264-1-1.html",
-        "cover_img":"http://ww2.sinaimg.cn/large/0060lm7Tly1flvnxn2erfj30rs0xcmzb.jpg"
-     },
-        {
-        "title":"UGirls 尤果写真 No.320  Modo 陈夕",
-        "issue_url":"http://www.lsmpic.com/thread-17264-1-1.html",
-        "cover_img":"http://ww2.sinaimg.cn/large/0060lm7Tly1flvnxn2erfj30rs0xcmzb.jpg"
-     },
-        {
-        "title":"UGirls 尤果写真 No.320  Modo 陈夕",
-        "issue_url":"http://www.lsmpic.com/thread-17264-1-1.html",
-        "cover_img":"http://ww2.sinaimg.cn/large/0060lm7Tly1flvnxn2erfj30rs0xcmzb.jpg"
-     },
-        {
-        "title":"UGirls 尤果写真 No.320  Modo 陈夕",
-        "issue_url":"http://www.lsmpic.com/thread-17264-1-1.html",
-        "cover_img":"http://ww2.sinaimg.cn/large/0060lm7Tly1flvnxn2erfj30rs0xcmzb.jpg"
-     },
-        {
-        "title":"UGirls 尤果写真 No.320  Modo 陈夕",
-        "issue_url":"http://www.lsmpic.com/thread-17264-1-1.html",
-        "cover_img":"http://ww2.sinaimg.cn/large/0060lm7Tly1flvnxn2erfj30rs0xcmzb.jpg"
-     },
-        {
-        "title":"UGirls 尤果写真 No.320  Modo 陈夕",
-        "issue_url":"http://www.lsmpic.com/thread-17264-1-1.html",
-        "cover_img":"http://ww2.sinaimg.cn/large/0060lm7Tly1flvnxn2erfj30rs0xcmzb.jpg"
-     },
-        {
-        "title":"UGirls 尤果写真 No.320  Modo 陈夕",
-        "issue_url":"http://www.lsmpic.com/thread-17264-1-1.html",
-        "cover_img":"http://ww2.sinaimg.cn/large/0060lm7Tly1flvnxn2erfj30rs0xcmzb.jpg"
-     },
-        {
-        "title":"UGirls 尤果写真 No.320  Modo 陈夕",
-        "issue_url":"http://www.lsmpic.com/thread-17264-1-1.html",
-        "cover_img":"http://ww2.sinaimg.cn/large/0060lm7Tly1flvnxn2erfj30rs0xcmzb.jpg"
-     },
-        {
-        "title":"UGirls 尤果写真 No.320  Modo 陈夕",
-        "issue_url":"http://www.lsmpic.com/thread-17264-1-1.html",
-        "cover_img":"http://ww2.sinaimg.cn/large/0060lm7Tly1flvnxn2erfj30rs0xcmzb.jpg"
-     },
-    {
-        "title":"UGirls 尤果写真 No.320  Modo 陈夕",
-        "issue_url":"http://www.lsmpic.com/thread-17264-1-1.html",
-        "cover_img":"http://ww2.sinaimg.cn/large/0060lm7Tly1flvnxn2erfj30rs0xcmzb.jpg"
-     },
-    {
-        "title":"UGirls 尤果写真 No.320  Modo 陈夕",
-        "issue_url":"http://www.lsmpic.com/thread-17264-1-1.html",
-        "cover_img":"http://ww2.sinaimg.cn/large/0060lm7Tly1flvnxn2erfj30rs0xcmzb.jpg"
-     },
-            {
-        "title":"UGirls 尤果写真 No.320  Modo 陈夕",
-        "issue_url":"http://www.lsmpic.com/thread-17264-1-1.html",
-        "cover_img":"http://ww2.sinaimg.cn/large/0060lm7Tly1flvnxn2erfj30rs0xcmzb.jpg"
-     },
-            {
-        "title":"UGirls 尤果写真 No.320  Modo 陈夕",
-        "issue_url":"http://www.lsmpic.com/thread-17264-1-1.html",
-        "cover_img":"http://ww2.sinaimg.cn/large/0060lm7Tly1flvnxn2erfj30rs0xcmzb.jpg"
-     },
-            {
-        "title":"UGirls 尤果写真 No.320  Modo 陈夕",
-        "issue_url":"http://www.lsmpic.com/thread-17264-1-1.html",
-        "cover_img":"http://ww2.sinaimg.cn/large/0060lm7Tly1flvnxn2erfj30rs0xcmzb.jpg"
-     },
-            {
-        "title":"UGirls 尤果写真 No.320  Modo 陈夕",
-        "issue_url":"http://www.lsmpic.com/thread-17264-1-1.html",
-        "cover_img":"http://ww2.sinaimg.cn/large/0060lm7Tly1flvnxn2erfj30rs0xcmzb.jpg"
-     },
-            {
-        "title":"UGirls 尤果写真 No.320  Modo 陈夕",
-        "issue_url":"http://www.lsmpic.com/thread-17264-1-1.html",
-        "cover_img":"http://ww2.sinaimg.cn/large/0060lm7Tly1flvnxn2erfj30rs0xcmzb.jpg"
-     },
-            {
-        "title":"UGirls 尤果写真 No.320  Modo 陈夕",
-        "issue_url":"http://www.lsmpic.com/thread-17264-1-1.html",
-        "cover_img":"http://ww2.sinaimg.cn/large/0060lm7Tly1flvnxn2erfj30rs0xcmzb.jpg"
-     },
-            {
-        "title":"UGirls 尤果写真 No.320  Modo 陈夕",
-        "issue_url":"http://www.lsmpic.com/thread-17264-1-1.html",
-        "cover_img":"http://ww2.sinaimg.cn/large/0060lm7Tly1flvnxn2erfj30rs0xcmzb.jpg"
-     },
-            {
-        "title":"UGirls 尤果写真 No.320  Modo 陈夕",
-        "issue_url":"http://www.lsmpic.com/thread-17264-1-1.html",
-        "cover_img":"http://ww2.sinaimg.cn/large/0060lm7Tly1flvnxn2erfj30rs0xcmzb.jpg"
-     },
-]
+
 
 def home_page(request,page):
 
 
-    data = Album.objects.all().values("name", "cover", "id")
+    data = Album.objects.all().values("name", "cover", "albumId")
 
+    res =[]
     for line in data:
-        line["album_url"] = getAlbumPageUrl(line["id"])
+        line["cover"] = line["cover"].strip("[").strip("]").strip('"')
+        line["album_url"] = getAlbumPageUrl(line["albumId"])
+        print(line)
+        
 
     paginator = Paginator(data,30)
     currentPage = int(page) #从url中获取当前页数

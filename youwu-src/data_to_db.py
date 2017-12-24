@@ -131,8 +131,8 @@ def get_type_dict():
         temp = dict()
         k = math.ceil(i/j)
         temp["tagName"] = a
-        temp["tagID"] = i
-        temp["tagTypeID"] = k
+        temp["tagId"] = i
+        temp["tagTypeId"] = k
         temp["tagTypeName"] = tag_type_list[k-1]
         #print(temp)
         res.append(temp)
@@ -148,19 +148,23 @@ def set_tag_data():
     print(data)
     for line in data:
         albumid = ""
-        temp = Album.objects.filter(tag__contains=line["tagName"]).values("id")
+        temp = Album.objects.all().values("albumId")[1:200]
         for a in temp:
-            albumid = albumid + "," + str(a["id"])
+            albumid = albumid + "," + str(a["albumId"])
         albumid = albumid.strip(",")
 
         Tags.objects.create(
             tagName = line["tagName"],
-            tagID = line["tagID"],
+            tagId = line["tagId"],
             tagTypeName = line["tagTypeName"],
-            tagTypeID = line["tagTypeID"],
-            albumID = albumid
+            tagTypeId = line["tagTypeId"],
+            albumId = albumid
         )
 
+
+def set_star_cover():
+    cover = "http://www.znns.com/d/file/p/2016-07-26/6a1d7e942857bac80a6f4b3106b8a34d.jpg"
+    Star.objects.all().update(cover = cover)
 
 
 
@@ -169,5 +173,8 @@ album_data()
 star_data()
 set_album_starID()
 set_temp_url_list()
+set_tag_data()
+set_star_cover()
 """
+
 set_tag_data()

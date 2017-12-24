@@ -48,9 +48,9 @@ def paging(data, current_page, content_cnt, page_num):   # 对内容分页，并
     return {"showData":showData,"pageGroup":pageGroup}
 
 
-def getAlbumPageUrl(ablumID):
+def getAlbumPageUrl(ablumId):
     # 通过albumID 获取 专辑页的ulr
-    url = "/albumID=" + str(ablumID) + "/" + "pageID=1" + "/"
+    url = "/albumId=" + str(ablumId) + "/" + "pageId=1" + "/"
     return url
 
 
@@ -66,7 +66,37 @@ def recommend(x):
         if rand not in recom_list:
             recom_list.append(rand)
         recom_list_length = len(recom_list)
-    return recom_list
+
+    albumId = []
+    for line in recom_list:
+        albumId.append(Album.objects.filter(id = line).values("albumId")[0]["albumId"])
+
+    return albumId
+
+
+def recom_albums(x):
+    albumId_list = recommend(x)
+    temp_data = map(lambda x: Album.objects.filter(albumId = x).values("albumId", "name", "cover")[0], albumId_list)
+    recom_data = list()
+    for a in temp_data:   # 增加url
+        a["cover"] = json.loads(a["cover"])[0]
+        a["album_url"] = getAlbumPageUrl(a["albumId"])
+        recom_data.append(a)
+    return recom_data
+
+def getAlbumInfoById(albumId_set):
+    albumId_list = []
+    for line in albumId_set:
+        albumId_list.append(line["albumId"])
+    
+    temp_data = map(lambda x: Album.objects.filter(albumId=x).values("albumId", "name", "cover")[0], albumId_list)
+    data = list()
+    for a in temp_data:  # 增加url
+        a["cover"] = json.loads(a["cover"])[0]
+        a["album_url"] = getAlbumPageUrl(a["albumId"])
+        data.append(a)
+    return data
+
 
 
 def addAttrToList(list,func,name,id):    # 对词典形成的list，通过函数进行增加内容

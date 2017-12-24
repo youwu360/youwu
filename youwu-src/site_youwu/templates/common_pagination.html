@@ -1,0 +1,31 @@
+<div class="pagination_box">
+     <ul class="pagination pagination-lg" >
+        {#上一页按钮开始#}
+        {# 如果当前页有上一页#}
+        {% if showData.has_previous %}
+            {#  当前页的上一页按钮正常使用#}
+            <li ><a href="{{url_cut}}{{ showData.previous_page_number }}">上一页</a></li>
+        {% else %}
+            {# 当前页的不存在上一页时,上一页的按钮不可用#}
+            <li class="disabled" ><a href="">上一页</a></li>
+        {% endif %}
+        {#上一页按钮结束#}
+        {# 页码开始#}
+        {% for num in pageGroup %}
+            {% if num == currentPage %}
+                <li class="active" ><a href="{{url_cut}}{{ num }}">{{ num }}</a></li>
+            {% else %}
+                <li ><a href="{{url_cut}}{{ num }}">{{ num }}</a></li>
+
+            {% endif %}
+        {% endfor %}
+        {#页码结束#}
+        {# 下一页按钮开始#}
+        {% if showData.has_next %}
+            <li ><a href="{{url_cut}}{{ showData.next_page_number }}">下一页</a></li>
+        {% else %}
+            <li class="disabled" ><a href="#">下一页</a></li>
+        {% endif %}
+        {# 下一页按钮结束#}
+    </ul>
+</div>

@@ -36,10 +36,10 @@ for k in tag_id_to_name:
     tag = {}
     tagId = k
     tagName = tag_id_to_name[tagId]
-    albumIDList = tag_id_to_album[tagId]
+    albumIDList = json.dumps(tag_id_to_album[tagId])
 
     tag['tagId'] = tagId
     tag['tagName'] = tagName
-    tag['albumIDList'] = albumIDList
+    tag['albumIdList'] = albumIDList
 
     insert_tags(tag)

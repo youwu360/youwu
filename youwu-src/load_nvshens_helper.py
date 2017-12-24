@@ -121,7 +121,7 @@ def insert_tags(tag):
         Tags.objects.create(
             tagId = tag['tagId'],
             tagName = tag['tagName'],
-            albumIDList = tag['albumIDList'],
+            albumIdList = tag['albumIdList'],
         )
         return True
     except:

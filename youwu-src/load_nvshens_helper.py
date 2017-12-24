@@ -5,6 +5,7 @@ import os
 import json
 import random
 import datetime
+from django.db.models import Max
 
 from site_youwu.models import Star, Album, Tags
 
@@ -127,3 +128,16 @@ def insert_tags(tag):
     except:
         print("insert error :" + str(tag))
     return False
+
+def update_tag_type_and_name(tagName, tagTypeId, tagTypeName):
+    if tagName is None or tagTypeName is None:
+        print('insert value error. tagName:' + str(tagName) +
+              " tagTypeName" + str(tagTypeName))
+    try:
+        Tags.objects.filter(tagName=tagName).\
+            update(tagTypeName=tagTypeName)
+
+        Tags.objects.filter(tagName=tagName). \
+            update(tagTypeId=tagTypeId)
+    except:
+        print('update tag error')

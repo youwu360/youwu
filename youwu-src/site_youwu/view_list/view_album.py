@@ -26,7 +26,6 @@ def album_page(request,albumId,pageId):       # pageID: 专辑下的第几页
     showData = page_content['showData']
     pageGroup = page_content['pageGroup']
 
-
     # 明星信息
     star_name = Star.objects.filter(starId=starId).values("name")[0]["name"]
     star_cover = Star.objects.filter(starId = starId).values("cover")[0]["cover"]
@@ -36,10 +35,7 @@ def album_page(request,albumId,pageId):       # pageID: 专辑下的第几页
     star_hobby = Star.objects.filter(starId=starId).values("hobby")[0]["hobby"]
     star_birthPlace = Star.objects.filter(starId=starId).values("birthPlace")[0]["birthPlace"]
 
-
-
     # 专辑推荐
-
     albumId_list = recommend(8)
 
     temp_data = map(lambda x: Album.objects.filter(albumId = x).values("albumId", "name", "cover")[0], albumId_list)

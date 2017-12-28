@@ -7,7 +7,6 @@
         <div class="star_page_name"><H3>{{ star_name}}</H3></div>
         <div class="star_page_star_pic"><img   src="{{star_cover }}" alt=""></div>
         <div class="star_page_star_info">
-
             {% if star_threeD %} <p>三维：{{star_threeD}}</p> {% endif %}
             {% if star_height %} <p>身高：{{star_height}} cm</p> {% endif %}
             {% if star_weight %} <p>体重：{{star_weight}} kg</p> {% endif %}
@@ -15,7 +14,6 @@
             {% if star_birthPlace %} <p>所在地：{{star_birthPlace}}</p> {% endif %}
             {% if star_description %} <p>描述：{{star_description}}</p> {% endif %}
             {% if star_hobby %} <p>兴趣：{{star_hobby}}</p> {% endif %}
-
         </div>
         <div style = "clear: both"></div>
 
@@ -25,7 +23,7 @@
         <H4>女神套图</H4>
     </div>
 
-    <div class="star_page_albums">git merge master
+    <div class="star_page_albums">
         {% for line in showData %}
         {% include "common_show_album.html" %}
         {% endfor %}
@@ -37,10 +35,10 @@
 </div>
 
 <div class="star_page_recom_box">
-    {% for line in recom_data %}
+    <div><H3>套图推荐</H3></div>
+    {% for line in recom_data%}
     {% include "common_show_album.html" %}
     {% endfor %}
-
 </div>
 
 

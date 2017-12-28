@@ -208,7 +208,7 @@ img{
 
 .star_page_recom_box{
 
-    width: 1350px;
+    width: 1200px;
     text-align: center;
     margin:0 auto;
 
@@ -218,11 +218,66 @@ img{
 
 /*--------------------------------for common_show_album.html ---------------------------------------*/
 
+.com_album_group {
+    float: left;
+    position: relative;
+    margin: 0 1% 1% 0;
+    width: 19%;
+    border: 1px #eeeff2 solid;
+    border-top: none;
+    border-radius: 0 0 3px 3px;
+    background: #fff;
+    overflow: hidden;
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    transition: all 0.2s;
+}
+
+.com_album_shadow{
+    position: absolute;
+    content: "";
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 65px;
+    background: black;
+    background: rgba(0, 0, 0, 0.6);
+    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.6)), to(rgba(0, 0, 0, 0.6)));
+    background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.6) 100%);
+    background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 100%);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 30%,rgba(0, 0, 0, 0.6) 100%);
+    text-shadow: 0px 0px 1px #000;
+
+}
+
+
+.com_album_des_info_issue {
+    position: absolute;
+    z-index: 2;
+    left: 2%;
+    bottom: -35px;
+    height: 80px;
+    width: 96%;
+    color: white;
+    transition: 0.2s ease-out;
+    overflow:hidden;
+
+}
+
+
+
+
+
+
+
 .pagination_box{
     text-align: center;
     margin:0 auto;
 
 }
+
+
+
 
 /*------------------------------------ for classify.html -------------------------------------------*/
 .classify_title{

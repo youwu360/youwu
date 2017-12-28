@@ -19,7 +19,7 @@ def star_page(request,starId,pageId):
     star_hobby = star_info.values("hobby")[0]["hobby"]
     star_birthday = star_info.values("birthday")[0]["birthday"]
     star_birthPlace = star_info.values("birthPlace")[0]["birthPlace"]
-    star_cover = star_info.values("cover")[0]["cover"]
+    star_cover = json.loads(star_info.values("cover")[0]["cover"])[0]
     star_height = star_info.values("height")[0]["height"]
     star_weight = star_info.values("weight")[0]["weight"]
     star_description = star_info.values("description")[0]["description"]
@@ -29,7 +29,7 @@ def star_page(request,starId,pageId):
     star_album = []
     for a in album_temp:   # 增加url
         a["cover"] = json.loads(a["cover"])[0]
-        a["to_url"] = getAlbumPageUrl(a["albumId"])
+        a["album_url"] = getAlbumPageUrl(a["albumId"])
         star_album.append(a)
 
 
@@ -43,8 +43,5 @@ def star_page(request,starId,pageId):
 
     # 推荐图册
     recom_data = recom_albums(10)
-
-
-
 
     return render(request, "star.html", locals())

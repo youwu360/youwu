@@ -1,12 +1,10 @@
-<div class="group">
+<div class="com_album_group">
       <div >
-        <a href={{ line.to_url }} target="_blank" >
+        <a href="{{ line.album_url }}" target="_blank" >
           <img class="img" src= {{ line.cover }} alt={{ line.name }} ></a>
       </div>
-      <div class="shadow" ></div>
-      <div  class="des_info_issue">
-          <a class="text" href={{ line.url }} target="_blank">{{ line.name }}</a>
+      <div class="com_album_shadow" ></div>
+      <div  class="com_album_des_info_issue">
+          <a target="_blank" class="text" href="{{ line.album_url }}" >{{ line.name }}</a>
       </div>
     </div>
-
-

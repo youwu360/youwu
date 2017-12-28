@@ -22,10 +22,10 @@ urlpatterns = [
     url(r'^page=([0-9]{1,})/$', views.home_page),
     url(r'^site_youwu/', include(site_youwu.urls)),
     url(r'^', admin.site.urls),
-    url(r'^albumId=([0-9]{1,})/pageId=([0-9]{1,})/$', views.album_page),
-    url(r'^starId=([0-9]{1,})/pageId=([0-9]{1,})/$', views.star_page),
-    url(r'^tagId=([0-9]{1,})/pageId=([0-9]{1,})/$', views.classify_page),
-    url(r'^tag/pageId=([0-9]{1,})/$', views.classify_page),
+    url(r'^albumId=([0-9]{1,})/pageId=([0-9]{1,})/', views.album_page,name='album'),
+    url(r'^starId=([0-9]{1,})/pageId=([0-9]{1,})/$', views.star_page, name='star'),
+    url(r'^tagId=([0-9]{1,})/pageId=([0-9]{1,})/$', views.classify_page, name='classify'),
+    url(r'^tag/pageId=([0-9]{1,})/$', views.classify_page, name='default'),
 ]
 
 

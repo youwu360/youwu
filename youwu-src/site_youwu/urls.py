@@ -4,5 +4,4 @@ from . import views
 
 urlpatterns = [
     url(r'^page=([0-9]{1,})/$', views.home_page),
-    url(r'^select/page_num=([0-9]{1,})/$', views.select),
 ]

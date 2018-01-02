@@ -321,3 +321,78 @@ img{
     border-radius: .25em;
 
 }
+
+
+/*------------------------------------ for m_home.html -------------------------------------------*/
+
+.m_album{
+    width: 33%;
+    float: left;
+    position: relative;
+    margin-right: 1px;
+}
+
+.m_album_title{
+    margin: 0.5rem 0 0.4rem 1px;
+    line-height: 0.8rem;
+    font-size: 0.6rem;
+    overflow: hidden;
+    height: 1.6rem;
+    color: #333;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+
+}
+
+
+/*------------------------------------ for m_pagination.html -------------------------------------------*/
+.m_pagination{
+    width: 75%;
+    margin: auto;
+    text-align: center;
+
+
+}
+
+.m_number{
+    border: solid 1px #d6d6d6;
+    border-radius: 0.2rem;
+    color: #7d7d7d;
+    display: inline-block;
+    text-align: center;
+    padding: 0.4rem 0.2rem;
+    margin: 0.5rem 1%;
+    width: 15%;
+    background: white;
+
+}
+
+.m_number:hover{
+    background: #409EFF;
+    color: white;
+    border: solid 1px #409EFF;
+}
+
+.m_number_active{
+    color: white;
+    background: #409EFF ;
+    font-weight:bold;
+    border: solid 1px #409EFF;
+
+}
+
+.m_next_page{
+    display: block;
+    color: white;
+    background: #409EFF ;
+    font-weight:bold;
+    border: solid 1px #409EFF;
+    margin: 0 auto 0.5rem auto;
+    width: 100%;
+    height: 2rem;
+    border-radius: 0.2rem;
+    line-height: 2rem;
+    align-items:center
+}

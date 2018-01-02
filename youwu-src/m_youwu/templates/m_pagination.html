@@ -1,0 +1,30 @@
+
+     <div class="m_pagination">
+
+         <!--
+         {# 下一页按钮开始#}
+        {% if showData.has_next %}
+            <div class="m_number" ><a href="{{url_cut}}{{ showData.next_page_number }}">下一页</a></div>
+        {% else %}
+            <div class="m_number" ><a href="#">下一页</a></div>
+        {% endif %}
+        {# 下一页按钮结束#}
+        -->
+         {% if showData.has_next %}
+         <a class="m_next_page" href="{{url_cut}}{{ showData.next_page_number }}"> 下一页</a>
+         {% endif %}
+
+
+        {# 页码开始#}
+        {% for num in pageGroup %}
+            {% if num == currentPage %}
+                <a class="m_number m_number_active" href="{{url_cut}}{{ num }}">{{ num }}</a>
+            {% else %}
+               <a class="m_number" href="{{url_cut}}{{ num }}">{{ num }}</a>
+
+            {% endif %}
+        {% endfor %}
+        {#页码结束#}
+
+    </div>
+

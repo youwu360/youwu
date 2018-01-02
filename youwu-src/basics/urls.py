@@ -18,8 +18,7 @@ from site_youwu import views
 import site_youwu.urls
 
 urlpatterns = [
-
-    url(r'^page=([0-9]{1,})/$', views.home_page),
+    url(r'^index=([0-9]{1,})/$', views.home_page),
     url(r'^site_youwu/', include(site_youwu.urls)),
     url(r'^', admin.site.urls),
     url(r'^albumId=([0-9]{1,})/pageId=([0-9]{1,})/', views.album_page,name='album'),

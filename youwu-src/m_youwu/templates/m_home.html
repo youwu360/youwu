@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% for line in showData  %}
+<div class="m_album">
+    <div><img src="{{line.cover}}"></div>
+    <div><h2 class="m_album_title">{{line.name}}</h2></div>
+
+</div>
+
+{% endfor %}
+<div style = "clear: both"></div>
+
+{% include "m_pagination.html" %}
+
+
+{% endblock%}

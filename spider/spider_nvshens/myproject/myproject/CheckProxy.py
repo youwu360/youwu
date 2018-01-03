@@ -74,7 +74,7 @@ class CheckProxy(object):
     def get_free_proxy_from_kuaidaili(self):
         free_proxy_list = []
         api = "http://www.kuaidaili.com/free/"
-        browser = webdriver.Firefox()
+        browser = webdriver.PhantomJS()
         browser.set_page_load_timeout(20)
         browser.get(api)
 
@@ -107,3 +107,4 @@ class CheckProxy(object):
 
 a = CheckProxy()
 a.run()
+print(len(a.aliveProxyList))

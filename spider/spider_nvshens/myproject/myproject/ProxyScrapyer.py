@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
 
-import re
-import threading
-from scrapy import Selector
-import time
-from selenium import webdriver
 import json
 import os.path
-from urllib.request import build_opener, ProxyHandler, URLError
+import threading
+import time
 import urllib.request
+from urllib.request import build_opener, ProxyHandler
+from scrapy import Selector
+from selenium import webdriver
 
 
 class ProxyScrapyer(object):
     def __init__(self):
-        self.proxyFile = 'proxyFile.txt'
+        self.proxyFile = os.path.join(os.path.dirname(os.path.realpath(__file__)),
+                                      'proxyFile.txt')
         self.testUrl = "https://www.baidu.com"
         self.threads = 50
         self.timeout = 3

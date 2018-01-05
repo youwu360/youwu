@@ -17,9 +17,8 @@ class NvshensSpider(Spider):
 
     proxy_scrapyer = ProxyScrapyer()
     last_run_time = 0
-    proxy_list = []
 
-    name = 'nvshens'
+    name = 'nvshens.com'
     domain = 'https://www.nvshens.com'
     allowed_domains = ['nvshens.com']
     start_urls = [
@@ -37,12 +36,12 @@ class NvshensSpider(Spider):
 
     def __init__(self):
         super(Spider, self).__init__()
-        while len(self.proxy_list) < 100:
-            self.proxy_list = self.proxy_scrapyer.get_alive_proxy_list()
-            print('-------------------------------------------')
-            print("current alive proxy list size : " + str(len(self.proxy_list)))
-            print(self.proxy_list)
-            time.sleep(5)
+        self.proxy_scrapyer.run()
+        for i in range(200):
+            alive_proxy_num = len(self.proxy_scrapyer.alive_proxy)
+            if alive_proxy_num < 100:
+                print("current alive_proxy_num : " + str(alive_proxy_num))
+                time.sleep(1)
 
     def parse(self, response):
         linkExtractor = LinkExtractor()

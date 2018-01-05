@@ -11,6 +11,7 @@ from .nvshens_url_match import NvshensURLMatcher
 from scrapy.linkextractors import LinkExtractor
 from urllib import parse
 
+
 class NvshensSpider(Spider):
     nvshens_url_matcher = NvshensURLMatcher()
 
@@ -28,11 +29,20 @@ class NvshensSpider(Spider):
 
     url_all = {}
     img_all = {}
-    url_num_limit = 20000
+    url_num_limit = 200
 
     parse_album_page_on = False
     parse_star_page_on = False
     parse_tag_page_on = True
+
+    def __init__(self):
+        super(Spider, self).__init__()
+        while len(self.proxy_list) < 100:
+            self.proxy_list = self.proxy_scrapyer.get_alive_proxy_list()
+            print('-------------------------------------------')
+            print("current alive proxy list size : " + str(len(self.proxy_list)))
+            print(self.proxy_list)
+            time.sleep(5)
 
     def parse(self, response):
         linkExtractor = LinkExtractor()

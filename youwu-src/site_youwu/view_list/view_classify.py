@@ -9,9 +9,12 @@ from .view_common import recommend
 from .view_common import recom_albums
 from .view_common import getAlbumInfoById
 import json
+from .view_common import is_mobile_check
 
 
 def classify_page(request,*ids):
+
+    is_mobile = is_mobile_check(request)
 
     # tag 列表
     type = Tags.objects.all().values("tagTypeId","tagTypeName").distinct()
@@ -20,7 +23,7 @@ def classify_page(request,*ids):
         line["tag_list"] = list(Tags.objects.filter(tagTypeId=line["tagTypeId"]).values("tagId","tagName").distinct())
         tag_data.append(line)
 
-    # 当前tag对应的albums
+    # 当前tag对应的albums   如果没有带参数，则返回列表
     if len(ids) > 1 :
         tagId = int(ids[0])
         pageId = int(ids[1])
@@ -49,5 +52,6 @@ def classify_page(request,*ids):
 
     # 推荐的albums
     #recom_album = recom_albums(10)
+
 
     return render(request, "classify.html", locals())

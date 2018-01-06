@@ -6,13 +6,30 @@ from .view_common import paging
 from .view_common import getAlbumPageUrl
 from .view_common import recommend
 from .view_common import recom_albums
+from .view_common import is_mobile_check
 import json
 
 def star_page(request,starId,pageId):
 
+    # 判断是否是移动端
+    is_mobile = is_mobile_check(request)
+
     # 基础信息
     starId = int(starId)
     pageId = int(pageId)
+
+
+    # 参数配置
+    if is_mobile:
+        page_cnt = 5    # 分页的个数
+        content_cnt = 15  # 内容个数
+        re_com_cnt = 6  #推荐的album个数
+    else:
+        page_cnt = 10
+        re_com_cnt = 10
+        content_cnt = 40
+
+        # star信息
     star_info = Star.objects.filter(starId=starId)
     star_name = star_info.values("name")[0]["name"]
     star_threeD = star_info.values("threeD")[0]["threeD"]
@@ -32,9 +49,8 @@ def star_page(request,starId,pageId):
         a["album_url"] = getAlbumPageUrl(a["albumId"])
         star_album.append(a)
 
-
     # 分页
-    page_content = paging(star_album, pageId, 40, 10)   # 40个图片一个页面  每个页面展现10个分页tag
+    page_content = paging(star_album, pageId, content_cnt, page_cnt)   # 40个图片一个页面  每个页面展现10个分页tag
     showData = page_content['showData']
     pageGroup = page_content['pageGroup']
     currentPage = pageId
@@ -42,6 +58,10 @@ def star_page(request,starId,pageId):
     url_cut = "/starId=" + str(starId) + "/pageId="
 
     # 推荐图册
-    recom_data = recom_albums(10)
+    recom_data = recom_albums(re_com_cnt)
 
-    return render(request, "star.html", locals())
+
+    if  is_mobile:
+        return render(request, "m_star.html", locals())
+    else:
+        return render(request, "star.html", locals())

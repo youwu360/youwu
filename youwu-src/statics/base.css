@@ -325,14 +325,14 @@ img{
 
 /*------------------------------------ for m_home.html -------------------------------------------*/
 
-.m_album{
+.m_home_album{
     width: 33%;
     float: left;
     position: relative;
     margin-right: 1px;
 }
 
-.m_album_title{
+.m_home_album_title{
     margin: 0.5rem 0 0.4rem 1px;
     line-height: 0.8rem;
     font-size: 0.6rem;
@@ -350,11 +350,13 @@ img{
 /*------------------------------------ for m_pagination.html -------------------------------------------*/
 .m_pagination{
     width: 75%;
-    margin: auto;
+    margin: 2rem auto ;
     text-align: center;
 
 
 }
+
+
 
 .m_number{
     border: solid 1px #d6d6d6;
@@ -396,3 +398,91 @@ img{
     line-height: 2rem;
     align-items:center
 }
+
+
+/*------------------------------------ for m_album.html -------------------------------------------*/
+.m_album_title{
+    font-size: 1rem;
+    line-height: 1rem;
+    height: 1rem;
+    margin: 0 0.2rem 0.1rem 0.2rem;
+    width: 100%;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    align-items:center
+
+}
+.m_album_des{
+    margin: 0 0.2rem 0.1rem 0.2rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    align-items:center
+}
+
+.m_album_pic{
+    margin: 2px 0;
+    width: 100%;
+    text-align: center;
+
+}
+
+.m_album_tag{
+    width: 100%;
+    margin: 1rem auto 1rem 0.3rem;
+    text-align: left;
+}
+
+.m_album_tag > span{
+    background: white;
+    color: #8c8c8c;
+    display: inline-block;
+    padding: 0.3rem 3%;
+    margin: 0 2%;
+}
+
+
+.m_module_title{
+    margin: 0.2rem auto 0.5rem 0.4rem;
+    line-height: 1.5rem;
+    font-size: 0.8rem;
+}
+
+
+.m_album_star_intro {
+    margin: auto ;
+    text-align: center;
+
+}
+
+.m_album_star_intro > img{
+    width: 30%;
+
+}
+
+.m_album_star_intro > span{
+    display: block;
+}
+
+
+/*------------------------------------ for m_star.html -------------------------------------------*/
+.m_star_info{
+    width: 100%;
+    margin: auto;
+    text-align: center;
+}
+.m_star_info > img{
+    width: 35%;
+
+}
+
+.m_star_title{
+    font-size: 1.2rem;
+    margin: 0.3rem auto;
+}
+
+/*------------------------------------ for m_classify.html -------------------------------------------*/
+

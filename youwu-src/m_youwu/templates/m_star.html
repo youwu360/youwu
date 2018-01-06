@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="m_star_info">
+    <img src="{{star_cover}}">
+    <H2 class="m_star_title">{{star_name}}</H2>
+
+</div>
+<H3 class="m_module_title" >尤物专辑</H3>
+
+<!-- 明星专辑 -->
+{% for line in star_album %}
+    {% include "m_show_album.html" %}
+{% endfor %}
+<div style="clear: both"></div>
+
+
+<!-- 分页 -->
+{% include "m_pagination.html" %}
+
+<!-- 推荐 -->
+<H3 class="m_module_title" >猜你喜欢</H3>
+{% for line in recom_data %}
+    {% include "m_show_album.html" %}
+{% endfor %}
+<div style="clear: both"></div>
+
+
+
+{% endblock %}

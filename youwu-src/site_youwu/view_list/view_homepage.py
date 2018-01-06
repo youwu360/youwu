@@ -7,8 +7,9 @@ from .view_common import paging
 # Create your views here.
 
 def home_page(request,pageId):
-    agent = request.META.get('HTTP_USER_AGENT')
-    is_mobile = is_mobile_check(agent)
+
+    is_mobile = is_mobile_check(request)
+
     data = Album.objects.all().values("name", "cover", "albumId")
 
     res =[]
@@ -37,4 +38,6 @@ def home_page(request,pageId):
         return render(request, "m_home.html", locals())
     else:
         return render(request, "home.html", locals())
+
+
 

@@ -60,15 +60,18 @@ def paging(data, current_page, content_cnt, page_num):   # 对内容分页，并
     else:
         max_index = paginator.num_pages
 
+
+    # 尾部极端情况
+    if paginator.num_pages - current_page < page_num -index :
+        max_index = paginator.num_pages
+        min_index = paginator.num_pages - page_num + 1
+
     # 头部极端情况
     if paginator.num_pages < index:
         min_index = 1
         max_index = paginator.num_pages
 
-    # 尾部极端情况
-    if paginator.num_pages - current_page < page_num -index :
-        max_index = paginator.num_pages
-        min_index = paginator.num_pages - page_num +1
+
 
     pageGroup = range(min_index, max_index+1)
 
@@ -139,7 +142,8 @@ def clean_str(string):
     return string
 
 
-def is_mobile_check(agent):
+def is_mobile_check(request):
+    agent = request.META.get('HTTP_USER_AGENT')
     res = False
     mobile_key = ["iPhone", "iPad", "iPod", "Android"]
     for line in mobile_key:
@@ -147,5 +151,3 @@ def is_mobile_check(agent):
             res = True
             break
     return res
-
-

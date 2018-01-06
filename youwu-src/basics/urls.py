@@ -16,15 +16,18 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from site_youwu import views
 import site_youwu.urls
+import m_youwu.urls
 
 urlpatterns = [
     url(r'^index=([0-9]{1,})/$', views.home_page),
-    url(r'^site_youwu/', include(site_youwu.urls)),
+    url(r'^site_youwu/', include(site_youwu.urls, namespace="site_youwu")),
+    url(r'^m_youwu/', include(m_youwu.urls, namespace="m_youwu")),
     url(r'^', admin.site.urls),
-    url(r'^albumId=([0-9]{1,})/pageId=([0-9]{1,})/', views.album_page,name='album'),
+    url(r'^albumId=([0-9]{1,})/pageId=([0-9]{1,})/', views.album_page, name='album'),
     url(r'^starId=([0-9]{1,})/pageId=([0-9]{1,})/$', views.star_page, name='star'),
     url(r'^tagId=([0-9]{1,})/pageId=([0-9]{1,})/$', views.classify_page, name='classify'),
     url(r'^tag/pageId=([0-9]{1,})/$', views.classify_page, name='default'),
+
 ]
 
 

@@ -12,6 +12,9 @@ class NvshensURLMatcher():
         self.pattern_star_page = \
             re.compile("^https://www\.nvshens\.com/girl/\d+/")
 
+        self.pattern_article_page = \
+            re.compile("^https://www\.nvshens\.com/article/\d+/")
+
         self.pattern_tag_page = \
             re.compile("^https://www\.nvshens\.com/gallery/[a-zA-Z0-9]+/(\d+\.html)?$")
 
@@ -19,6 +22,9 @@ class NvshensURLMatcher():
     # https://www.nvshens.com/g/24928/3.html
     def match_pattern_album_page(self, url):
         return self.pattern_album_page.match(url)
+
+    def match_pattern_article_page(self, url):
+        return self
 
     # https://www.nvshens.com/girl/25401/
     def match_pattern_star_page(self, url):
@@ -31,9 +37,7 @@ class NvshensURLMatcher():
         return self.pattern_domain.match(url)
 
     def match_pattern_extract_page(self, url):
-        return self.match_pattern_star_page(url) or \
-               self.match_pattern_album_page(url) or \
-               self.match_pattern_tag_page(url)
+        return self.match_pattern_domain(url) and not self.match_pattern_article_page(url)
 
 
 if __name__ == '__main__':
@@ -44,3 +48,4 @@ if __name__ == '__main__':
 
     url = "https://www.nvshens.com/girl/25401/"
     print(matcher.match_pattern_star_page(url))
+

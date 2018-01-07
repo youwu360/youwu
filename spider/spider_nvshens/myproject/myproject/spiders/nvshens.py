@@ -4,7 +4,7 @@ import threading
 from scrapy.spider import Spider
 from scrapy.selector import Selector
 from scrapy.http import Request
-from ..items import Info, ImageUrl, PageUrl, TagPage, AlbumImage, AlbumCover
+from ..items import Info, ImageUrl, PageUrl, TagPage, AlbumImage, AlbumCover, FailedURL
 from urllib.parse import urljoin
 import time
 from ..ProxyScrapyer import ProxyScrapyer
@@ -67,8 +67,11 @@ class NvshensSpider(Spider):
             return
 
         print("in parse_album_page *******************")
+        print("response.url" + response.url)
         if not self.nvshens_url_matcher.match_pattern_album_page(response.url):
+            print("response.url:" + response.url + " not match match_pattern_album_page")
             return
+        print("response.url:" + response.url + " match match_pattern_album_page")
 
         response = Selector(response)
         xpaths = ['//@href', '//@src', '//@data-original']
@@ -76,24 +79,23 @@ class NvshensSpider(Spider):
             page_response = response.xpath(xpath).extract()
             for url in page_response:
                 if url.endswith('.jpg') or url.endswith('.png'):
-                    if url not in self.img_all:
-                        album_image = AlbumImage()
-                        album_image['url'] = url
-                        arr = url.split(r'/')
-                        if len(arr) < 3:
-                            continue
-                        gallery = arr[-4]
-                        star_id = arr[-3]
-                        album_id = arr[-2]
+                    album_image = AlbumImage()
+                    album_image['url'] = url
+                    arr = url.split(r'/')
+                    if len(arr) < 3:
+                        continue
+                    gallery = arr[-4]
+                    star_id = arr[-3]
+                    album_id = arr[-2]
 
-                        if gallery != "gallery" or not str.isnumeric(star_id) \
-                            or not str.isnumeric(album_id):
-                            continue
+                    if gallery != "gallery" or not str.isnumeric(star_id) \
+                        or not str.isnumeric(album_id):
+                        continue
 
-                        album_image['album_id'] = album_id
-                        album_image['star_id'] = star_id
-                        self.img_all[url] = True
-                        yield album_image
+                    album_image['album_id'] = album_id
+                    album_image['star_id'] = star_id
+                    self.img_all[url] = True
+                    yield album_image
 
     def parse_star_page(self, response):
         if not self.parse_star_page_on:
@@ -101,81 +103,89 @@ class NvshensSpider(Spider):
         print("in parse_star_page *******************")
         if not self.nvshens_url_matcher.match_pattern_star_page(response.url):
             return
-        response = Selector(response)
-        girl_info = response.xpath('/html/body/div[@id="wrapper"]'
-                                   '/div[@id="post"]/div[@class="entry_box"]'
-                                   '/div[@class="res_infobox clearfix"]'
-                                   '/div[@class="infodiv"]'
-                                   '/table/tr/td/text()').extract()
-        girl_id = response.xpath('/html/body/div[@id="wrapper"]'
-                                 '/div[@id="post"]/div[@class="entry_box"]'
-                                 '/div[@class="res_infobox clearfix"]'
-                                 '/input[@id="girlid"]/@value').extract()[0]
-        girl_name = response.xpath('/html/body/div[@id="wrapper"]'
-                                   '/div[@id="post"]/'
-                                   'div[@class="entry_box"]/'
-                                   'div[@class="res_infobox clearfix"]'
-                                   '/div[@class="div_h1"]'
-                                   '/h1[@style="font-size: 15px"]'
-                                   '/text()').extract()[0]
-        girl_cover = response.xpath('/html/body/div[@id="wrapper"]'
-                                   '/div[@id="post"]'
-                                   '/div[@class="entry_box"]'
-                                   '/div[@class="res_infobox clearfix"]'
-                                   '/div[@class="infoleft_imgdiv"]'
-                                   '/a[@class="imglink"]/img/@src'
-                                   ).extract()[0]
-        girl_description = response.xpath('/html/body/div[@id="wrapper"]/div[@id="post"]/'
-                'div[@class="entry_box"]/div[@class="box_entry"]'
-                '/div[@class="box_entry_title"]/div[@class="infocontent"]/p/text()'
-                                          ).extract()[0]
+        cur_url = response.url
 
-        if girl_id is not None and girl_info is not None:
-            if girl_cover is not None:
-                girl_info.append('cover')
-                girl_info.append(girl_cover)
+        try:
+            response = Selector(response)
+            girl_info = response.xpath('/html/body/div[@id="wrapper"]'
+                                       '/div[@id="post"]/div[@class="entry_box"]'
+                                       '/div[@class="res_infobox clearfix"]'
+                                       '/div[@class="infodiv"]'
+                                       '/table/tr/td/text()').extract()
+            girl_id = response.xpath('/html/body/div[@id="wrapper"]'
+                                     '/div[@id="post"]/div[@class="entry_box"]'
+                                     '/div[@class="res_infobox clearfix"]'
+                                     '/input[@id="girlid"]/@value').extract()[0]
+            girl_name = response.xpath('/html/body/div[@id="wrapper"]'
+                                       '/div[@id="post"]/'
+                                       'div[@class="entry_box"]/'
+                                       'div[@class="res_infobox clearfix"]'
+                                       '/div[@class="div_h1"]'
+                                       '/h1[@style="font-size: 15px"]'
+                                       '/text()').extract()[0]
+            girl_cover = response.xpath('/html/body/div[@id="wrapper"]'
+                                       '/div[@id="post"]'
+                                       '/div[@class="entry_box"]'
+                                       '/div[@class="res_infobox clearfix"]'
+                                       '/div[@class="infoleft_imgdiv"]'
+                                       '/a[@class="imglink"]/img/@src'
+                                       ).extract()[0]
+            girl_description = response.xpath('/html/body/div[@id="wrapper"]/div[@id="post"]/'
+                    'div[@class="entry_box"]/div[@class="box_entry"]'
+                    '/div[@class="box_entry_title"]/div[@class="infocontent"]/p/text()'
+                                              ).extract()[0]
 
-            if girl_description is not None:
-                girl_info.append('description')
-                girl_info.append(girl_description)
+            if girl_id is not None and girl_info is not None:
+                if girl_cover is not None:
+                    girl_info.append('cover')
+                    girl_info.append(girl_cover)
 
-            if girl_id is not None:
-                girl_info.append('starId')
-                girl_info.append(girl_id)
+                if girl_description is not None:
+                    girl_info.append('description')
+                    girl_info.append(girl_description)
 
-            if girl_name is not None:
-                girl_info.append('name')
-                girl_info.append(girl_name)
+                if girl_id is not None:
+                    girl_info.append('starId')
+                    girl_info.append(girl_id)
 
-            info = Info()
-            info['info'] = girl_info
-            yield info
+                if girl_name is not None:
+                    girl_info.append('name')
+                    girl_info.append(girl_name)
 
-        xpaths = ['//@href', '//@src', '//@data-original']
-        for xpath in xpaths:
-            page_response = response.xpath(xpath).extract()
-            for url in page_response:
-                if url.endswith('.jpg') or url.endswith('.png'):
-                    if url not in self.img_all:
-                        album_cover = AlbumCover()
-                        album_cover['url'] = url
-                        arr = url.split(r'/')
-                        if len(arr) < 5:
-                            continue
-                        gallery = arr[-5]
-                        star_id = arr[-4]
-                        album_id = arr[-3]
-                        cover= arr[-2]
+                info = Info()
+                info['info'] = girl_info
+                yield info
 
-                        if gallery != "gallery" or cover != "cover" or \
-                                not str.isnumeric(star_id) or \
-                                not str.isnumeric(album_id):
-                            continue
+            xpaths = ['//@href', '//@src', '//@data-original']
+            for xpath in xpaths:
+                page_response = response.xpath(xpath).extract()
+                for url in page_response:
+                    if url.endswith('.jpg') or url.endswith('.png'):
+                        if url not in self.img_all:
+                            album_cover = AlbumCover()
+                            album_cover['url'] = url
+                            arr = url.split(r'/')
+                            if len(arr) < 5:
+                                continue
+                            gallery = arr[-5]
+                            star_id = arr[-4]
+                            album_id = arr[-3]
+                            cover = arr[-2]
 
-                        album_cover['album_id'] = album_id
-                        album_cover['star_id'] = star_id
-                        self.img_all[url] = True
-                        yield album_cover
+                            if gallery != "gallery" or cover != "cover" or \
+                                    not str.isnumeric(star_id) or \
+                                    not str.isnumeric(album_id):
+                                continue
+
+                            album_cover['album_id'] = album_id
+                            album_cover['star_id'] = star_id
+                            self.img_all[url] = True
+                            yield album_cover
+        except:
+            failed_url = FailedURL()
+            failed_url['url'] = cur_url
+            failed_url['func'] = 'parse_star_page'
+            yield failed_url
 
     def extract_url(self, response):
         linkExtractor = LinkExtractor()

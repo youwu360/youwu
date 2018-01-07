@@ -41,3 +41,7 @@ class AlbumCover(scrapy.Item):
     album_id = scrapy.Field()
     url = scrapy.Field()
 
+
+class FailedURL(scrapy.Item):
+    url = scrapy.Field()
+    func = scrapy.Field()

@@ -14,12 +14,12 @@ class ProxyScrapyer(object):
     def __init__(self):
         self.proxyFile = os.path.join(os.path.dirname(os.path.realpath(__file__)),
                                       'proxyFile.txt')
-        self.testUrl = "https://www.baidu.com"
+        self.testUrl = "https://www.nvshens.com/gallery/tgod/"
         self.threads = 50
         self.timeout = 3
         self.alive_proxy = set()
         self.current_page = 0
-        self.page_limit = 50
+        self.page_limit = 10
 
     def run(self):
         self.get_local_proxy()
@@ -28,11 +28,16 @@ class ProxyScrapyer(object):
             t = threading.Thread(target=self.get_alive_proxy_list_in_one_page, args=(i,))
             t.setDaemon(True)
             t.start()
-            time.sleep(5)
+            time.sleep(10)
 
-        while threading.active_count() > 1:
-            print("remaining thread count : " + str(threading.active_count()))
-            time.sleep(1)
+        pre_alive_proxy_count = len(self.alive_proxy)
+        i = 0
+        while i < 60:
+            i += 1
+            cur_alive_proxy_count = len(self.alive_proxy)
+            if cur_alive_proxy_count != pre_alive_proxy_count:
+                i = 0
+                time.sleep(1)
 
         self.save_alive_proxy_to_file()
         print("total alive proxy count : " + str(len(self.alive_proxy)))
@@ -78,11 +83,16 @@ class ProxyScrapyer(object):
         opener = build_opener(proxy_handler)
         try:
             urllib.request.install_opener(opener)
-            urllib.request.urlopen(self.testUrl)
-            self.alive_proxy.add(proxy)
-            print(proxy + " is available ! ")
+            req = urllib.request.Request(self.testUrl)
+            sock = urllib.request.urlopen(req)
+            assert sock.read() is not None
         except:
+            if proxy in self.alive_proxy:
+                self.alive_proxy.remove(proxy)
             print(proxy + " is unavailable ! ")
+            return
+        self.alive_proxy.add(proxy)
+        print(proxy + " is available ! ")
 
     def link_with_proxy(self, proxy):
         try:
@@ -100,7 +110,10 @@ class ProxyScrapyer(object):
         browser = webdriver.PhantomJS()
 
         browser.set_page_load_timeout(20)
-        browser.get(url)
+        try:
+            browser.get(url)
+        except:
+            pass
 
         for i in range(60):
             html = browser.page_source
@@ -108,6 +121,7 @@ class ProxyScrapyer(object):
                 time.sleep(1)
             else:
                 break
+        time.sleep(3)
 
         selector = Selector(text=browser.page_source)
         ips = selector.xpath('//td[@data-title="IP"]/text()').extract()

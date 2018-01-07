@@ -30,9 +30,17 @@ class NvshensURLMatcher():
     def match_pattern_domain(self, url):
         return self.pattern_domain.match(url)
 
+    def match_pattern_extract_page(self, url):
+        return self.match_pattern_star_page(url) or \
+               self.match_pattern_album_page(url) or \
+               self.match_pattern_tag_page(url)
+
 
 if __name__ == '__main__':
-    macher = NvshensURLMatcher()
+    matcher = NvshensURLMatcher()
     url = "https://www.nvshens.com/g/22808/"
     url = "https://www.nvshens.com/gallery/qizhi/"
-    print(macher.match_pattern_tag_page(url))
+    print(matcher.match_pattern_tag_page(url))
+
+    url = "https://www.nvshens.com/girl/25401/"
+    print(matcher.match_pattern_star_page(url))

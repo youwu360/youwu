@@ -29,3 +29,15 @@ class TagPage(scrapy.Item):
     tagTypeID = scrapy.Field()
     albumIDList = scrapy.Field()
 
+
+class AlbumImage(scrapy.Item):
+    star_id = scrapy.Field()
+    album_id = scrapy.Field()
+    url = scrapy.Field()
+
+
+class AlbumCover(scrapy.Item):
+    star_id = scrapy.Field()
+    album_id = scrapy.Field()
+    url = scrapy.Field()
+

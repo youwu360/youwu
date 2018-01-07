@@ -6,7 +6,9 @@
 # http://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
 from scrapy import signals
-
+import base64
+import json
+import os
 
 class MyprojectSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
@@ -54,3 +56,26 @@ class MyprojectSpiderMiddleware(object):
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+
+
+class MyCustomDownloaderMiddleware(object):
+    proxyServer = "http://http-dyn.abuyun.com:9020"
+
+    cur_dir = os.path.dirname(os.path.realpath(__file__))
+    auth_file = os.path.join(cur_dir, "../../../../../auth_file")
+    with open(auth_file, 'r') as auth_file_read:
+        data = json.load(auth_file_read)
+    proxyUser = data['user']
+    proxyPass = data['password']
+
+    auth = proxyUser + ":" + proxyPass
+    proxyAuth = "Basic " + base64.b64encode(auth.encode('UTF-8')).decode('ascii')
+    def process_request(self, request, spider):
+        request.meta["proxy"] = self.proxyServer
+        request.headers["Proxy-Authorization"] = self.proxyAuth
+
+
+if __name__ == '__main__':
+    instance = MyCustomDownloaderMiddleware()
+    print(instance.proxyUser)
+    print(instance.proxyPass)

@@ -38,10 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'site_youwu',
+    'm_youwu',
+    'django_hosts',
 
 ]
 
 MIDDLEWARE = [
+    'django_hosts.middleware.HostsRequestMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -49,6 +52,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'django_hosts.middleware.HostsRequestMiddleware',
 ]
 
 ROOT_URLCONF = 'basics.urls'
@@ -56,7 +61,8 @@ ROOT_URLCONF = 'basics.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR , 'site_youwu' , 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'site_youwu', 'templates'),
+                 os.path.join(BASE_DIR, 'm_youwu', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -121,5 +127,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = ( 
-	 os.path.join(BASE_DIR,"site_youwu","statics"),
+	 os.path.join(BASE_DIR,"statics"),
 )
+
+ROOT_HOSTCONF = 'basics.hosts'  # Change `mysite` to the name of your project
+DEFAULT_HOST = 'www'  # Name of the default host, we will create it in the next steps
+

@@ -20,14 +20,11 @@ def get_image_list(starId, albumId):
     return obj
 
 def paging(data, current_page, content_cnt, page_num):   # 对内容分页，并且对分页进行分组
-    # data:需要进行翻页的数据,通常是所有数据
-    # current_page:当前展现的是第几页
+    # data:需要进行翻页的数据,通常是所有数据；
+    # current_page:当前展现的是第几页；
     # content_cnt:一页有多少内容;
     # page_num:分页每组展现多少个标签；
-
-
     current_page=int(current_page)
-
     paginator = Paginator(data,content_cnt)
     try:
         showData = paginator.page(current_page) # 获取当前页码的记录
@@ -36,14 +33,47 @@ def paging(data, current_page, content_cnt, page_num):   # 对内容分页，并
     except EmptyPage:
         showData = paginator.page(paginator.num_pages) # 如果用户输入的页数不在系统的页码列表中时,显示最后一页的内容
 
-
     if current_page > paginator.count:
         current_page = paginator.count
 
-    groupCount = page_num
+    """
+    groupCount = page_num # 每个页面展现多少个分页
     group = math.ceil(current_page/groupCount)  #当 前分页在第几组
 
     pageGroup = Paginator(range(1,paginator.num_pages+1),groupCount).page(group).object_list
+    """
+    # 定义当前页排序
+    if page_num <= 5:
+        index = 2
+    else:
+        index = 5
+
+    # 定义最小分页
+    if current_page - index > 0:
+        min_index = current_page - index
+    elif current_page - index <= 0:
+        min_index = 1
+
+    # 定义最大分页
+    if current_page + page_num - index <= paginator.num_pages:
+        max_index = max(page_num, current_page + page_num - index -1)
+    else:
+        max_index = paginator.num_pages
+
+
+    # 尾部极端情况
+    if paginator.num_pages - current_page < page_num -index :
+        max_index = paginator.num_pages
+        min_index = paginator.num_pages - page_num + 1
+
+    # 头部极端情况
+    if paginator.num_pages < index:
+        min_index = 1
+        max_index = paginator.num_pages
+
+
+
+    pageGroup = range(min_index, max_index+1)
 
     return {"showData":showData,"pageGroup":pageGroup}
 
@@ -97,9 +127,7 @@ def getAlbumInfoById(albumId_set):
         data.append(a)
     return data
 
-
-
-def addAttrToList(list,func,name,id):    # 对词典形成的list，通过函数进行增加内容
+def addAttrToList(list,func,name,id): # 对词典形成的list，通过函数进行增加内容
     # list：内容列表
     # func:函数
     # name：增加的内容名称
@@ -107,9 +135,19 @@ def addAttrToList(list,func,name,id):    # 对词典形成的list，通过函数
     for dic in list:
         dic[name] = func(dic[id])
 
-
 def clean_str(string):
     need_to_clean = [" ", "[", "]", "'"]
     for a in need_to_clean:
         string = string.replace(a, "")
     return string
+
+
+def is_mobile_check(request):
+    agent = request.META.get('HTTP_USER_AGENT')
+    res = False
+    mobile_key = ["iPhone", "iPad", "iPod", "Android"]
+    for line in mobile_key:
+        if line in agent:
+            res = True
+            break
+    return res

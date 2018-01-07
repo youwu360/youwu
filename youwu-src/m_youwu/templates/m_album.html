@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<div >
+    <H3 class="m_album_title">{{name}}</H3>
+    <div class="m_album_des">{{des}}</div>
+
+
+    <!------ tags ------->
+    <div class="m_album_tag">
+    {% for line in tag %}
+        <span > {{line}}</span>
+    {% endfor %}
+        </div>
+    <!------ pictures ------->
+    {% for line in showData  %}
+    <div class="m_album_pic"><img src="{{line}}" alt=""></div>
+    {% endfor %}
+    <div style="clear: both"></div>
+
+    <!-- 分页-->
+    {% include "m_pagination.html"%}
+
+    <!-- 明星介绍-->
+    <H3 class="m_module_title">套图模特</H3>
+    <div class="m_album_star_intro">
+
+        <a href="{% url 'm_star' starId 1 %}"><img src="{{star_cover}}" alt=""></a>
+        <span>{{star_name}}</span>
+
+    </div>
+
+
+    <H3 class="m_module_title">猜你喜欢</H3>
+    <div class="m_album_recom">
+        {% for line in recom_data %}
+            {% include "m_show_album.html" %}
+        {% endfor %}
+        <div style="clear: both"></div>
+    </div>
+
+</div>
+
+{% endblock %}
+

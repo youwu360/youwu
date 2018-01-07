@@ -34,7 +34,6 @@ class Star(models.Model):
 
 
 class Tags(models.Model):
-
     tagName = models.CharField(max_length=25, default="")
     tagId = models.CharField(max_length=20, default="")
     tagTypeName = models.CharField(max_length=50, null=True)

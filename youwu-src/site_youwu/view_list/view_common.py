@@ -42,12 +42,13 @@ def paging(data, current_page, content_cnt, page_num):   # 对内容分页，并
 
     pageGroup = Paginator(range(1,paginator.num_pages+1),groupCount).page(group).object_list
     """
+
     # 定义当前页排序
     if page_num <= 5:
-        index = 2
+        index = 3
     else:
         index = 5
-
+    """
     # 定义最小分页
     if current_page - index > 0:
         min_index = current_page - index
@@ -70,8 +71,24 @@ def paging(data, current_page, content_cnt, page_num):   # 对内容分页，并
     if paginator.num_pages < index:
         min_index = 1
         max_index = paginator.num_pages
+    """
 
+    a_dis = index - 1
+    b_dis = page_num - index
 
+    if page_num >= paginator.num_pages:
+        min_index = 1
+        max_index = paginator.num_pages
+    elif page_num < paginator.num_pages:
+        if current_page - a_dis > 0 and current_page + b_dis <= paginator.num_pages:
+            min_index = current_page - a_dis
+            max_index = current_page + b_dis
+        elif current_page - a_dis > 0 and current_page + b_dis > paginator.num_pages:
+            min_index = paginator.num_pages - page_num +1
+            max_index = paginator.num_pages
+        elif current_page - a_dis <= 0:
+            min_index = 1
+            max_index = page_num
 
     pageGroup = range(min_index, max_index+1)
 

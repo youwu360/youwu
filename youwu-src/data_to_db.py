@@ -175,6 +175,14 @@ set_album_starID()
 set_temp_url_list()
 set_tag_data()
 set_star_cover()
+set_tag_data()
 """
 
-set_tag_data()
+
+def set_album_list():
+    data = Album.objects.all().values("albumId")
+    album_lsit = []
+    for line in data:
+        album_lsit.append(line["albumId"])
+    Tags.objects.all().update(albumIdList = str(album_lsit))
+set_album_list()

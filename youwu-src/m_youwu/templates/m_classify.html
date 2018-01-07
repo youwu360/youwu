@@ -1,16 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-
+<h3 class="m_classify_title">尤物分类</h3>
  {% for line in tag_data %}
-    <div class="classify_tag">
-        <span class="classify_tag_name">{{line.tagTypeName}}:</span>
+    <div class="m_classify_tag">
         {% for item in line.tag_list %}
-            {% if item.tagId == tagId %}
-            <span class = "classify_tag_span classify_tag_active ">{{item.tagName}}</span>
-
-                {% else %}
-            <a href="/tagId={{ item.tagId }}/pageId=1"><span class="classify_tag_span">{{item.tagName}}</span></a>
-            {% endif %}
+            <a href="/tagId={{ item.tagId }}/pageId=1">{{item.tagName}}</a>
         {% endfor %}
     </div>
     {% endfor %}

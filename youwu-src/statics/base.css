@@ -486,3 +486,31 @@ img{
 
 /*------------------------------------ for m_classify.html -------------------------------------------*/
 
+.m_classify_title{
+    font-size: 1.2rem;
+    margin: 0.3rem ;
+
+}
+
+.m_classify_tag{
+    margin: 0.5rem auto ;
+    width: 100%;
+}
+
+.m_classify_tag >a {
+    display: inline-block;
+    border: 2px white solid;
+    padding: 0.1rem 0.2rem;
+    border-radius: 0.8em;
+    margin-left: 0.3rem;
+
+}
+
+/*------------------------------------ for m_classify_detail.html -------------------------------------------*/
+
+.m_classify_detail_title{
+
+    font-size: 1.2rem;
+    margin: 0.8rem auto;
+
+}

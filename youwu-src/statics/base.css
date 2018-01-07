@@ -458,7 +458,7 @@ img{
 
 }
 
-.m_album_star_intro > img{
+.m_album_star_intro > a >img{
     width: 30%;
 
 }
@@ -475,7 +475,7 @@ img{
     text-align: center;
 }
 .m_star_info > img{
-    width: 35%;
+    width: 30%;
 
 }
 

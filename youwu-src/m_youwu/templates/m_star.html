@@ -2,8 +2,18 @@
 {% block content %}
 
 <div class="m_star_info">
-    <img src="{{star_cover}}">
     <H2 class="m_star_title">{{star_name}}</H2>
+    <img src="{{star_cover}}">
+    <div class="m_star_des">
+            {% if star_threeD %} <p>三维：{{star_threeD}}</p> {% endif %}
+            {% if star_height %} <p>身高：{{star_height}} cm</p> {% endif %}
+            {% if star_weight %} <p>体重：{{star_weight}} kg</p> {% endif %}
+            {% if star_birthday %} <p>生日：{{star_birthday}}</p> {% endif %}
+            {% if star_birthPlace %} <p>所在地：{{star_birthPlace}}</p> {% endif %}
+            {% if star_description %} <p>描述：{{star_description}}</p> {% endif %}
+            {% if star_hobby %} <p>兴趣：{{star_hobby}}</p> {% endif %}
+
+    </div>
 
 </div>
 <H3 class="m_module_title" >尤物专辑</H3>

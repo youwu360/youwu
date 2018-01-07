@@ -36,7 +36,7 @@ def home_page(request,pageId):
 
     if is_mobile:
         return render(request, "m_home.html", locals())
-    else:
+    else
         return render(request, "home.html", locals())
 
 

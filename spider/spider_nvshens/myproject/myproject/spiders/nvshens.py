@@ -56,6 +56,8 @@ class NvshensSpider(Spider):
                     print("yield Request(url, callback=self.parse_tag_page)")
                     request = Request(url, callback=self.parse_tag_page)
                     yield request
+                else:
+                    print("nomatch url : " + url)
 
                 if self.nvshens_url_matcher.match_pattern_extract_page(url):
                     print("yield Request(url, callback=self.extract_url)")

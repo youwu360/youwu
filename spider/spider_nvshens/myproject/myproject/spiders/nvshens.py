@@ -23,6 +23,7 @@ class NvshensSpider(Spider):
     start_urls = [
         'https://www.nvshens.com/gallery/oumei/',
         'https://www.nvshens.com/gallery/xinggan/',
+        'https://www.nvshens.com/girl/22021/'
         ]
 
     url_all = {}
@@ -114,10 +115,12 @@ class NvshensSpider(Spider):
                                        '/div[@class="res_infobox clearfix"]'
                                        '/div[@class="infodiv"]'
                                        '/table/tr/td/text()').extract()
+
             girl_id = response.xpath('/html/body/div[@id="wrapper"]'
                                      '/div[@id="post"]/div[@class="entry_box"]'
                                      '/div[@class="res_infobox clearfix"]'
                                      '/input[@id="girlid"]/@value').extract()[0]
+
             girl_name = response.xpath('/html/body/div[@id="wrapper"]'
                                        '/div[@id="post"]/'
                                        'div[@class="entry_box"]/'
@@ -125,6 +128,7 @@ class NvshensSpider(Spider):
                                        '/div[@class="div_h1"]'
                                        '/h1[@style="font-size: 15px"]'
                                        '/text()').extract()[0]
+
             girl_cover = response.xpath('/html/body/div[@id="wrapper"]'
                                        '/div[@id="post"]'
                                        '/div[@class="entry_box"]'
@@ -132,10 +136,23 @@ class NvshensSpider(Spider):
                                        '/div[@class="infoleft_imgdiv"]'
                                        '/a[@class="imglink"]/img/@src'
                                        ).extract()[0]
-            girl_description = response.xpath('/html/body/div[@id="wrapper"]/div[@id="post"]/'
+
+            girl_description = None
+            try :
+                girl_description = response.xpath('/html/body/div[@id="wrapper"]/div[@id="post"]/' 
                     'div[@class="entry_box"]/div[@class="box_entry"]'
                     '/div[@class="box_entry_title"]/div[@class="infocontent"]/p/text()'
-                                              ).extract()[0]
+                    ).extract()[0]
+            except:
+                girl_description = response.xpath('/html/body/div[@id="wrapper"]/div[@id="post"]/'
+                    'div[@class="entry_box"]/div[@class="box_entry"]'
+                    '/div[@class="box_entry_title"]/div[@class="infocontent"]/text()'
+                    ).extract()[0]
+            finally:
+                if girl_description is None:
+                    girl_description = ""
+                else:
+                    girl_description = girl_description.strip()
 
             if girl_id is not None and girl_info is not None:
                 if girl_cover is not None:
@@ -183,13 +200,17 @@ class NvshensSpider(Spider):
                             album_cover['star_id'] = star_id
                             self.img_all[url] = True
                             yield album_cover
-        except:
+        except Exception as e:
+            print(e)
             failed_url = FailedURL()
             failed_url['url'] = cur_url
             failed_url['func'] = 'parse_star_page'
             yield failed_url
 
     def extract_url(self, response):
+        if False:
+            return
+
         linkExtractor = LinkExtractor()
         links = linkExtractor.extract_links(response)
         for link in links:

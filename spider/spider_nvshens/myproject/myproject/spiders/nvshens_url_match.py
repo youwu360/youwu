@@ -16,10 +16,10 @@ class NvshensURLMatcher():
             re.compile("^https://www\.nvshens\.com/article/\d+/")
 
         self.pattern_tag_page_gallery = \
-            re.compile("^https://www\.nvshens\.com/gallery/[a-zA-Z0-9]+/(\d+\.html)?$")
+            re.compile("^https://www\.nvshens\.com/gallery/([a-zA-Z0-9]+/)?(\d+\.html)?$")
 
         self.pattern_tag_page_tag = \
-            re.compile("^https://www\.nvshens\.com/tag/([a-zA-Z0-9]+/)?$")
+            re.compile("^https://www\.nvshens\.com/tag/([a-zA-Z0-9]+/)?(\d+\.html)?$")
 
     # https://www.nvshens.com/g/19340/
     # https://www.nvshens.com/g/24928/3.html
@@ -41,7 +41,7 @@ class NvshensURLMatcher():
         return self.pattern_domain.match(url)
 
     def match_pattern_extract_page(self, url):
-        return self.match_pattern_domain(url) and not self.match_pattern_article_page(url)
+        return self.match_pattern_domain(url) #and not self.match_pattern_article_page(url)
 
 
 if __name__ == '__main__':
@@ -56,4 +56,5 @@ if __name__ == '__main__':
     url = "https://www.nvshens.com/tag/adf/"
     print(matcher.match_pattern_tag_page(url))
 
-
+    url = "https://www.nvshens.com/tag/adf/2.html"
+    print(matcher.match_pattern_tag_page(url))

@@ -9,17 +9,18 @@ import scrapy
 
 
 class Info(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
     info = scrapy.Field()
-
-
-class ImageUrl(scrapy.Item):
-    image_url = scrapy.Field()
+    type = scrapy.Field()
 
 
 class PageUrl(scrapy.Item):
-    page_url = scrapy.Field()
+    url = scrapy.Field()
+    type = scrapy.Field()
+
+
+class NoMatchUrl(scrapy.Item):
+    url = scrapy.Field()
+    type = scrapy.Field()
 
 
 class TagPage(scrapy.Item):
@@ -28,20 +29,24 @@ class TagPage(scrapy.Item):
     tagTypeName = scrapy.Field()
     tagTypeID = scrapy.Field()
     albumIDList = scrapy.Field()
+    type = scrapy.Field()
 
 
 class AlbumImage(scrapy.Item):
     star_id = scrapy.Field()
     album_id = scrapy.Field()
     url = scrapy.Field()
+    type = scrapy.Field()
 
 
 class AlbumCover(scrapy.Item):
     star_id = scrapy.Field()
     album_id = scrapy.Field()
     url = scrapy.Field()
+    type = scrapy.Field()
 
 
 class FailedURL(scrapy.Item):
     url = scrapy.Field()
     func = scrapy.Field()
+    type = scrapy.Field()

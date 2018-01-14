@@ -4,74 +4,26 @@ import threading
 from scrapy.spider import Spider
 from scrapy.selector import Selector
 from scrapy.http import Request
-from ..items import Info, ImageUrl, PageUrl, TagPage, AlbumImage, AlbumCover, FailedURL
+from ..items import Info, NoMatchUrl, PageUrl, TagPage, AlbumImage, AlbumCover, FailedURL
 from urllib.parse import urljoin
 import time
 from ..ProxyScrapyer import ProxyScrapyer
 from .nvshens_url_match import NvshensURLMatcher
 from scrapy.linkextractors import LinkExtractor
 from urllib import parse
-import random
 
 
-class NvshensSpider(Spider):
-    nvshens_url_matcher = NvshensURLMatcher()
+class NvshensSpiderHelper(object):
 
-    name = 'nvshens'
-    domain = 'https://www.nvshens.com'
-    allowed_domains = ['nvshens.com']
-    start_urls = [
-        'https://www.nvshens.com/gallery/oumei/',
-        'https://www.nvshens.com/gallery/xinggan/',
-        'https://www.nvshens.com/girl/22021/'
-        ]
-
-    url_all = {}
-    img_all = {}
-
-    parse_album_page_on = True
-    parse_star_page_on = True
-    parse_tag_page_on = True
-
-    def parse(self, response):
-        page_url = PageUrl()
-        page_url['page_url'] = response.url
-        yield page_url
-
-        linkExtractor = LinkExtractor()
-        links = linkExtractor.extract_links(response)
-        for link in links:
-            url = link.url
-            print("==================== url : " + url)
-            if self.nvshens_url_matcher.match_pattern_domain(url):
-
-                if self.nvshens_url_matcher.match_pattern_star_page(url):
-                    print("yield Request(url, callback=self.parse_tag_page)")
-                    request = Request(url, callback=self.parse_star_page)
-                    yield request
-                elif self.nvshens_url_matcher.match_pattern_album_page(url):
-                    print("yield Request(url, callback=self.parse_album_page)")
-                    request = Request(url, callback=self.parse_album_page)
-                    yield request
-                elif self.nvshens_url_matcher.match_pattern_tag_page(url):
-                    print("yield Request(url, callback=self.parse_tag_page)")
-                    request = Request(url, callback=self.parse_tag_page)
-                    yield request
-                else:
-                    print("nomatch url : " + url)
-
-                if self.nvshens_url_matcher.match_pattern_extract_page(url):
-                    print("yield Request(url, callback=self.extract_url)")
-                    request = Request(url, callback=self.extract_url)
-                    yield request
+    nvshens_spider = None
 
     def parse_album_page(self, response):
-        if not self.parse_album_page_on:
+        if not self.nvshens_spider.parse_album_page_on:
             return
 
         print("in parse_album_page *******************")
         print("response.url" + response.url)
-        if not self.nvshens_url_matcher.match_pattern_album_page(response.url):
+        if not self.nvshens_spider.nvshens_url_matcher.match_pattern_album_page(response.url):
             print("response.url:" + response.url + " not match match_pattern_album_page")
             return
         print("response.url:" + response.url + " match match_pattern_album_page")
@@ -97,14 +49,16 @@ class NvshensSpider(Spider):
 
                     album_image['album_id'] = album_id
                     album_image['star_id'] = star_id
-                    self.img_all[url] = True
+                    album_image['type'] = "AlbumImage"
+                    self.nvshens_spider.img_all[url] = True
                     yield album_image
 
     def parse_star_page(self, response):
-        if not self.parse_star_page_on:
+        if not self.nvshens_spider.parse_star_page_on:
             return
         print("in parse_star_page *******************")
-        if not self.nvshens_url_matcher.match_pattern_star_page(response.url):
+        if not self.nvshens_spider.nvshens_url_matcher.\
+                match_pattern_star_page(response.url):
             return
         cur_url = response.url
 
@@ -173,6 +127,7 @@ class NvshensSpider(Spider):
 
                 info = Info()
                 info['info'] = girl_info
+                info['type'] = 'Info'
                 yield info
 
             xpaths = ['//@href', '//@src', '//@data-original']
@@ -180,7 +135,7 @@ class NvshensSpider(Spider):
                 page_response = response.xpath(xpath).extract()
                 for url in page_response:
                     if url.endswith('.jpg') or url.endswith('.png'):
-                        if url not in self.img_all:
+                        if url not in self.nvshens_spider.img_all:
                             album_cover = AlbumCover()
                             album_cover['url'] = url
                             arr = url.split(r'/')
@@ -198,33 +153,21 @@ class NvshensSpider(Spider):
 
                             album_cover['album_id'] = album_id
                             album_cover['star_id'] = star_id
-                            self.img_all[url] = True
+                            album_cover['type'] = "AlbumCover"
+                            self.nvshens_spider.img_all[url] = True
                             yield album_cover
         except Exception as e:
             print(e)
             failed_url = FailedURL()
             failed_url['url'] = cur_url
             failed_url['func'] = 'parse_star_page'
+            failed_url['type'] = 'FailedURL'
             yield failed_url
 
-    def extract_url(self, response):
-        if False:
-            return
-
-        linkExtractor = LinkExtractor()
-        links = linkExtractor.extract_links(response)
-        for link in links:
-            print("extract_url in for : " + link.url)
-            if self.nvshens_url_matcher.match_pattern_extract_page(link.url) and \
-                    link.url not in self.url_all:
-                self.url_all[link.url] = True
-                print("extract_url : " + link.url)
-                yield Request(link.url, callback=self.parse)
-
     def parse_tag_page(self, response):
-        if not self.parse_tag_page_on:
+        if not self.nvshens_spider.parse_tag_page_on:
             return
-        if not self.nvshens_url_matcher.match_pattern_tag_page(response.url):
+        if not self.nvshens_spider.nvshens_url_matcher.match_pattern_tag_page(response.url):
             return
 
         print("in parse_tag_page *******************")
@@ -255,6 +198,112 @@ class NvshensSpider(Spider):
         tag_page['tagName'] = tagNameChn
         tag_page['tagId'] = tagNameEng
         tag_page['albumIDList'] = albumIDList
+        tag_page['type'] = "TagPage"
         yield tag_page
+
+
+class NvshensSpider(Spider):
+    nvshens_url_matcher = NvshensURLMatcher()
+
+    name = 'nvshens'
+    domain = 'https://www.nvshens.com'
+    allowed_domains = ['nvshens.com']
+    start_urls = [
+        'https://www.nvshens.com/gallery/oumei/',
+        'https://www.nvshens.com/gallery/xinggan/',
+        'https://www.nvshens.com/girl/22021/'
+        ]
+
+    img_all = {}
+    url_all = {}
+    url_num_limit = 1000
+
+    parse_album_page_on = True
+    parse_star_page_on = True
+    parse_tag_page_on = True
+    extract_url_on = True
+
+    spider_helper = NvshensSpiderHelper()
+
+    def __init__(self):
+        super(Spider).__init__()
+        self.spider_helper.nvshens_spider = self
+
+    def parse(self, response):
+
+        if len(self.url_all) >= self.url_num_limit:
+            return
+
+        page_url = PageUrl()
+        page_url['url'] = response.url
+        page_url['type'] = "PageUrl"
+        yield page_url
+
+        url = response.url
+        if self.nvshens_url_matcher.match_pattern_domain(url):
+
+            if self.nvshens_url_matcher.match_pattern_star_page(url):
+                print("yield Request(url, callback=self.parse_tag_page)")
+                for v in  self.spider_helper.parse_star_page(response):
+                    yield v
+            elif self.nvshens_url_matcher.match_pattern_album_page(url):
+                print("yield Request(url, callback=self.parse_album_page)")
+                for v in self.spider_helper.parse_album_page(response):
+                    yield v
+            elif self.nvshens_url_matcher.match_pattern_tag_page(url):
+                print("yield Request(url, callback=self.parse_tag_page)")
+                for v in self.spider_helper.parse_tag_page(response):
+                    yield v
+            else:
+                no_match_url = NoMatchUrl()
+                no_match_url['url'] = url
+                no_match_url['type'] = "NoMatchUrl"
+                yield no_match_url
+
+            if self.nvshens_url_matcher.match_pattern_extract_page(url):
+                print("yield Request(url, callback=self.extract_url)")
+                if not self.extract_url_on:
+                    return
+
+                linkExtractor = LinkExtractor()
+                links = linkExtractor.extract_links(response)
+                for link in links:
+                    print("extract_url in for : " + link.url)
+                    if self.nvshens_url_matcher.match_pattern_extract_page(link.url) \
+                            and link.url not in self.url_all and \
+                            len(self.url_all) < self.url_num_limit:
+                        self.url_all[link.url] = True
+                        print("extract_url : " + link.url)
+                        yield Request(link.url, callback=self.parse)
+
+
+        # linkExtractor = LinkExtractor()
+        # links = linkExtractor.extract_links(response)
+        # for link in links:
+        #     url = link.url
+        #     print("==================== url : " + url)
+        #     if self.nvshens_url_matcher.match_pattern_domain(url):
+        #
+        #         if self.nvshens_url_matcher.match_pattern_star_page(url):
+        #             print("yield Request(url, callback=self.parse_tag_page)")
+        #             request = Request(url, callback=self.parse_star_page)
+        #             yield request
+        #         elif self.nvshens_url_matcher.match_pattern_album_page(url):
+        #             print("yield Request(url, callback=self.parse_album_page)")
+        #             request = Request(url, callback=self.parse_album_page)
+        #             yield request
+        #         elif self.nvshens_url_matcher.match_pattern_tag_page(url):
+        #             print("yield Request(url, callback=self.parse_tag_page)")
+        #             request = Request(url, callback=self.parse_tag_page)
+        #             yield request
+        #         else:
+        #             print("nomatch url : " + url)
+        #
+        #         if self.nvshens_url_matcher.match_pattern_extract_page(url):
+        #             print("yield Request(url, callback=self.extract_url)")
+        #             request = Request(url, callback=self.extract_url)
+        #             yield request
+
+
 
 

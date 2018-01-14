@@ -8,12 +8,13 @@ django.setup()
 import json
 import random
 
-from load_nvshens_helper import insert_star, parse_star, insert_album
+from load_nvshens_helper import insert_star, parse_star, insert_album, insert_tags
 
 path = os.path.dirname(os.path.realpath(__file__))
-items_json = os.path.join(path, "../youwu-resource/data/text/items.json")
+items_json = os.path.join(path,
+    "../spider/spider_nvshens/myproject/items.json")
 
-file_object = open(items_json, 'r', encoding="utf-8")
+file_read = open(items_json, 'r', encoding="utf-8")
 
 info_key = 'info'
 image_url_key = 'image_url'
@@ -37,7 +38,10 @@ starAlbum = {}
 starAlbumCover = {}
 albumToStar = {}
 
-noMatchUrl = []
+tag_id_to_name = {}
+tag_id_to_album = {}
+
+noMatchData = []
 
 
 def append_star_cover(star_id, url):
@@ -67,7 +71,7 @@ lineNumLimit = 20000000
 star_id_start= 22000
 star_id_end = 22200
 
-for line in file_object:
+for line in file_read:
 
     if lineNum <= lineNumLimit:
         lineNum += 1
@@ -79,7 +83,11 @@ for line in file_object:
     line = line.strip().strip(",")
     data = json.loads(line)
 
-    if info_key in data:
+    if 'type' not in data:
+        print("error : do not have type !  ---  ")
+        print(data)
+
+    if data['type'] == 'info':
         try:
             info = data[info_key]
             info = parse_star(info)
@@ -88,44 +96,40 @@ for line in file_object:
             starInfo[info['starId']] = info
         except:
             print("error in parse : " + json.dumps(data[info_key]))
-    elif image_url_key in data:
-        image_url = data[image_url_key]
-        if pattern_star_cover.match(image_url):
-            try:
-                star_id = re.search(r'(\d+)', image_url[re.search('girl', image_url).span()[1]:]).group()
-                if star_id is not None:
-                    append_star_cover(star_id, image_url)
-            except:
-                print("pattern_star_cover fail : " + image_url)
-        elif pattern_album_cover.match(image_url):
-            try:
-                gallary_search = re.search('gallery', image_url)
-                gallary_end = gallary_search.span()[1]
-                star_id_search = re.search(r'(\d+)', image_url[gallary_search.span()[1]:])
-                star_id = star_id_search.group()
-                album_id_search = re.search(r'(\d+)', image_url[gallary_end + star_id_search.span()[1]:])
-                album_id = album_id_search.group()
-                albumToStar[album_id] = star_id
-                append_album_cover(album_id, image_url)
-            except:
-                print("pattern_album_cover fail : " + image_url)
-        elif pattern_album_image.match(image_url):
-            try:
 
-                gallary_search = re.search('gallery', image_url)
-                gallary_end = gallary_search.span()[1]
-                star_id_search = re.search(r'(\d+)', image_url[gallary_search.span()[1]:])
-                star_id = star_id_search.group()
-                album_id_search = re.search(r'(\d+)', image_url[gallary_end + star_id_search.span()[1]:])
-                album_id = album_id_search.group()
+    # elif data['type'] == 'AlbumCover':
+    #     image_url = data['url']
+    #     if pattern_star_cover.match(image_url):
+    #         try:
+    #             star_id = re.search(r'(\d+)', image_url[re.search('girl', image_url).span()[1]:]).group()
+    #             if star_id is not None:
+    #                 append_star_cover(star_id, image_url)
+    #         except:
+    #             print("pattern_star_cover fail : " + image_url)
+    elif data['type'] == 'AlbumCover':
+        url = data['url']
+        star_id = data['star_id']
+        album_id = data['album_id']
+        albumToStar[album_id] = star_id
+        append_album_cover(album_id, url)
+    elif data['type'] == 'AlbumImage':
+        url = data['url']
+        star_id = data['star_id']
+        album_id = data['album_id']
+        albumToStar[album_id] = star_id
+        append_album(album_id, url)
+    elif data['type'] == 'TagPage':
+        tag_id = data['tagId']
+        tag_name = data['tagName']
+        album_id_list = data['albumIDList']
 
-                albumToStar[album_id] = star_id
-                append_album(album_id, image_url)
-            except:
-                print("pattern_album_image fail : " + image_url)
+        tag_id_to_name[tag_id] = tag_name
+        if tag_id in tag_id_to_album:
+            tag_id_to_album[tag_id] = tag_id_to_album[tag_id] + album_id_list
         else:
-            noMatchUrl.append(image_url)
-
+            tag_id_to_album[tag_id] = album_id_list
+    else:
+        noMatchData.append(data)
 
 for star_id in starInfo.keys():
     if int(star_id) > star_id_end or int(star_id) < star_id_start:
@@ -172,8 +176,20 @@ for album_id in starAlbum.keys():
     insert_album(album_info)
 
 
+for k in tag_id_to_name:
+    tag = {}
+    tagId = k
+    tagName = tag_id_to_name[tagId]
+    albumIDList = json.dumps(tag_id_to_album[tagId])
+
+    tag['tagId'] = tagId
+    tag['tagName'] = tagName
+    tag['albumIdList'] = albumIDList
+
+    insert_tags(tag)
+
 with open('noMatchUrl.json', 'w') as outfile:
-    json.dump(noMatchUrl, outfile)
+    json.dump(noMatchData, outfile)
 
 with open('starAlbumCover.json', 'w') as outfile:
     json.dump(starAlbumCover, outfile)

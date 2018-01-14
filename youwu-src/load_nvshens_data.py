@@ -66,10 +66,10 @@ def append(to, id, url):
         to[id].append(url)
 
 lineNum = 0
-lineNumLimit = 20000000
+lineNumLimit = 100
 
-star_id_start= 22000
-star_id_end = 22200
+star_id_start= 0
+star_id_end = 999999999999
 
 for line in file_read:
 
@@ -87,7 +87,7 @@ for line in file_read:
         print("error : do not have type !  ---  ")
         print(data)
 
-    if data['type'] == 'info':
+    if data['type'] == 'Info':
         try:
             info = data[info_key]
             info = parse_star(info)
@@ -97,15 +97,6 @@ for line in file_read:
         except:
             print("error in parse : " + json.dumps(data[info_key]))
 
-    # elif data['type'] == 'AlbumCover':
-    #     image_url = data['url']
-    #     if pattern_star_cover.match(image_url):
-    #         try:
-    #             star_id = re.search(r'(\d+)', image_url[re.search('girl', image_url).span()[1]:]).group()
-    #             if star_id is not None:
-    #                 append_star_cover(star_id, image_url)
-    #         except:
-    #             print("pattern_star_cover fail : " + image_url)
     elif data['type'] == 'AlbumCover':
         url = data['url']
         star_id = data['star_id']
@@ -137,12 +128,8 @@ for star_id in starInfo.keys():
     star_info = starInfo[star_id]
     star_info['cover'] = ''
     star_id_str = str(star_id)
-    if star_id_str in starCover:
-        star_info['cover'] = json.dumps(starCover[star_id_str])
-        print('star cover exists, starId : ' + str(star_id))
-    else:
-        print('star cover not exists, starId : ' + str(star_id))
     insert_star(star_info)
+
 
 for album_id in starAlbum.keys():
     star_id = 0
@@ -171,6 +158,7 @@ for album_id in starAlbum.keys():
         album_info['cover'] = json.dumps(starAlbumCover[album_id])
     else:
         print('album cover not exists, albumId : ' + str(album_id))
+
     album_info['imageListFile'] = album_path
     album_info['pictureCnt'] = len(starAlbum[album_id])
     insert_album(album_info)

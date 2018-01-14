@@ -111,7 +111,8 @@ class NvshensSpiderHelper(object):
             if girl_id is not None and girl_info is not None:
                 if girl_cover is not None:
                     girl_info.append('cover')
-                    girl_info.append(girl_cover)
+
+                    girl_info.append("{" + girl_cover + "}")
 
                 if girl_description is not None:
                     girl_info.append('description')
@@ -216,7 +217,7 @@ class NvshensSpider(Spider):
 
     img_all = {}
     url_all = {}
-    url_num_limit = 1000
+    url_num_limit = 99999999999999999
 
     parse_album_page_on = True
     parse_star_page_on = True
@@ -230,7 +231,7 @@ class NvshensSpider(Spider):
         self.spider_helper.nvshens_spider = self
 
     def parse(self, response):
-
+        self.url_all[response.url] = True
         if len(self.url_all) >= self.url_num_limit:
             return
 

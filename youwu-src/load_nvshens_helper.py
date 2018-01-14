@@ -18,12 +18,12 @@ def get_value_by_tag(line, tag):
 
 
 def parse_star(line):
-
     if type(line) is not list or len(line) < 5:
         return None
     info = {}
-    info['starId'] = int(line[-2])
-    info['name'] = line[-1]
+    info['starId'] = get_value_by_tag(line, 'starId')
+    info['name'] = get_value_by_tag(line, 'name')
+    info['cover'] = get_value_by_tag(line, 'cover')
     info['birthday'] = get_value_by_tag(line, '生 日：')
     info['threeD'] = get_value_by_tag(line, '三 围：')
     info['height'] = get_value_by_tag(line, '身 高：')
@@ -38,10 +38,13 @@ def parse_star(line):
     info['birthPlace'] = get_value_by_tag(line, '出 生：')
     info['description'] = get_value_by_tag(line, 'description')
     info['tag'] = get_value_by_tag(line, 'tag')
+
     return info
 
 
 def insert_star(info):
+    print("in insert_star !!!!! ")
+
     if info is None or type(info) is not dict or 'starId' not in info:
         print("insert star fail : " + json.dumps(info))
         return False
@@ -52,8 +55,9 @@ def insert_star(info):
             print("start delete star : starId:" + str(info['starId']))
             exists.delete()
             print("end delete star : starId:" + str(info['starId']))
-    except:
-        pass
+    except Exception as e:
+        print("try delete fail in insert_star")
+        print(e)
 
     try:
         Star.objects.create(
@@ -69,6 +73,7 @@ def insert_star(info):
             description = info['description'],
             tag = info['tag']
         )
+        print("insert_star success ！")
         return True
     except:
         print("insert error :" + str(info))
@@ -77,6 +82,7 @@ def insert_star(info):
 
 
 def insert_album(info):
+    print('in insert_album !!!! ')
     if info is None or type(info) is not dict or 'albumId' not in info:
         print("insert album fail " + json.dumps(info))
         return False
@@ -88,7 +94,7 @@ def insert_album(info):
             exists.delete()
             print("end delete album : starId:" + str(info['albumId']))
     except:
-        pass
+        print("try delete fail in insert_album")
 
     try:
         Album.objects.create(
@@ -98,6 +104,7 @@ def insert_album(info):
             imageListFile = info['imageListFile'],
             pictureCnt = info['pictureCnt'],
         )
+        print("insert_album success ！")
         return True
     except:
         print("insert error :" + str(info))
@@ -116,7 +123,7 @@ def insert_tags(tag):
             exists.delete()
             print("end delete tag : tagId:" + str(tag['tagId']))
     except:
-        pass
+        print("try delete fail in insert_tags")
 
     try:
         Tags.objects.create(
@@ -124,6 +131,7 @@ def insert_tags(tag):
             tagName = tag['tagName'],
             albumIdList = tag['albumIdList'],
         )
+        print("insert_tags success ！")
         return True
     except:
         print("insert error :" + str(tag))

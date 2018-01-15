@@ -178,7 +178,7 @@ class NvshensSpiderHelper(object):
         try:
             tagNameChn = response.xpath('/html/body/div[@id="wrapper"]/div[@id="post_rank"]'
                 '/div[@class="entry_box_arena"]/div[@class="box_entry"]'
-                '/div[@class="box_entry_title"]/div[@class="hot_tag"]/span[@id="stag"]/text()'
+                '/div[@class="tag_div"]/ul/li/a[@class="cur_tag_a"]/text()'
                                           ).extract()[0]
 
             tagNameEng =  parse.urlparse(current_url).path.split('/')[2]

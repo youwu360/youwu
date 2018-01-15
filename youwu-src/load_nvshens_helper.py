@@ -51,6 +51,8 @@ def insert_star(info):
 
     try:
         exists = Star.objects.get(starId=info['starId'])
+        print("star exists : ")
+        print(exists)
         if exists is not None:
             print("start delete star : starId:" + str(info['starId']))
             exists.delete()
@@ -89,6 +91,8 @@ def insert_album(info):
 
     try:
         exists = Album.objects.get(albumId=info['albumId'])
+        print("album exists : ")
+        print(exists)
         if exists is not None:
             print("start delete album : starId:" + str(info['albumId']))
             exists.delete()

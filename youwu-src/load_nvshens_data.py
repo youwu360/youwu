@@ -66,7 +66,7 @@ def append(to, id, url):
         to[id].append(url)
 
 lineNum = 0
-lineNumLimit = 100
+lineNumLimit = 110000000000
 
 star_id_start= 0
 star_id_end = 999999999999

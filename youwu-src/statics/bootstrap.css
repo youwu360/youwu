@@ -11,6 +11,7 @@ html {
 }
 body {
   margin: 0;
+
 }
 article,
 aside,
@@ -1082,11 +1083,17 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Microsoft Yahei', Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.42857143;
-  color: #333;
-  background-color: #fff;
+  color: #71767a;
+  background-color: #f7f8fa;
+  padding: 0;
+
+
+
+
+
 }
 input,
 button,
@@ -3985,7 +3992,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav > li > a {
   position: relative;
   display: block;
-  padding: 10px 15px;
+  padding: 0.5rem 2.5rem;
 }
 .nav > li > a:hover,
 .nav > li > a:focus {
@@ -4179,6 +4186,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 @media (min-width: 768px) {
   .navbar-header {
     float: left;
+
   }
 }
 .navbar-collapse {
@@ -4240,6 +4248,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   .container-fluid > .navbar-collapse {
     margin-right: 0;
     margin-left: 0;
+    padding-bottom: 0.4rem;
+    padding-top: 0.4rem;
   }
 }
 .navbar-static-top {
@@ -4275,10 +4285,9 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar-brand {
   float: left;
-  height: 50px;
-  padding: 15px 15px;
-  font-size: 18px;
-  line-height: 20px;
+  padding: 1rem 1rem;
+  font-size: 2rem;
+
 }
 .navbar-brand:hover,
 .navbar-brand:focus {
@@ -4326,9 +4335,9 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   margin: 7.5px -15px;
 }
 .navbar-nav > li > a {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  line-height: 20px;
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+  line-height: 2.5rem;
 }
 @media (max-width: 767px) {
   .navbar-nav .open .dropdown-menu {
@@ -4364,6 +4373,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   .navbar-nav > li > a {
     padding-top: 15px;
     padding-bottom: 15px;
+    font-size: 2rem;
   }
 }
 .navbar-form {
@@ -4497,6 +4507,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .navbar-default {
   background-color: #f8f8f8;
   border-color: #e7e7e7;
+
 }
 .navbar-default .navbar-brand {
   color: #777;

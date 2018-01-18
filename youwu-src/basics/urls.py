@@ -20,21 +20,20 @@ import site_youwu.urls
 import m_youwu.urls
 
 urlpatterns = [
+    url(r'^$', views.home_page),
     url(r'^index=([0-9]{1,})/$', views.home_page, name="home"),
     url(r'^site_youwu/', include(site_youwu.urls, namespace="site_youwu")),
     url(r'^m_youwu/', include(m_youwu.urls, namespace="m_youwu")),
-    url(r'^admin', admin.site.urls),
     url(r'^albumId=([0-9]{1,})/pageId=([0-9]{1,})/$', views.album_page, name='album'),
     url(r'^starId=([0-9]{1,})/pageId=([0-9]{1,})/$', views.star_page, name='star'),
     url(r'^tagId=([a-zA-Z]{1,})/pageId=([0-9]{1,})/$', views.classify_page, name='classify'),
     url(r'^tag/pageId=([0-9]{1,})/$', views.classify_page, name='classify_default'),
-    url(r'^$', views.home_page),
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/favicon.ico')),
     url(r'^fonts/glyphicons-halflings-regular\.woff2', RedirectView.as_view(url='/static/fonts/glyphicons-halflings-regular.woff2')),
     url(r'^fonts/glyphicons-halflings-regular\.woff', RedirectView.as_view(url='/static/fonts/glyphicons-halflings-regular.woff')),
     url(r'^fonts/glyphicons-halflings-regular\.ttf', RedirectView.as_view(url='/static/fonts/glyphicons-halflings-regular.ttf')),
     url(r'^fonts/glyphicons-halflings-regular\.svg', RedirectView.as_view(url='/static/fonts/glyphicons-halflings-regular.svg')),
-
+    url(r'^admin', admin.site.urls),
 ]
 
 

@@ -7,8 +7,13 @@ import time
 django.setup()
 import json
 import random
-
+from site_youwu.models import Star, Album, Tags
 from load_nvshens_helper import insert_star, parse_star, insert_album, insert_tags
+
+
+Star.objects.all().delete()
+Album.objects.all().delete()
+Tags.objects.all().delete()
 
 path = os.path.dirname(os.path.realpath(__file__))
 items_json = os.path.join(path,
@@ -66,7 +71,7 @@ def append(to, id, url):
         to[id].append(url)
 
 lineNum = 0
-lineNumLimit = 110000000000
+lineNumLimit = 11000000000
 
 star_id_start= 0
 star_id_end = 999999999999
@@ -123,10 +128,9 @@ for line in file_read:
         noMatchData.append(data)
 
 for star_id in starInfo.keys():
-    if int(star_id) > star_id_end or int(star_id) < star_id_start:
+    if star_id is None or int(star_id) > star_id_end or int(star_id) < star_id_start:
         continue
     star_info = starInfo[star_id]
-    star_info['cover'] = ''
     star_id_str = str(star_id)
     insert_star(star_info)
 

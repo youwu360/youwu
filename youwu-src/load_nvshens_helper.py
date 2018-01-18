@@ -23,7 +23,7 @@ def parse_star(line):
     info = {}
     info['starId'] = get_value_by_tag(line, 'starId')
     info['name'] = get_value_by_tag(line, 'name')
-    info['cover'] = get_value_by_tag(line, 'cover')
+    info['cover'] = json.dumps(get_value_by_tag(line, 'cover'))
     info['birthday'] = get_value_by_tag(line, '生 日：')
     info['threeD'] = get_value_by_tag(line, '三 围：')
     info['height'] = get_value_by_tag(line, '身 高：')
@@ -50,13 +50,8 @@ def insert_star(info):
         return False
 
     try:
-        exists = Star.objects.get(starId=info['starId'])
-        print("star exists : ")
-        print(exists)
-        if exists is not None:
-            print("start delete star : starId:" + str(info['starId']))
-            exists.delete()
-            print("end delete star : starId:" + str(info['starId']))
+        if Star.objects.filter(starId=info['starId']).exists():
+            Star.objects.get(starId=info['starId']).delete()
     except Exception as e:
         print("try delete fail in insert_star")
         print(e)
@@ -90,13 +85,8 @@ def insert_album(info):
         return False
 
     try:
-        exists = Album.objects.get(albumId=info['albumId'])
-        print("album exists : ")
-        print(exists)
-        if exists is not None:
-            print("start delete album : starId:" + str(info['albumId']))
-            exists.delete()
-            print("end delete album : starId:" + str(info['albumId']))
+        if Star.objects.filter(albumId=info['albumId']).exists():
+            Star.objects.get(albumId=info['albumId']).delete()
     except:
         print("try delete fail in insert_album")
 
@@ -121,11 +111,8 @@ def insert_tags(tag):
         return False
 
     try:
-        exists = Tags.objects.get(tagId=tag['tagId'])
-        if exists is not None:
-            print("start delete tag : tagId:" + str(tag['tagId']))
-            exists.delete()
-            print("end delete tag : tagId:" + str(tag['tagId']))
+        if Star.objects.filter(tagId=tag['tagId']).exists():
+            Star.objects.get(tagId=tag['tagId']).delete()
     except:
         print("try delete fail in insert_tags")
 

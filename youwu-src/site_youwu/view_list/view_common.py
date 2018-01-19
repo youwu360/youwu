@@ -104,20 +104,21 @@ def getAlbumPageUrl(ablumId):
 def recommend(x):
     # 生成一个随机数数组
     count_all = Album.objects.count()
+    print(count_all)
     recom_list = list()
     recom_list_length = 0
     re_count = x
+    albumId = []   # 最后的输出
     while recom_list_length < re_count:
-
-        rand = random.randint(1,count_all)
+        rand = random.randint(1, count_all)
         if rand not in recom_list:
+            try:
+                albumId.append(Album.objects.filter(id=rand).values("albumId")[0]["albumId"])
+            except:
+                continue
             recom_list.append(rand)
-        recom_list_length = len(recom_list)
-
-    albumId = []
-    for line in recom_list:
-        albumId.append(Album.objects.filter(id = line).values("albumId")[0]["albumId"])
-
+            recom_list_length = len(recom_list)
+    print(recom_list)
     return albumId
 
 
@@ -139,6 +140,7 @@ def getAlbumInfoById(albumId_set):
     temp_data = map(lambda x: Album.objects.filter(albumId=x).values("albumId", "name", "cover")[0], albumId_list)
     data = list()
     for a in temp_data:  # 增加url
+        print("aaa",a)
         a["cover"] = json.loads(a["cover"])[0]
         a["album_url"] = getAlbumPageUrl(a["albumId"])
         data.append(a)

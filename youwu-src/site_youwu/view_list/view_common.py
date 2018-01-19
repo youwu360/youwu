@@ -140,7 +140,6 @@ def getAlbumInfoById(albumId_set):
     temp_data = map(lambda x: Album.objects.filter(albumId=x).values("albumId", "name", "cover")[0], albumId_list)
     data = list()
     for a in temp_data:  # 增加url
-        print("aaa",a)
         a["cover"] = json.loads(a["cover"])[0]
         a["album_url"] = getAlbumPageUrl(a["albumId"])
         data.append(a)

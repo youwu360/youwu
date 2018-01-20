@@ -118,7 +118,7 @@ def recommend(x):
                 continue
             recom_list.append(rand)
             recom_list_length = len(recom_list)
-    print(recom_list)
+    #print(recom_list)
     return albumId
 
 def recom_albums(x):
@@ -126,7 +126,6 @@ def recom_albums(x):
     temp_data = map(lambda x: Album.objects.filter(albumId = x).values("albumId", "name", "cover")[0], albumId_list)
     recom_data = list()
     for a in temp_data:   # 增加url
-        print(a["cover"])
         a["cover"] = json.loads(a["cover"])[0]
         a["album_url"] = getAlbumPageUrl(a["albumId"])
         recom_data.append(a)
@@ -172,4 +171,3 @@ def is_mobile_check(request):
     return res
 
 
-print(get_image_list(21132,15268))

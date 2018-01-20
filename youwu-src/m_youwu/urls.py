@@ -2,6 +2,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from m_youwu import views
 
+
 urlpatterns = [
     url(r'^index=([0-9]{1,})/$', views.home_page,name='m_home'),
     url(r'^albumId=([0-9]{1,})/pageId=([0-9]{1,})/$', views.album_page, name='m_album'),
@@ -10,3 +11,5 @@ urlpatterns = [
     url(r'^tags/$', views.classify_page, name='m_classify_default'),
     url(r'^$', views.home_page),
 ]
+
+

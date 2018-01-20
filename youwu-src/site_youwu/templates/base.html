@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="{% static 'bootstrap.css' %}" type="text/css" />
     <link rel="stylesheet" href="{% static 'bootstrap-theme.css' %}" type="text/css" />
     <link rel="stylesheet" href="{% static 'base.css' %}" type="text/css" />
-
+    <link rel="stylesheet" href="{% static offcanvas.min.css %}"/>
     <!-- Bootstrap
         <link rel="stylesheet" href="/static/bootstrap.css" type="text/css" />
         <link rel="stylesheet" href="/static/bootstrap-theme.css" type="text/css" />
@@ -23,7 +23,7 @@
         <link rel="stylesheet" href="https://res.onvshen.com/style/site.css" type="text/css" />
      -->
 
-
+    <script src="/static/offcanvas.js"></script>
     <script src="/static/bootstrap.js" ></script>
     <script src="/static/npm.js"></script>
     <script src="/static/jquery-3.2.1.js"></script>
@@ -50,6 +50,16 @@
 
   {% endblock %}
 
+  <div class="footer">
+    <a onclick="returnTop()">回到顶部</a>
+        <script type="text/javascript">
+     function returnTop(){
+      $('body,html').animate({scrollTop:0},1000);
+      }
+    </script>
+
+    <span>本站所有资源来源于网友上传与分享，如有关内容侵犯了你的权益，请联系告之，我们会第一时间删除！邮箱:youwus5174@gmail.com</span>
+  </div>
 
   </body>
 </html>

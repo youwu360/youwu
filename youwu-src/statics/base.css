@@ -88,6 +88,31 @@ img{
 
 }
 
+.footer{
+    margin-top: 3rem;
+    text-align: center;
+    width: 100%;
+    font-size: 0.8rem;
+    padding-left: 10%;
+    padding-right: 10%;
+
+
+}
+
+.footer >a{
+    display: block;
+    padding: 0.5rem 0.5rem;
+    border:solid 1px #7d7d7d;
+    width: 20%;
+    margin: 1rem auto 1rem auto;
+    color: #71767a;
+}
+
+.footer >a :hover{
+    text-underline: none;
+    text-underline: none;
+}
+
 
 /*  ---------------------------------------for album.html ----------------------------------------------------  */
 
@@ -96,6 +121,7 @@ img{
     font-size: 12px;
     color: #666;
     margin: 5px auto 0px auto;
+
 
 }
 
@@ -331,10 +357,10 @@ img{
 
 .m_home_album_title{
     margin: 0.5rem 0 0.4rem 1px;
-    line-height: 0.8rem;
+    line-height: 1rem;
     font-size: 1rem;
     overflow: hidden;
-    height: 1.6rem;
+    height: 2rem;
     color: #333;
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -372,6 +398,7 @@ img{
     background: #409EFF;
     color: white;
     border: solid 1px #409EFF;
+    text-decoration: none;
 }
 
 .m_number_active{
@@ -390,34 +417,42 @@ img{
     border: solid 1px #409EFF;
     margin: 0 auto 0.5rem auto;
     width: 100%;
-    height: 2rem;
+    height: 2.5rem;
     border-radius: 0.2rem;
-    line-height: 2rem;
+    line-height: 2.5rem;
     align-items:center
+}
+
+.m_next_page:hover{
+    text-decoration: none;
+    color: white;
+
+
 }
 
 
 /*------------------------------------ for m_album.html -------------------------------------------*/
 .m_album_title{
-    font-size: 1rem;
-    line-height: 1rem;
-    height: 1rem;
-    margin: 0 0.2rem 0.1rem 0.2rem;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    height: 2rem;
+    margin: 0 0.5rem 0.1rem 0.5rem;
     width: 100%;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
     overflow: hidden;
-    align-items:center
+    align-items:center;
 
 }
 .m_album_des{
-    margin: 0 0.2rem 0.1rem 0.2rem;
+    margin: 0 0.5rem 0.1rem 0.5rem;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
     overflow: hidden;
-    align-items:center
+    align-items:center;
+    font-size: 1rem;
 }
 
 .m_album_pic{
@@ -445,7 +480,7 @@ img{
 .m_module_title{
     margin: 0.2rem auto 0.5rem 0.4rem;
     line-height: 1.5rem;
-    font-size: 0.8rem;
+    font-size: 1.5rem;
 }
 
 
@@ -542,4 +577,95 @@ img{
     display: inline-block;
     width: 100%;
     height: 100%;
+}
+
+
+/*------------- for m_side_bar -------------*/
+.m_side_bar_left{
+
+    position: absolute;
+    left:0;
+    top: 0;
+    width: 60%;
+    height: 100%;
+    z-index:1 ;
+    background-image: -webkit-linear-gradient(top, #fff 0%, #f8f8f8 100%);
+    background-image: -o-linear-gradient(top, #fff 0%, #f8f8f8 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#f8f8f8));
+    background-image: linear-gradient(#fff, #f8f8f8);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff8f8f8', GradientType=0);
+    filter: progid: DXImageTransform.Microsoft.gradient(enabled = false);
+    background-repeat: repeat-x;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .15), 0 1px 5px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .15), 0 1px 5px rgba(0, 0, 0, .075);
+    display: none;
+
+}
+
+.m_side_bar_right{
+    position: absolute;
+    right:0;
+    top: 0;
+    width: 40%;
+    height: 100%;
+    background: black ;
+    z-index: 1;
+    filter:alpha(Opacity=70);
+    -moz-opacity:0.5;
+    opacity: 0.5;
+    display: none;
+
+}
+
+.m_side_bar_title{
+    display: inline-block;
+    font-size: x-large;
+    margin-left: 2rem;
+    margin-top: 3rem;
+
+}
+
+.m_side_bar_icon{
+    display: inline-block;
+    float: right;
+    margin-right: 1rem;
+    margin-top: 2rem;
+
+}
+
+.m_side_bar_item{
+    margin-top: 2rem;
+    margin-left:0px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+}
+
+
+.m_side_bar_item >li {
+    display: block;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-top:1px solid #e5e5e5;
+    list-style-type:none;
+    margin: 0;
+    padding-left: 0;
+}
+
+.m_side_bar_item >li>a {
+    display: block;
+    padding-left: 1.5rem;
+    width: 100%;
+    height: 100%;
+
+}
+
+.m_side_bar_item >li>a:hover{
+    text-decoration: none;
+}
+
+.not_scroll {
+    overflow-x:hidden;
+    overflow-y:hidden;
 }

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import threading
 
-from scrapy.spider import Spider
+from scrapy.spiders import Spider
 from scrapy.selector import Selector
 from scrapy.http import Request
 from ..items import Info, NoMatchUrl, PageUrl, TagPage, AlbumImage, AlbumCover, FailedURL, AlbumInfo
@@ -278,7 +278,7 @@ class NvshensSpider(Spider):
     img_all = {}
     url_all = {}
     url_num_limit = 99999999999999999
-    url_num_limit = 200
+    url_num_limit = 5000
 
     spider_helper = NvshensSpiderHelper()
     extract_url_on = True

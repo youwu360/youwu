@@ -256,7 +256,7 @@ class NvshensSpiderHelper(object):
         tag_page['tagName'] = tagNameChn
         tag_page['tagId'] = tagNameEng
         tag_page['IDList'] = starIDList
-        tag_page['tagTypeID'] = 'Star'
+        tag_page['tagTypeId'] = 'Star'
         tag_page['type'] = "TagPage"
         yield tag_page
 

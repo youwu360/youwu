@@ -4,7 +4,7 @@ set -e
 cd $(dirname $0)
 path=$(pwd)
 
-cd $path/../spider/spider_nvshens/myproject/myproject/
+cd $path/../spider/spider_nvshens/myproject/
 
 if [ -f items.json ]
 then

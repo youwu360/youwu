@@ -226,7 +226,7 @@ class NvshensSpiderHelper(object):
         tag_page['tagName'] = tagNameChn
         tag_page['tagId'] = tagNameEng
         tag_page['IDList'] = albumIDList
-        tag_page['tagTypeID'] = 'Album'
+        tag_page['tagTypeId'] = 'Album'
         tag_page['type'] = "TagPage"
         yield tag_page
 
@@ -278,7 +278,7 @@ class NvshensSpider(Spider):
     img_all = {}
     url_all = {}
     url_num_limit = 99999999999999999
-    url_num_limit = 2000
+    url_num_limit = 200
 
     spider_helper = NvshensSpiderHelper()
     extract_url_on = True

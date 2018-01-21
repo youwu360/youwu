@@ -4,6 +4,7 @@ cd $(dirname $0)
 path=$(pwd)
 
 cd $path/../spider/spider_nvshens/myproject/myproject/
+rm items.json
 scrapy crawl nvshens -o items.json -t json
 
 cd $path

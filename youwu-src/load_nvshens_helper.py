@@ -92,11 +92,16 @@ def insert_album(info):
 
     try:
         Album.objects.create(
-            starId = info['starId'],
-            albumId = info['albumId'],
-            cover = info['cover'],
-            imageListFile = info['imageListFile'],
-            pictureCnt = info['pictureCnt'],
+            starId=info['starId'],
+            albumId=info['albumId'],
+            cover=info['cover'],
+            imageListFile=info['imageListFile'],
+            pictureCnt=info['pictureCnt'],
+            company=info['company'],
+            Description=info['Description'],
+            Name=info['Name'],
+            publishDate=info['publishDate'],
+            Tag=info['Tag'],
         )
         print("insert_album success ！")
         return True

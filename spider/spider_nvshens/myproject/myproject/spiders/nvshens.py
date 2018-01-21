@@ -4,13 +4,14 @@ import threading
 from scrapy.spider import Spider
 from scrapy.selector import Selector
 from scrapy.http import Request
-from ..items import Info, NoMatchUrl, PageUrl, TagPage, AlbumImage, AlbumCover, FailedURL
+from ..items import Info, NoMatchUrl, PageUrl, TagPage, AlbumImage, AlbumCover, FailedURL, AlbumInfo
 from urllib.parse import urljoin
 import time
 from ..ProxyScrapyer import ProxyScrapyer
 from .nvshens_url_match import NvshensURLMatcher
 from scrapy.linkextractors import LinkExtractor
 from urllib import parse
+import re
 
 
 class NvshensSpiderHelper(object):
@@ -28,6 +29,7 @@ class NvshensSpiderHelper(object):
             return
         print("response.url:" + response.url + " match match_pattern_album_page")
 
+        album_id = None
         response = Selector(response)
         xpaths = ['//@href', '//@src', '//@data-original']
         for xpath in xpaths:
@@ -52,6 +54,26 @@ class NvshensSpiderHelper(object):
                     album_image['type'] = "AlbumImage"
                     self.nvshens_spider.img_all[url] = True
                     yield album_image
+
+        if album_id is not None:
+            try:
+                album_name = response.xpath('/html/body/div[2]/h1[@id="htilte"]/text()').extract()
+                album_desc = response.xpath('//*[@id="ddesc"]/text()').extract()
+                info = response.xpath('//*[@id="dinfo"]/text()').extract()[1]
+                publish_date = re.findall("\d{4}\/\d{1,2}\/\d{1,2}", info)[0]
+                view_count = re.findall("\d+", re.findall("了 \d+ 次", info)[0])[0]
+                company = ""
+
+                album_info = AlbumInfo()
+                album_info['album_name'] = album_name
+                album_info['publish_date'] = publish_date
+                album_info['description'] = album_desc
+                album_info['company'] = company
+                album_info['type'] = AlbumInfo
+                album_info['album_id'] = album_id
+                yield album_info
+            except Exception as e:
+                print(e)
 
     def parse_star_page(self, response):
         if not self.nvshens_spider.parse_star_page_on:
@@ -131,11 +153,24 @@ class NvshensSpiderHelper(object):
                 info['info'] = girl_info
                 info['type'] = 'Info'
                 yield info
+        except Exception as e:
+            print(e)
+            failed_url = FailedURL()
+            failed_url['url'] = cur_url
+            failed_url['func'] = 'parse_star_page'
+            failed_url['type'] = 'FailedURL'
+            yield failed_url
 
+    def parse_star_album_list_page(self, response):
+        if not self.nvshens_spider.parse_star_album_list_page_on:
+            return
+
+        try:
             xpaths = ['//@href', '//@src', '//@data-original']
             for xpath in xpaths:
                 page_response = response.xpath(xpath).extract()
                 for url in page_response:
+                    print(url)
                     if url.endswith('.jpg') or url.endswith('.png'):
                         if url not in self.nvshens_spider.img_all:
                             album_cover = AlbumCover()
@@ -161,8 +196,8 @@ class NvshensSpiderHelper(object):
         except Exception as e:
             print(e)
             failed_url = FailedURL()
-            failed_url['url'] = cur_url
-            failed_url['func'] = 'parse_star_page'
+            failed_url['url'] = response.url
+            failed_url['func'] = 'parse_star_album_list_page'
             failed_url['type'] = 'FailedURL'
             yield failed_url
 
@@ -211,19 +246,24 @@ class NvshensSpider(Spider):
     domain = 'https://www.nvshens.com'
     allowed_domains = ['nvshens.com']
     start_urls = [
-        'https://www.nvshens.com/girl/22021/',
+        'https://www.nvshens.com/girl/21132/album/',
         'https://www.nvshens.com/gallery/oumei/',
         'https://www.nvshens.com/gallery/xinggan/',
+        'https://www.nvshens.com/girl/21132/'
         ]
+
+    # 'https://www.nvshens.com/gallery/oumei/',
+    # 'https://www.nvshens.com/gallery/xinggan/', 'https://www.nvshens.com/girl/21132/',
 
     img_all = {}
     url_all = {}
     url_num_limit = 99999999999999999
-    # url_num_limit = 500
+    # url_num_limit = 2000
 
     parse_album_page_on = True
     parse_star_page_on = True
     parse_tag_page_on = True
+    parse_star_album_list_page_on = True
     extract_url_on = True
 
     spider_helper = NvshensSpiderHelper()
@@ -244,10 +284,13 @@ class NvshensSpider(Spider):
 
         url = response.url
         if self.nvshens_url_matcher.match_pattern_domain(url):
-
             if self.nvshens_url_matcher.match_pattern_star_page(url):
                 print("yield Request(url, callback=self.parse_tag_page)")
-                for v in  self.spider_helper.parse_star_page(response):
+                for v in self.spider_helper.parse_star_page(response):
+                    yield v
+            elif self.nvshens_url_matcher.match_pattern_star_album_list_page(url):
+                print("yield Request(url, callback=self.parse_star_album_list_page)")
+                for v in self.spider_helper.parse_star_album_list_page(response):
                     yield v
             elif self.nvshens_url_matcher.match_pattern_album_page(url):
                 print("yield Request(url, callback=self.parse_album_page)")

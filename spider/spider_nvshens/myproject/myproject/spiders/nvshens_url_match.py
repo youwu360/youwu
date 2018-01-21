@@ -40,9 +40,11 @@ class NvshensURLMatcher():
     def match_pattern_star_page(self, url):
         return self.pattern_star_page.match(url)
 
-    def match_pattern_tag_page(self, url):
-        return self.pattern_tag_page_gallery.match(url) or \
-                self.pattern_tag_page_tag.match(url)
+    def match_pattern_tag_star_page(self, url):
+        return self.pattern_tag_page_tag.match(url)
+
+    def match_pattern_tag_album_page(self, url):
+        return self.pattern_tag_page_gallery.match(url)
 
     def match_pattern_domain(self, url):
         return self.pattern_domain.match(url)
@@ -55,16 +57,16 @@ if __name__ == '__main__':
     matcher = NvshensURLMatcher()
     url = "https://www.nvshens.com/g/22808/"
     url = "https://www.nvshens.com/gallery/qizhi/"
-    print(matcher.match_pattern_tag_page(url))
+    print(matcher.match_pattern_tag_album_page(url))
 
     url = "https://www.nvshens.com/girl/25401/"
     print(matcher.match_pattern_star_page(url))
 
     url = "https://www.nvshens.com/tag/adf/"
-    print(matcher.match_pattern_tag_page(url))
+    print(matcher.match_pattern_tag_star_page(url))
 
     url = "https://www.nvshens.com/tag/adf/2.html"
-    print(matcher.match_pattern_tag_page(url))
+    print(matcher.match_pattern_tag_star_page(url))
 
     url = "https://www.nvshens.com/girl/21132/album/"
     print(matcher.match_pattern_star_album_list_page(url))

@@ -44,8 +44,10 @@ starAlbum = {}
 starAlbumCover = {}
 albumToStar = {}
 
-tag_id_to_name = {}
-tag_id_to_album = {}
+album_tag_id_to_name = {}
+album_tag_id_to_list = {}
+star_tag_id_to_name = {}
+star_tag_id_to_list = {}
 
 noMatchData = []
 
@@ -119,16 +121,26 @@ for line in file_read:
         album_id = data['album_id']
         albumToStar[album_id] = star_id
         append_album(album_id, url)
-    elif data['type'] == 'TagPage':
+    elif data['type'] == 'TagPage' and data['tagTypeID'] == 'Album':
         tag_id = data['tagId']
         tag_name = data['tagName']
-        album_id_list = data['albumIDList']
+        id_list = data['IDList']
 
-        tag_id_to_name[tag_id] = tag_name
-        if tag_id in tag_id_to_album:
-            tag_id_to_album[tag_id] = tag_id_to_album[tag_id] + album_id_list
+        album_tag_id_to_name[tag_id] = tag_name
+        if tag_id in album_tag_id_to_list:
+            album_tag_id_to_list[tag_id] = album_tag_id_to_list[tag_id] + id_list
         else:
-            tag_id_to_album[tag_id] = album_id_list
+            album_tag_id_to_list[tag_id] = id_list
+    elif data['type'] == 'TagPage' and data['tagTypeID'] == 'Star':
+        tag_id = data['tagId']
+        tag_name = data['tagName']
+        id_list = data['IDList']
+
+        star_tag_id_to_name[tag_id] = tag_name
+        if tag_id in star_tag_id_to_list:
+            star_tag_id_to_list[tag_id] = star_tag_id_to_list[tag_id] + id_list
+        else:
+            star_tag_id_to_list[tag_id] = id_list
     elif data['type'] == "AlbumInfo":
         album_id = data['album_id']
         append_album_info(album_id, data['album_id'])
@@ -182,17 +194,30 @@ for album_id in starAlbum.keys():
     insert_album(album_info)
 
 
-for k in tag_id_to_name:
+for k in album_tag_id_to_name:
     tag = {}
     tagId = k
-    tagName = tag_id_to_name[tagId]
-    albumIDList = json.dumps(tag_id_to_album[tagId])
+    tagName = album_tag_id_to_name[tagId]
+    IDList = json.dumps(album_tag_id_to_list[tagId])
 
     tag['tagId'] = tagId
     tag['tagName'] = tagName
-    tag['albumIdList'] = albumIDList
-
+    tag['IdList'] = IDList
+    tag['tagTypeID'] = 'Album'
     insert_tags(tag)
+
+for k in star_tag_id_to_name:
+    tag = {}
+    tagId = k
+    tagName = star_tag_id_to_name[tagId]
+    IDList = json.dumps(star_tag_id_to_list[tagId])
+
+    tag['tagId'] = tagId
+    tag['tagName'] = tagName
+    tag['IdList'] = IDList
+    tag['tagTypeID'] = 'Star'
+    insert_tags(tag)
+
 
 with open('noMatchUrl.json', 'w') as outfile:
     json.dump(noMatchData, outfile)

@@ -120,12 +120,12 @@ def insert_tags(tag):
             Star.objects.get(tagId=tag['tagId']).delete()
     except:
         print("try delete fail in insert_tags")
-
     try:
         Tags.objects.create(
-            tagId = tag['tagId'],
-            tagName = tag['tagName'],
-            albumIdList = tag['albumIdList'],
+            tagId=tag['tagId'],
+            tagName=tag['tagName'],
+            IDList=tag['IDList'],
+            tagTypeID=tag['tagTypeID'],
         )
         print("insert_tags success ！")
         return True

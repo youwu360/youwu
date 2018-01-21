@@ -28,7 +28,7 @@ class TagPage(scrapy.Item):
     tagId = scrapy.Field()
     tagTypeName = scrapy.Field()
     tagTypeID = scrapy.Field()
-    albumIDList = scrapy.Field()
+    IDList = scrapy.Field()
     type = scrapy.Field()
 
 

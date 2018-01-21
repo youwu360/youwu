@@ -19,8 +19,6 @@ class NvshensSpiderHelper(object):
     nvshens_spider = None
 
     def parse_album_page(self, response):
-        if not self.nvshens_spider.parse_album_page_on:
-            return
 
         print("in parse_album_page *******************")
         print("response.url" + response.url)
@@ -76,8 +74,6 @@ class NvshensSpiderHelper(object):
                 print(e)
 
     def parse_star_page(self, response):
-        if not self.nvshens_spider.parse_star_page_on:
-            return
         print("in parse_star_page *******************")
         if not self.nvshens_spider.nvshens_url_matcher.\
                 match_pattern_star_page(response.url):
@@ -162,9 +158,6 @@ class NvshensSpiderHelper(object):
             yield failed_url
 
     def parse_star_album_list_page(self, response):
-        if not self.nvshens_spider.parse_star_album_list_page_on:
-            return
-
         try:
             xpaths = ['//@href', '//@src', '//@data-original']
             for xpath in xpaths:
@@ -201,13 +194,11 @@ class NvshensSpiderHelper(object):
             failed_url['type'] = 'FailedURL'
             yield failed_url
 
-    def parse_tag_page(self, response):
-        if not self.nvshens_spider.parse_tag_page_on:
-            return
-        if not self.nvshens_spider.nvshens_url_matcher.match_pattern_tag_page(response.url):
+    def parse_album_tag_page(self, response):
+        if not self.nvshens_spider.nvshens_url_matcher.match_pattern_tag_album_page(response.url):
             return
 
-        print("in parse_tag_page *******************")
+        print("in parse_album_tag_page *******************")
         current_url = response.url
         response = Selector(response)
 
@@ -234,7 +225,38 @@ class NvshensSpiderHelper(object):
         tag_page = TagPage()
         tag_page['tagName'] = tagNameChn
         tag_page['tagId'] = tagNameEng
-        tag_page['albumIDList'] = albumIDList
+        tag_page['IDList'] = albumIDList
+        tag_page['tagTypeID'] = 'Album'
+        tag_page['type'] = "TagPage"
+        yield tag_page
+
+    def parse_star_tag_page(self, response):
+        if not self.nvshens_spider.nvshens_url_matcher.match_pattern_tag_star_page(response.url):
+            return
+
+        print("in parse_star_tag_page *******************")
+        current_url = response.url
+        response = Selector(response)
+
+        try:
+            tagNameChn = response.xpath('//*[@id="post_rank"]/div/div/div/ul/li'
+                                        '/a[@class="cur_tag_a"]/text()').extract()[0]
+            tagNameEng = parse.urlparse(current_url).path.split('/')[2]
+            starURLs = response.xpath('//*[@id="listdiv"]/ul/li/div/a/@href').extract()
+        except:
+            print('!!!!! error in processing page : ' + current_url)
+            return
+
+        starIDList = []
+        for starURL in starURLs:
+            starId = starURL.split('/')[2]
+            starIDList.append(int(starId))
+
+        tag_page = TagPage()
+        tag_page['tagName'] = tagNameChn
+        tag_page['tagId'] = tagNameEng
+        tag_page['IDList'] = starIDList
+        tag_page['tagTypeID'] = 'Star'
         tag_page['type'] = "TagPage"
         yield tag_page
 
@@ -252,21 +274,13 @@ class NvshensSpider(Spider):
         'https://www.nvshens.com/girl/21132/'
         ]
 
-    # 'https://www.nvshens.com/gallery/oumei/',
-    # 'https://www.nvshens.com/gallery/xinggan/', 'https://www.nvshens.com/girl/21132/',
-
     img_all = {}
     url_all = {}
     url_num_limit = 99999999999999999
-    # url_num_limit = 2000
-
-    parse_album_page_on = True
-    parse_star_page_on = True
-    parse_tag_page_on = True
-    parse_star_album_list_page_on = True
-    extract_url_on = True
+    url_num_limit = 2000
 
     spider_helper = NvshensSpiderHelper()
+    extract_url_on = True
 
     def __init__(self):
         super(Spider).__init__()
@@ -296,9 +310,13 @@ class NvshensSpider(Spider):
                 print("yield Request(url, callback=self.parse_album_page)")
                 for v in self.spider_helper.parse_album_page(response):
                     yield v
-            elif self.nvshens_url_matcher.match_pattern_tag_page(url):
-                print("yield Request(url, callback=self.parse_tag_page)")
-                for v in self.spider_helper.parse_tag_page(response):
+            elif self.nvshens_url_matcher.match_pattern_tag_album_page(url):
+                print("yield Request(url, callback=self.parse_album_tag_page)")
+                for v in self.spider_helper.parse_album_tag_page(response):
+                    yield v
+            elif self.nvshens_url_matcher.match_pattern_tag_star_page(url):
+                print("yield Request(url, callback=self.parse_star_tag_page)")
+                for v in self.spider_helper.parse_star_tag_page(response):
                     yield v
             else:
                 no_match_url = NoMatchUrl()
@@ -311,8 +329,8 @@ class NvshensSpider(Spider):
                 if not self.extract_url_on:
                     return
 
-                linkExtractor = LinkExtractor()
-                links = linkExtractor.extract_links(response)
+                link_extractor = LinkExtractor()
+                links = link_extractor.extract_links(response)
                 for link in links:
                     print("extract_url in for : " + link.url)
                     if self.nvshens_url_matcher.match_pattern_extract_page(link.url) \
@@ -321,6 +339,3 @@ class NvshensSpider(Spider):
                         self.url_all[link.url] = True
                         print("extract_url : " + link.url)
                         yield Request(link.url, callback=self.parse)
-
-
-

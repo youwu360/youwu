@@ -69,8 +69,8 @@ class NvshensSpiderHelper(object):
                 album_info['publish_date'] = publish_date
                 album_info['description'] = album_desc
                 album_info['company'] = company
-                album_info['type'] = AlbumInfo
                 album_info['album_id'] = album_id
+                album_info['type'] = 'AlbumInfo'
                 yield album_info
             except Exception as e:
                 print(e)

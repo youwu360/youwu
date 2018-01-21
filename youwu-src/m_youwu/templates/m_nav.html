@@ -1,16 +1,17 @@
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button id="side_bar_bottom" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+    <div class="navbar-header center" >
+
+      <a class="m_nav_title" href="{% url 'home' 1 %}">尤物丝</a>
+    </div>
+
+          <button id="side_bar_bottom" type="button" class="navbar-toggle collapsed m_nav_posi" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand " href="{% url 'home' 1 %}">尤物丝</a>
-    </div>
-
 
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
@@ -32,7 +33,6 @@
 
   <ul class="m_side_bar_item">
     <li><a href="{% url 'home' 1 %}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;首页</a></li>
-
     <li><a href="{% url 'classify_default' 1 %}"><span class="glyphicon glyphicon-th" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;专辑分类</a></li>
   </ul>
 

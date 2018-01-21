@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -129,6 +128,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = ( 
 	 os.path.join(BASE_DIR,"statics"),
 )
+STATIC_ROOT = os.path.join(BASE_DIR, "static-col/")
+
+
 
 ROOT_HOSTCONF = 'basics.hosts'  # Change `mysite` to the name of your project
 DEFAULT_HOST = 'www'  # Name of the default host, we will create it in the next steps

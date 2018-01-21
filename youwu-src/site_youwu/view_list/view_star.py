@@ -60,6 +60,10 @@ def star_page(request,starId,pageId):
     # 推荐图册
     recom_data = recom_albums(re_com_cnt)
 
+    # seo_info
+    title = star_name + "_尤物丝"
+    keywords = star_name + "," + "写真"
+    description = star_description
 
     if  is_mobile:
         return render(request, "m_star.html", locals())

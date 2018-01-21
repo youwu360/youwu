@@ -1,0 +1,516 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f7f8fa;
+    font-family: "Microsoft YaHei";
+
+
+
+}
+
+
+
+
+.group {
+    float: left;
+    position: relative;
+    margin: 0 20px 22px 0;
+    width: 250px;
+    border: 1px #eeeff2 solid;
+    border-top: none;
+    border-radius: 0 0 3px 3px;
+    background: #fff;
+    overflow: hidden;
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    transition: all 0.2s;
+}
+
+.photo {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+
+
+
+img{
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+
+.des_info_issue {
+    position: absolute;
+    z-index: 2;
+    left: 2%;
+    bottom: -35px;
+    height: 80px;
+    width: 96%;
+    color: white;
+    transition: 0.2s ease-out;
+    overflow:hidden;
+
+}
+
+
+.des_info_issue a:hover{
+    color: white;
+    text-decoration: none;
+
+
+}
+
+
+.text {
+    position: absolute;
+    color:white;
+    background-color:rgba(255,255,255,0.2) ;
+    font-size: 13px;
+
+
+}
+
+
+.shadow{
+    position: absolute;
+    content: "";
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 65px;
+    background: black;
+    background: rgba(0, 0, 0, 0.6);
+    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.6)), to(rgba(0, 0, 0, 0.6)));
+    background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.6) 100%);
+    background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 100%);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 30%,rgba(0, 0, 0, 0.6) 100%);
+    text-shadow: 0px 0px 1px #000;
+
+}
+
+/*  ---------------------------------------for album.html ----------------------------------------------------  */
+
+
+.album_des{
+    font-size: 12px;
+    color: #666;
+    margin: 5px auto 0px auto;
+
+}
+
+
+.thread{
+    width: 1102px;
+    margin: 1px auto 20px auto;
+    background: #fff;
+    border: 1px #eeeff2 solid;
+
+
+}
+
+.album_img{
+    display:block;
+    margin: 0 auto 20px auto;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+
+}
+
+.star_box_title{
+    font-size: 12px;
+    line-height: 12px;
+    color: #333;
+    text-align: left;
+    font-weight: normal;
+    margin: 20px 30px 10px 30px;
+}
+
+.album_star_box{
+    margin: 10px 30px ;
+    background: #fff;
+    border: 1px #eeeff2 solid;
+    height: 250px;
+
+}
+
+
+.album_star_img{
+    padding: 20px ;
+    height: 95%;
+    float: left;
+}
+
+.star_info_box {
+    margin: 30px 0 auto 20px;
+    width: 85%;
+    height: auto;
+}
+
+.recommend{
+
+    margin: 10px 30px ;
+    background: #fff;
+    border: 1px #eeeff2 solid;
+    height: 670px;
+
+}
+
+.recommend_inside{
+    margin: 25px;
+    width: 100%;
+    height: 100%;
+
+}
+
+
+
+/*--------------------------------for star.html ---------------------------------------*/
+.star_page_info_box{
+    margin: 20px auto 20px 20px;
+    font-family: "Microsoft YaHei";
+
+
+
+}
+
+.star_page_name{
+    font-size: 20px;
+
+}
+.star_page_star_pic{
+    float: left;
+    width: 15%
+
+
+}
+.star_page_star_info{
+    margin: 0 auto 20px 180px;
+
+}
+
+.star_page_album_box_title{
+    margin: 30px 20px 20px 20px;
+    border-top: 1px #eeeff2 solid;
+
+
+}
+
+.star_page_albums{
+    margin: 20px auto 0 20px;
+
+}
+
+.star_page_recom_box{
+
+    width: 1200px;
+    text-align: center;
+    margin:0 auto;
+
+
+}
+
+
+/*--------------------------------for common_show_album.html ---------------------------------------*/
+
+.com_album_group {
+    float: left;
+    position: relative;
+    margin: 0 1% 1% 0;
+    width: 19%;
+    border: 1px #eeeff2 solid;
+    border-top: none;
+    border-radius: 0 0 3px 3px;
+    background: #fff;
+    overflow: hidden;
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    transition: all 0.2s;
+}
+
+.com_album_shadow{
+    position: absolute;
+    content: "";
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 65px;
+    background: black;
+    background: rgba(0, 0, 0, 0.6);
+    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.6)), to(rgba(0, 0, 0, 0.6)));
+    background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.6) 100%);
+    background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 100%);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 30%,rgba(0, 0, 0, 0.6) 100%);
+    text-shadow: 0px 0px 1px #000;
+
+}
+
+
+.com_album_des_info_issue {
+    position: absolute;
+    z-index: 2;
+    left: 2%;
+    bottom: -35px;
+    height: 80px;
+    width: 96%;
+    color: white;
+    transition: 0.2s ease-out;
+    overflow:hidden;
+
+}
+
+
+
+
+
+
+
+.pagination_box{
+    text-align: center;
+    margin:0 auto;
+
+}
+
+
+
+
+/*------------------------------------ for classify.html -------------------------------------------*/
+.classify_title{
+    margin: 10px auto auto 20px;
+
+
+
+}
+.classify_tag{
+    margin: 10px auto 5px auto;
+
+}
+
+.classify_tag_span{
+    margin-right: 10px;
+    margin-left: 5px;
+}
+
+.classify_tag_name{
+    margin-right: 10px;
+    margin-left: 20px;
+    font-size: 14px;
+}
+
+.classify_album {
+    width: 1350px;
+    text-align: center;
+    margin:0 auto;
+}
+.classify_tag_active{
+    background-color: #337ab7;
+    display: inline-block;
+    padding: .2em .6em .3em;
+    font-size: 100%;
+    font-weight: bold;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+
+}
+
+
+/*------------------------------------ for m_home.html -------------------------------------------*/
+
+.m_home_album{
+    width: 33%;
+    float: left;
+    position: relative;
+    margin-right: 1px;
+}
+
+.m_home_album_title{
+    margin: 0.5rem 0 0.4rem 1px;
+    line-height: 0.8rem;
+    font-size: 0.6rem;
+    overflow: hidden;
+    height: 1.6rem;
+    color: #333;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+
+}
+
+
+/*------------------------------------ for m_pagination.html -------------------------------------------*/
+.m_pagination{
+    width: 75%;
+    margin: 2rem auto ;
+    text-align: center;
+
+
+}
+
+
+
+.m_number{
+    border: solid 1px #d6d6d6;
+    border-radius: 0.2rem;
+    color: #7d7d7d;
+    display: inline-block;
+    text-align: center;
+    padding: 0.4rem 0.2rem;
+    margin: 0.5rem 1%;
+    width: 15%;
+    background: white;
+
+}
+
+.m_number:hover{
+    background: #409EFF;
+    color: white;
+    border: solid 1px #409EFF;
+}
+
+.m_number_active{
+    color: white;
+    background: #409EFF ;
+    font-weight:bold;
+    border: solid 1px #409EFF;
+
+}
+
+.m_next_page{
+    display: block;
+    color: white;
+    background: #409EFF ;
+    font-weight:bold;
+    border: solid 1px #409EFF;
+    margin: 0 auto 0.5rem auto;
+    width: 100%;
+    height: 2rem;
+    border-radius: 0.2rem;
+    line-height: 2rem;
+    align-items:center
+}
+
+
+/*------------------------------------ for m_album.html -------------------------------------------*/
+.m_album_title{
+    font-size: 1rem;
+    line-height: 1rem;
+    height: 1rem;
+    margin: 0 0.2rem 0.1rem 0.2rem;
+    width: 100%;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    align-items:center
+
+}
+.m_album_des{
+    margin: 0 0.2rem 0.1rem 0.2rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    align-items:center
+}
+
+.m_album_pic{
+    margin: 2px 0;
+    width: 100%;
+    text-align: center;
+
+}
+
+.m_album_tag{
+    width: 100%;
+    margin: 1rem auto 1rem 0.3rem;
+    text-align: left;
+}
+
+.m_album_tag > span{
+    background: white;
+    color: #8c8c8c;
+    display: inline-block;
+    padding: 0.3rem 3%;
+    margin: 0 2%;
+}
+
+
+.m_module_title{
+    margin: 0.2rem auto 0.5rem 0.4rem;
+    line-height: 1.5rem;
+    font-size: 0.8rem;
+}
+
+
+.m_album_star_intro {
+    margin: auto ;
+    text-align: center;
+
+}
+
+.m_album_star_intro > a >img{
+    width: 30%;
+
+}
+
+.m_album_star_intro > span{
+    display: block;
+}
+
+
+/*------------------------------------ for m_star.html -------------------------------------------*/
+.m_star_info{
+    width: 100%;
+    margin: auto;
+    text-align: center;
+}
+.m_star_info > img{
+    width: 30%;
+
+}
+
+.m_star_title{
+    font-size: 1.2rem;
+    margin: 0.3rem auto;
+}
+
+/*------------------------------------ for m_classify.html -------------------------------------------*/
+
+.m_classify_title{
+    font-size: 1.2rem;
+    margin: 0.3rem ;
+
+}
+
+.m_classify_tag{
+    margin: 0.5rem auto ;
+    width: 100%;
+}
+
+.m_classify_tag >a {
+    display: inline-block;
+    border: 2px white solid;
+    padding: 0.1rem 0.2rem;
+    border-radius: 0.8em;
+    margin-left: 0.3rem;
+
+}
+
+/*------------------------------------ for m_classify_detail.html -------------------------------------------*/
+
+.m_classify_detail_title{
+
+    font-size: 1.2rem;
+    margin: 0.8rem auto;
+
+}

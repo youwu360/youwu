@@ -42,12 +42,13 @@ def paging(data, current_page, content_cnt, page_num):   # 对内容分页，并
 
     pageGroup = Paginator(range(1,paginator.num_pages+1),groupCount).page(group).object_list
     """
+
     # 定义当前页排序
     if page_num <= 5:
-        index = 2
+        index = 3
     else:
         index = 5
-
+    """
     # 定义最小分页
     if current_page - index > 0:
         min_index = current_page - index
@@ -70,8 +71,24 @@ def paging(data, current_page, content_cnt, page_num):   # 对内容分页，并
     if paginator.num_pages < index:
         min_index = 1
         max_index = paginator.num_pages
+    """
 
+    a_dis = index - 1
+    b_dis = page_num - index
 
+    if page_num >= paginator.num_pages:
+        min_index = 1
+        max_index = paginator.num_pages
+    elif page_num < paginator.num_pages:
+        if current_page - a_dis > 0 and current_page + b_dis <= paginator.num_pages:
+            min_index = current_page - a_dis
+            max_index = current_page + b_dis
+        elif current_page - a_dis > 0 and current_page + b_dis > paginator.num_pages:
+            min_index = paginator.num_pages - page_num +1
+            max_index = paginator.num_pages
+        elif current_page - a_dis <= 0:
+            min_index = 1
+            max_index = page_num
 
     pageGroup = range(min_index, max_index+1)
 
@@ -87,32 +104,34 @@ def getAlbumPageUrl(ablumId):
 def recommend(x):
     # 生成一个随机数数组
     count_all = Album.objects.count()
+    print(count_all)
     recom_list = list()
     recom_list_length = 0
     re_count = x
+    albumId = []   # 最后的输出
     while recom_list_length < re_count:
-
-        rand = random.randint(1,count_all)
+        rand = random.randint(1, count_all)
         if rand not in recom_list:
+            try:
+                albumId.append(Album.objects.filter(id=rand).values("albumId")[0]["albumId"])
+            except:
+                continue
             recom_list.append(rand)
-        recom_list_length = len(recom_list)
-
-    albumId = []
-    for line in recom_list:
-        albumId.append(Album.objects.filter(id = line).values("albumId")[0]["albumId"])
-
+            recom_list_length = len(recom_list)
+    print(recom_list)
     return albumId
-
 
 def recom_albums(x):
     albumId_list = recommend(x)
     temp_data = map(lambda x: Album.objects.filter(albumId = x).values("albumId", "name", "cover")[0], albumId_list)
     recom_data = list()
     for a in temp_data:   # 增加url
+        print(a["cover"])
         a["cover"] = json.loads(a["cover"])[0]
         a["album_url"] = getAlbumPageUrl(a["albumId"])
         recom_data.append(a)
     return recom_data
+
 
 def getAlbumInfoById(albumId_set):
     albumId_list = []
@@ -151,3 +170,6 @@ def is_mobile_check(request):
             res = True
             break
     return res
+
+
+print(get_image_list(21132,15268))

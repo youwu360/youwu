@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% include "m_nav.html" %}
 <div >
     <H3 class="m_album_title">{{name}}</H3>
     <div class="m_album_des">{{des}}</div>
@@ -24,7 +25,7 @@
     <H3 class="m_module_title">套图模特</H3>
     <div class="m_album_star_intro">
 
-        <a href="{% url 'm_star' starId 1 %}"><img src="{{star_cover}}" alt=""></a>
+        <a href="{% url 'star' starId 1 %}"><img src="{{star_cover}}" alt=""></a>
         <span>{{star_name}}</span>
 
     </div>
@@ -39,6 +40,8 @@
     </div>
 
 </div>
+
+
 
 {% endblock %}
 

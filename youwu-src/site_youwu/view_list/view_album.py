@@ -12,6 +12,9 @@ from .view_common import is_mobile_check
 
 
 def album_page(request,albumId,pageId):       # pageID: 专辑下的第几页
+
+
+
     #整数化
     pageId = int(pageId)
     albumId = int(albumId)
@@ -46,9 +49,16 @@ def album_page(request,albumId,pageId):       # pageID: 专辑下的第几页
     star_cover = json.loads(Star.objects.filter(starId = starId).values("cover")[0]["cover"])[0]
     star_des = Star.objects.filter(starId = starId).values("description")[0]["description"]
     star_birthday = Star.objects.filter(starId=starId).values("birthday")[0]["birthday"]
-    star_threeD =  Star.objects.filter(starId=starId).values("threeD")[0]["threeD"]
+    star_threeD = Star.objects.filter(starId=starId).values("threeD")[0]["threeD"]
     star_hobby = Star.objects.filter(starId=starId).values("hobby")[0]["hobby"]
     star_birthPlace = Star.objects.filter(starId=starId).values("birthPlace")[0]["birthPlace"]
+
+    # seo_info
+    title = str(star_name) + "_" + str(name) + "_尤物丝"
+    keywords = str(star_name)
+    for line in tag:
+        keywords = keywords + "," + line
+    description = des + star_name
 
     # 推荐图册
     recom_data = recom_albums(re_com_cnt)

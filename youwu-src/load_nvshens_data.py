@@ -9,6 +9,7 @@ import json
 import random
 from site_youwu.models import Star, Album, Tags
 from load_nvshens_helper import insert_star, parse_star, insert_album, insert_tags
+import datetime
 
 
 Star.objects.all().delete()
@@ -191,6 +192,12 @@ for album_id in starAlbum.keys():
         album_info['Name'] = albumInfo[album_id]['Name']
         album_info['publishDate'] = albumInfo[album_id]['publishDate']
         album_info['tag'] = ''
+    else:
+        album_info['company'] = None
+        album_info['Description'] = None
+        album_info['Name'] = None
+        album_info['publishDate'] = None
+        album_info['tag'] = None
     insert_album(album_info)
 
 
@@ -203,19 +210,18 @@ for k in album_tag_id_to_name:
     tag['tagId'] = tagId
     tag['tagName'] = tagName
     tag['IdList'] = IDList
-    tag['tagTypeID'] = 'Album'
+    tag['tagTypeId'] = 'Album'
     insert_tags(tag)
 
-for k in star_tag_id_to_name:
+for tagId in star_tag_id_to_name:
     tag = {}
-    tagId = k
     tagName = star_tag_id_to_name[tagId]
     IDList = json.dumps(star_tag_id_to_list[tagId])
 
     tag['tagId'] = tagId
     tag['tagName'] = tagName
     tag['IdList'] = IDList
-    tag['tagTypeID'] = 'Star'
+    tag['tagTypeId'] = 'Star'
     insert_tags(tag)
 
 

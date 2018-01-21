@@ -85,23 +85,23 @@ def insert_album(info):
         return False
 
     try:
-        if Star.objects.filter(albumId=info['albumId']).exists():
-            Star.objects.get(albumId=info['albumId']).delete()
+        if Album.objects.filter(albumId=info['albumId']).exists():
+            Album.objects.get(albumId=info['albumId']).delete()
     except:
         print("try delete fail in insert_album")
 
     try:
         Album.objects.create(
-            starId=info['starId'],
-            albumId=info['albumId'],
+            starId=int(info['starId']),
+            albumId=int(info['albumId']),
             cover=info['cover'],
             imageListFile=info['imageListFile'],
             pictureCnt=info['pictureCnt'],
             company=info['company'],
-            Description=info['Description'],
-            Name=info['Name'],
+            description=info['Description'],
+            name=info['Name'],
             publishDate=info['publishDate'],
-            Tag=info['Tag'],
+            tag=info['tag'],
         )
         print("insert_album success ！")
         return True
@@ -116,21 +116,23 @@ def insert_tags(tag):
         return False
 
     try:
-        if Star.objects.filter(tagId=tag['tagId']).exists():
-            Star.objects.get(tagId=tag['tagId']).delete()
+        if Tags.objects.filter(tagId=tag['tagId']).exists():
+            Tags.objects.get(tagId=tag['tagId']).delete()
     except:
         print("try delete fail in insert_tags")
+        print(tag)
     try:
         Tags.objects.create(
             tagId=tag['tagId'],
             tagName=tag['tagName'],
-            IDList=tag['IDList'],
-            tagTypeID=tag['tagTypeID'],
+            IdList=tag['IdList'],
+            tagTypeId=tag['tagTypeId'],
         )
         print("insert_tags success ！")
         return True
-    except:
+    except Exception as e:
         print("insert error :" + str(tag))
+        print(e)
     return False
 
 def update_tag_type_and_name(tagName, tagTypeId, tagTypeName):

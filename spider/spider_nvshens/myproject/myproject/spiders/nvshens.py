@@ -269,6 +269,7 @@ class NvshensSpider(Spider):
     allowed_domains = ['nvshens.com']
     start_urls = [
         'https://www.nvshens.com/girl/21132/album/',
+        'https://www.nvshens.com/tag/f90/',
         'https://www.nvshens.com/gallery/oumei/',
         'https://www.nvshens.com/gallery/xinggan/',
         'https://www.nvshens.com/girl/21132/'

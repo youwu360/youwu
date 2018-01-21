@@ -122,7 +122,7 @@ for line in file_read:
         album_id = data['album_id']
         albumToStar[album_id] = star_id
         append_album(album_id, url)
-    elif data['type'] == 'TagPage' and data['tagTypeID'] == 'Album':
+    elif data['type'] == 'TagPage' and data['tagTypeId'] == 'Album':
         tag_id = data['tagId']
         tag_name = data['tagName']
         id_list = data['IDList']
@@ -132,7 +132,7 @@ for line in file_read:
             album_tag_id_to_list[tag_id] = album_tag_id_to_list[tag_id] + id_list
         else:
             album_tag_id_to_list[tag_id] = id_list
-    elif data['type'] == 'TagPage' and data['tagTypeID'] == 'Star':
+    elif data['type'] == 'TagPage' and data['tagTypeId'] == 'Star':
         tag_id = data['tagId']
         tag_name = data['tagName']
         id_list = data['IDList']

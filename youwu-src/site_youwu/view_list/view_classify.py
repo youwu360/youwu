@@ -26,8 +26,6 @@ def classify_page(request,*ids):
         content_cnt = 40
 
 
-
-
     # tag 列表
     type = Tags.objects.all().values("tagTypeId","tagTypeName").distinct()
     tag_data = []
@@ -36,6 +34,8 @@ def classify_page(request,*ids):
         tag_data.append(line)
 
     # 当前tag对应的albums   如果没有带参数，则返回列表
+    tagName = ""
+
     if len(ids) > 1 :
         tagId = ids[0]
         pageId = int(ids[1])
@@ -67,9 +67,21 @@ def classify_page(request,*ids):
     # 推荐的albums
     #recom_album = recom_albums(10)
 
+    # seo_info
+    if len(tagName) >0 :
+        title = tagName + "_分类美女专辑_尤物丝"
+        keywords = tagName
+        description = tagName + "_分类美女专辑_尤物丝"
+
+    else:
+        title = "套图分类_尤物丝"
+        keywords = "精品套图,套图,美女套图,亚洲套图,欧美套图,套图屋,美女图片"
+        description = "免费提供以性感美女, 制服丝袜, 诱惑, 丝袜美腿为一体的高清美女大图片套图在线预览, 打造最受欢迎的美女图片社区。"
+
+        # 返回结果
     if is_mobile and len(ids) == 1:
         return render(request, "m_classify.html", locals())
-    elif is_mobile and len(ids) == 2 :
+    elif is_mobile and len(ids) == 2:
         return render(request, "m_classify_detail.html", locals())
 
     elif is_mobile == False:

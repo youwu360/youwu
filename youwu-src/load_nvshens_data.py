@@ -57,12 +57,6 @@ def append_star_cover(star_id, url):
     global starCover
     append(starCover, star_id, url)
 
-
-def append_album_info(star_id, info):
-    global albumInfos
-    append(albumInfos, star_id, info)
-
-
 def append_album_cover(album_id, url):
     global starAlbumCover
     append(starAlbumCover, album_id, url)
@@ -144,7 +138,7 @@ for line in file_read:
             star_tag_id_to_list[tag_id] = id_list
     elif data['type'] == "AlbumInfo":
         album_id = data['album_id']
-        append_album_info(album_id, data)
+        albumInfos[album_id] = data
     else:
         noMatchData.append(data)
 

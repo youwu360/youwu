@@ -21,6 +21,7 @@ class NvshensSpiderHelper(object):
 
     def parse_album_page(self, response):
 
+        cur_page_url = response.url
         print("in parse_album_page *******************")
         print("response.url" + response.url)
         if not self.nvshens_spider.nvshens_url_matcher.match_pattern_album_page(response.url):
@@ -28,7 +29,6 @@ class NvshensSpiderHelper(object):
             return
         print("response.url:" + response.url + " match match_pattern_album_page")
 
-        album_id = None
         response = Selector(response)
         xpaths = ['//@href', '//@src', '//@data-original']
         for xpath in xpaths:
@@ -54,6 +54,8 @@ class NvshensSpiderHelper(object):
                     self.nvshens_spider.img_all[url] = True
                     yield album_image
 
+        arr = cur_page_url.split(r'/')
+        album_id = arr[4] if (len(arr) >= 5) else None
         if album_id is not None:
             try:
                 album_name = response.xpath('/html/body/div[2]/h1[@id="htilte"]/text()').extract()
@@ -269,18 +271,19 @@ class NvshensSpider(Spider):
     domain = 'https://www.nvshens.com'
     allowed_domains = ['nvshens.com']
     start_urls = [
-        'https://www.nvshens.com/girl/21132/album/',
-        'https://www.nvshens.com/tag/f90/',
-        'https://www.nvshens.com/gallery/oumei/',
-        'https://www.nvshens.com/gallery/xinggan/',
-        'https://www.nvshens.com/girl/21132/'
+        'https://www.nvshens.com/g/16239/',
+        # 'https://www.nvshens.com/girl/21132/album/',
+        # 'https://www.nvshens.com/tag/f90/',
+        # 'https://www.nvshens.com/gallery/oumei/',
+        # 'https://www.nvshens.com/gallery/xinggan/',
+        # 'https://www.nvshens.com/girl/21132/'
         ]
 
     img_all = {}
     url_all = {}
 
     url_num_limit = 99999999999999999
-    # url_num_limit = 500
+    url_num_limit = 5
 
     spider_helper = NvshensSpiderHelper()
     extract_url_on = True

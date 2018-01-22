@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 
 rm items.json
 rm log

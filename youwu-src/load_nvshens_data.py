@@ -144,7 +144,7 @@ for line in file_read:
             star_tag_id_to_list[tag_id] = id_list
     elif data['type'] == "AlbumInfo":
         album_id = data['album_id']
-        append_album_info(album_id, data['album_id'])
+        append_album_info(album_id, data)
     else:
         noMatchData.append(data)
 

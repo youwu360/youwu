@@ -183,9 +183,9 @@ for album_id in starAlbum.keys():
     print(albumInfos)
     if album_id in albumInfos:
         album_info['company'] = albumInfos[album_id]['company']
-        album_info['Description'] = albumInfos[album_id]['Description']
-        album_info['Name'] = albumInfos[album_id]['Name']
-        album_info['publishDate'] = albumInfos[album_id]['publishDate']
+        album_info['Description'] = albumInfos[album_id]['description']
+        album_info['Name'] = albumInfos[album_id]["album_name"]
+        album_info['publishDate'] = albumInfos[album_id]["publish_date"]
         album_info['tag'] = ''
     else:
         album_info['company'] = None

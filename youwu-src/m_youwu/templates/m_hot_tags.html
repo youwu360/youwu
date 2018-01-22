@@ -1,0 +1,13 @@
+<div class="m_hot_tag_title">
+    <H2 class="m_module_title m_float_left" >热门分类</H2>
+    <a class="link_color" href="{% url 'classify_default' 1 %}"><H2 class="m_module_title m_float_right"> 全部分类<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></H2></a>
+     <div style="clear: both"></div>
+</div>
+
+
+ <div class="hot_tags">
+
+    {% for line in hot_tags %}
+        <a href="{% url 'classify' line.tagId 1 %}">{{line.tagName}}</a>
+    {% endfor %}
+      </div>

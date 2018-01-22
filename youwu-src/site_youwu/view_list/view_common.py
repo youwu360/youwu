@@ -171,3 +171,20 @@ def is_mobile_check(request):
     return res
 
 
+def get_hot_tags():
+    hot_tags = [
+        {"tagName": "尤物", "tagId": "youwu"},
+        {"tagName": "女神", "tagId": "nvshen"},
+        {"tagName": "人间胸器", "tagId": "xiongqi"},
+        {"tagName": "波涛胸涌", "tagId": "botao"},
+        {"tagName": "童颜巨乳", "tagId": "tongyanjuru"},
+        {"tagName": "大尺度", "tagId": "dachidu"},
+        {"tagName": "美臀", "tagId": "meitun"},
+        {"tagName": "蜜桃臀", "tagId": "mitaotun"},
+        {"tagName": "极品", "tagId": "jipin"},
+        {"tagName": "白嫩", "tagId": "bainen"},
+        {"tagName": "肉感", "tagId": "rougan"},
+        {"tagName": "气质", "tagId": "qizhi"},
+        {"tagName": "美腿", "tagId": "meitui"}
+    ]
+    return hot_tags

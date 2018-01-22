@@ -478,7 +478,7 @@ img{
 
 
 .m_module_title{
-    margin: 0.2rem auto 0.5rem 0.4rem;
+    margin: 0.2rem 0.4rem 0.5rem 0.4rem;
     line-height: 1.5rem;
     font-size: 1.5rem;
 }
@@ -703,3 +703,44 @@ img{
     left: 0.2rem;
 
 }
+
+
+/*--------------------------------- for hot_tags  -----------------------------------*/
+.m_hot_tag_title{
+    width: 100%;
+}
+
+
+.m_float_left{
+    display: inline-block ;
+    float: left;
+
+}
+
+.m_float_right{
+    position: absolute;
+    display: inline-block ;
+    right: 0.3rem;
+    font-size: 1.2rem;
+}
+
+.hot_tags{
+    margin-left: 0.3rem;
+    margin-right: 0.3rem;
+}
+
+.hot_tags > a{
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    margin: 0.3rem 0.3rem;
+    background: #e5e5e5;
+    color: #777;
+}
+.hot_tags > a:hover{
+    text-decoration: none;
+}
+
+.link_color{
+    color: #409EFF;
+}
+

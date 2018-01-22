@@ -40,7 +40,7 @@ assert pattern_album_image.match("https://img.onvshen.com:85/gallery/22100/18017
 
 starCover = {}
 starInfo = {}
-albumInfo = {}
+albumInfos = {}
 starAlbum = {}
 starAlbumCover = {}
 albumToStar = {}
@@ -59,8 +59,8 @@ def append_star_cover(star_id, url):
 
 
 def append_album_info(star_id, info):
-    global albumInfo
-    append(albumInfo, star_id, info)
+    global albumInfos
+    append(albumInfos, star_id, info)
 
 
 def append_album_cover(album_id, url):
@@ -186,11 +186,12 @@ for album_id in starAlbum.keys():
 
     album_info['imageListFile'] = album_path
     album_info['pictureCnt'] = len(starAlbum[album_id])
-    if album_id in albumInfo:
-        album_info['company'] = albumInfo[album_id]['company']
-        album_info['Description'] = albumInfo[album_id]['Description']
-        album_info['Name'] = albumInfo[album_id]['Name']
-        album_info['publishDate'] = albumInfo[album_id]['publishDate']
+    print(albumInfos)
+    if album_id in albumInfos:
+        album_info['company'] = albumInfos[album_id]['company']
+        album_info['Description'] = albumInfos[album_id]['Description']
+        album_info['Name'] = albumInfos[album_id]['Name']
+        album_info['publishDate'] = albumInfos[album_id]['publishDate']
         album_info['tag'] = ''
     else:
         album_info['company'] = None

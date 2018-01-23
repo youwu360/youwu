@@ -286,7 +286,7 @@ class NvshensSpider(Spider):
     url_all = {}
 
     url_num_limit = 99999999999999999
-    # url_num_limit = 500
+    url_num_limit = 20000
 
     spider_helper = NvshensSpiderHelper()
     extract_url_on = True

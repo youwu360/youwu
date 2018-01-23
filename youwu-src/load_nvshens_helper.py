@@ -10,38 +10,6 @@ from django.db.models import Max
 from site_youwu.models import Star, Album, Tags
 
 
-def get_value_by_tag(line, tag):
-    for i in range(0, len(line), 2):
-        if tag == line[i]:
-            return line[i + 1]
-    return None
-
-
-def parse_star(line):
-    if type(line) is not list or len(line) < 5:
-        return None
-    info = {}
-    info['starId'] = get_value_by_tag(line, 'starId')
-    info['name'] = get_value_by_tag(line, 'name')
-    info['cover'] = json.dumps(get_value_by_tag(line, 'cover'))
-    info['birthday'] = get_value_by_tag(line, '生 日：')
-    info['threeD'] = get_value_by_tag(line, '三 围：')
-    info['height'] = get_value_by_tag(line, '身 高：')
-    weight_str= get_value_by_tag(line, '体 重：')
-    if weight_str is not None:
-        weight_data = weight_str.split(" ")
-        info['weight'] = float(weight_data[0])
-    else:
-        info['weight'] = -1
-
-    info['hobby'] = get_value_by_tag(line, '兴 趣：')
-    info['birthPlace'] = get_value_by_tag(line, '出 生：')
-    info['description'] = get_value_by_tag(line, 'description')
-    info['tag'] = get_value_by_tag(line, 'tag')
-
-    return info
-
-
 def insert_star(info):
     print("in insert_star !!!!! ")
 
@@ -58,17 +26,17 @@ def insert_star(info):
 
     try:
         Star.objects.create(
-            starId = info['starId'],
-            name = info['name'],
-            cover = info['cover'],
-            birthday = info['birthday'],
-            threeD = info['threeD'],
-            height = info['height'],
-            weight = info['weight'],
-            hobby = info['hobby'],
-            birthPlace = info['birthPlace'],
-            description = info['description'],
-            tag = info['tag']
+            starId=info['starId'],
+            name=info['name'],
+            cover=info['cover'],
+            birthday=info['birthday'],
+            threeD=info['threeD'],
+            height=info['height'],
+            weight=info['weight'],
+            hobby=info['hobby'],
+            birthPlace=info['birthPlace'],
+            description=info['description'],
+            tag=info['tag']
         )
         print("insert_star success ！")
         return True

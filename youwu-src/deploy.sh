@@ -13,7 +13,6 @@ then
 scrapy crawl nvshens -o items.json -t json
 
 cd $path
-
 if [ -f db.sqlite3 ]
 then
     rm db.sqlite3

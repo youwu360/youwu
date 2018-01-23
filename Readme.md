@@ -2,7 +2,7 @@
 Frequently used Command:
 
 git clone https://github.com/youwu360/youwu.git
-git config --global credential.helper cache
+git config credential.helper cache
 
 python manage.py runserver
 python manage.py createsuperuser

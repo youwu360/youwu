@@ -180,7 +180,6 @@ for album_id in starAlbum.keys():
 
     album_info['imageListFile'] = album_path
     album_info['pictureCnt'] = len(starAlbum[album_id])
-    print(albumInfos)
     if album_id in albumInfos:
         album_info['company'] = albumInfos[album_id]['company']
         album_info['Description'] = albumInfos[album_id]['description']

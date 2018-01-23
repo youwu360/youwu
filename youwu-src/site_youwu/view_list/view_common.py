@@ -5,6 +5,8 @@ import math
 import random
 import json
 import os
+import logging
+logger = logging.getLogger(__name__)
 
 
 def get_image_list(starId, albumId):
@@ -122,6 +124,8 @@ def recommend(x):
     return albumId
 
 def recom_albums(x):
+    logger.info("==========: recom_albums")
+    logger.info(x)
     albumId_list = recommend(x)
     temp_data = map(lambda x: Album.objects.filter(albumId = x).values("albumId", "name", "cover")[0], albumId_list)
     recom_data = list()

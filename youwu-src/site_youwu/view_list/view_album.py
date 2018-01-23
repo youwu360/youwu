@@ -9,6 +9,8 @@ from .view_common import get_image_list
 from .view_common import recom_albums
 import json
 from .view_common import is_mobile_check
+import logging
+logger = logging.getLogger(__name__)
 
 
 def album_page(request,albumId,pageId):       # pageID: 专辑下的第几页
@@ -61,6 +63,7 @@ def album_page(request,albumId,pageId):       # pageID: 专辑下的第几页
     description = des + star_name
 
     # 推荐图册
+    logger.error(re_com_cnt)
     recom_data = recom_albums(re_com_cnt)
 
     if is_mobile:

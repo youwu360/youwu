@@ -124,16 +124,16 @@ def recommend(x):
     return albumId
 
 def recom_albums(x):
-    logger.info("==========: recom_albums")
-    logger.info(x)
     albumId_list = recommend(x)
     temp_data = map(lambda x: Album.objects.filter(albumId = x).values("albumId", "name", "cover")[0], albumId_list)
     recom_data = list()
     for a in temp_data:   # 增加url
-        print(a["cover"])
-        a["cover"] = json.loads(a["cover"])[0]
-        a["album_url"] = getAlbumPageUrl(a["albumId"])
-        recom_data.append(a)
+        try:
+            a["cover"] = json.loads(a["cover"])[0]
+            a["album_url"] = getAlbumPageUrl(a["albumId"])
+            recom_data.append(a)
+        except Exception as e:
+            print(e)
     return recom_data
 
 
@@ -175,5 +175,3 @@ def is_mobile_check(request):
             break
     return res
 
-
-print(get_image_list(21132,15268))

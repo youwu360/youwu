@@ -47,6 +47,8 @@ def album_page(request,albumId,pageId):       # pageID: 专辑下的第几页
     url_cut = "/albumId=" + str(albumId) + "/pageId="
 
     # 明星信息
+    logger.error('=====================================')
+    logger.error(starId)
     star_name = Star.objects.filter(starId=starId).values("name")[0]["name"]
     star_cover = json.loads(Star.objects.filter(starId = starId).values("cover")[0]["cover"])[0]
     star_des = Star.objects.filter(starId = starId).values("description")[0]["description"]
@@ -63,8 +65,6 @@ def album_page(request,albumId,pageId):       # pageID: 专辑下的第几页
     description = des + star_name
 
     # 推荐图册
-    logger.error("********************************************************")
-    logger.error(re_com_cnt)
     recom_data = recom_albums(re_com_cnt)
 
     if is_mobile:

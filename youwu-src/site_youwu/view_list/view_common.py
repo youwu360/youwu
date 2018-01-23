@@ -129,7 +129,6 @@ def recom_albums(x):
     recom_data = list()
     for a in temp_data:   # 增加url
         try:
-            x = json.loads(a["cover"])
             a["cover"] = json.loads(a["cover"])[0]
             a["album_url"] = getAlbumPageUrl(a["albumId"])
             recom_data.append(a)
@@ -176,5 +175,3 @@ def is_mobile_check(request):
             break
     return res
 
-
-print(get_image_list(21132,15268))

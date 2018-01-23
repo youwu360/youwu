@@ -15,21 +15,18 @@ logger = logging.getLogger(__name__)
 
 def album_page(request,albumId,pageId):       # pageID: 专辑下的第几页
 
-
-
-    #整数化
     pageId = int(pageId)
     albumId = int(albumId)
 
     # 检查请求是否来自移动端
     is_mobile = is_mobile_check(request)
 
-    data = Album.objects.filter(albumId = albumId)
+    data = Album.objects.filter(albumId=albumId)
     name = data.values('name')[0]['name']
     tag = data.values('tag')[0]['tag'].replace("'","").replace("[","").replace("]","").replace(" ","").split(',')   #原数据待修改
     des = data.values('description')[0]['description']
     starId = data.values("starId")[0]["starId"]
-    image_list = get_image_list(starId,albumId)
+    image_list = get_image_list(starId, albumId)
 
     # 参数配置
     if is_mobile:
@@ -49,6 +46,11 @@ def album_page(request,albumId,pageId):       # pageID: 专辑下的第几页
     # 明星信息
     logger.error('=====================================')
     logger.error(starId)
+
+    selected = Star.objects.filter(starId=starId)
+    logger.error(type(selected))
+    logger.error(selected)
+
     star_name = Star.objects.filter(starId=starId).values("name")[0]["name"]
     star_cover = json.loads(Star.objects.filter(starId = starId).values("cover")[0]["cover"])[0]
     star_des = Star.objects.filter(starId = starId).values("description")[0]["description"]

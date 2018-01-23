@@ -160,6 +160,9 @@ class NvshensSpiderHelper(object):
             failed_url['type'] = 'FailedURL'
             yield failed_url
 
+        for v in self.parse_star_album_list_page(response):
+            yield v
+
     def parse_star_album_list_page(self, response):
         try:
             xpaths = ['//@href', '//@src', '//@data-original']

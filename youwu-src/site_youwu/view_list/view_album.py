@@ -47,17 +47,16 @@ def album_page(request,albumId,pageId):       # pageID: 专辑下的第几页
     logger.error('=====================================')
     logger.error(starId)
 
-    selected = Star.objects.filter(starId=starId)
-    logger.error(type(selected))
-    logger.error(selected)
-
-    star_name = Star.objects.filter(starId=starId).values("name")[0]["name"]
-    star_cover = json.loads(Star.objects.filter(starId = starId).values("cover")[0]["cover"])[0]
-    star_des = Star.objects.filter(starId = starId).values("description")[0]["description"]
-    star_birthday = Star.objects.filter(starId=starId).values("birthday")[0]["birthday"]
-    star_threeD = Star.objects.filter(starId=starId).values("threeD")[0]["threeD"]
-    star_hobby = Star.objects.filter(starId=starId).values("hobby")[0]["hobby"]
-    star_birthPlace = Star.objects.filter(starId=starId).values("birthPlace")[0]["birthPlace"]
+    star_name =""
+    query_set = Star.objects.filter(starId=starId)
+    if query_set is not None and query_set.exists():
+        star_name = query_set.values("name")[0]["name"]
+        star_cover = json.loads(query_set.values("cover")[0]["cover"])[0]
+        star_des = query_set.values("description")[0]["description"]
+        star_birthday = query_set.values("birthday")[0]["birthday"]
+        star_threeD = query_set.values("threeD")[0]["threeD"]
+        star_hobby = query_set.values("hobby")[0]["hobby"]
+        star_birthPlace = query_set.values("birthPlace")[0]["birthPlace"]
 
     # seo_info
     title = str(star_name) + "_" + str(name) + "_尤物丝"

@@ -63,6 +63,7 @@ def album_page(request,albumId,pageId):       # pageID: 专辑下的第几页
     description = des + star_name
 
     # 推荐图册
+    logger.error("********************************************************")
     logger.error(re_com_cnt)
     recom_data = recom_albums(re_com_cnt)
 

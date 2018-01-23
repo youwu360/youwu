@@ -2,5 +2,5 @@
 *log
 *.json
 *.bak
-*/youwu-resource/data/url_info/*
+*/data/url_info/*
 

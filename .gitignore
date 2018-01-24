@@ -1,3 +1,6 @@
 *.pyc
-*.log
+*log
 *.json
+*.bak
+*/data/url_info/*
+

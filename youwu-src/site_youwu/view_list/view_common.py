@@ -5,6 +5,8 @@ import math
 import random
 import json
 import os
+import logging
+logger = logging.getLogger(__name__)
 
 
 def get_image_list(starId, albumId):
@@ -125,10 +127,14 @@ def recom_albums(x):
     albumId_list = recommend(x)
     temp_data = map(lambda x: Album.objects.filter(albumId = x).values("albumId", "name", "cover")[0], albumId_list)
     recom_data = list()
-    for a in temp_data:   # 增加url
-        a["cover"] = json.loads(a["cover"])[0]
-        a["album_url"] = getAlbumPageUrl(a["albumId"])
-        recom_data.append(a)
+    if temp_data is not None:
+        for a in temp_data:   # 增加url
+            try:
+                a["cover"] = json.loads(a["cover"])[0]
+                a["album_url"] = getAlbumPageUrl(a["albumId"])
+                recom_data.append(a)
+            except Exception as e:
+                print(e)
     return recom_data
 
 

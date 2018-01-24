@@ -252,6 +252,7 @@ class LoadNvshensData():
         info['birthday'] = self.get_value_by_tag(line, '生 日：')
         info['threeD'] = self.get_value_by_tag(line, '三 围：')
         info['height'] = self.get_value_by_tag(line, '身 高：')
+        info['work'] = self.get_value_by_tag(line, '职 业：')
         weight_str = self.get_value_by_tag(line, '体 重：')
         if weight_str is not None:
             weight_data = weight_str.split(" ")

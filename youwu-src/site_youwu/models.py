@@ -30,6 +30,7 @@ class Star(models.Model):
     birthPlace = models.CharField(max_length=15, default="", null=True)
     description = models.CharField(max_length=500, default="", null=True)
     tag = models.CharField(max_length=500, default="", null=True)
+    work = models.CharField(max_length=50, default="", null=True)
     lastModified = models.DateField(default=timezone.now)
 
 

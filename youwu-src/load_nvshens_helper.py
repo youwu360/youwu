@@ -36,6 +36,7 @@ def insert_star(info):
             hobby=info['hobby'],
             birthPlace=info['birthPlace'],
             description=info['description'],
+            work=info['work'],
             tag=info['tag']
         )
         print("insert_star success ！")

@@ -120,7 +120,7 @@ def recommend(x):
                 continue
             recom_list.append(rand)
             recom_list_length = len(recom_list)
-    print(recom_list)
+    #print(recom_list)
     return albumId
 
 def recom_albums(x):
@@ -175,4 +175,31 @@ def is_mobile_check(request):
             res = True
             break
     return res
+
+
+def get_hot_tags():
+    hot_tags = [
+        {"tagName": "尤物", "tagId": "youwu"},
+        {"tagName": "女神", "tagId": "nvshen"},
+        {"tagName": "人间胸器", "tagId": "xiongqi"},
+        {"tagName": "波涛胸涌", "tagId": "botao"},
+        {"tagName": "童颜巨乳", "tagId": "tongyanjuru"},
+        {"tagName": "大尺度", "tagId": "dachidu"},
+        {"tagName": "美臀", "tagId": "meitun"},
+        {"tagName": "蜜桃臀", "tagId": "mitaotun"},
+        {"tagName": "极品", "tagId": "jipin"},
+        {"tagName": "白嫩", "tagId": "bainen"},
+        {"tagName": "肉感", "tagId": "rougan"},
+        {"tagName": "气质", "tagId": "qizhi"},
+        {"tagName": "美腿", "tagId": "meitui"}
+    ]
+    return hot_tags
+
+
+def get_hot_models(x):
+    temp_data = Star.objects.all().values("starId", "cover", "name").order_by('?')[:5]
+    for line in temp_data:
+        line["cover"] = json.loads(line["cover"])[0]
+
+    return list(temp_data)
 

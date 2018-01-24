@@ -3,6 +3,8 @@ from site_youwu.models import Album
 from .view_common import getAlbumPageUrl
 from .view_common import is_mobile_check
 from .view_common import paging
+from .view_common import get_hot_tags
+from .view_common import get_hot_models
 
 # Create your views here.
 
@@ -41,6 +43,15 @@ def home_page(request,*ids):
     pageGroup = page_content['pageGroup']
     currentPage = int(pageId) #从url中获取当前页数
     url_cut = "/index="
+
+
+    # 热门分类
+    hot_tags = get_hot_tags()
+
+    # 热门模特
+    hot_models = get_hot_models(10)
+    print(hot_models)
+
 
     # 根据移动端和pc端返回不同的结果
     if is_mobile:

@@ -11,9 +11,12 @@ from .view_common import getAlbumInfoById
 import json
 from .view_common import is_mobile_check
 import json
+import sys
+import os
 
 
-def classify_page(request,*ids):
+
+def classify_page(request, *ids):
 
     is_mobile = is_mobile_check(request)
 
@@ -27,11 +30,36 @@ def classify_page(request,*ids):
 
 
     # tag 列表
+
+
     type = Tags.objects.all().values("tagTypeId","tagTypeName").distinct()
     tag_data = []
     for line in type:
         line["tag_list"] = list(Tags.objects.filter(tagTypeId=line["tagTypeId"]).values("tagId","tagName").distinct())
         tag_data.append(line)
+
+    """
+    tag_data = []
+    item = []
+    temp_dic = {}
+    file_path = os.path.join(os.path.dirname(os.path.realpath(__file__)),"show_tags")
+    tag_file = open(file_path, "r")
+
+    for line in tag_file:
+        if "@" in line:
+            temp_dic["tag_list"] = item
+            print(temp_dic)
+            tag_data.append(temp_dic)
+            item = []
+            continue
+        if len(line.strip()) > 0 :
+            line = line.strip()
+            item.append(json.loads(line))
+        print("+++++++++")
+
+    print("+++++++++")
+    print(tag_data)
+    """
 
     # 当前tag对应的albums   如果没有带参数，则返回列表
     tagName = ""

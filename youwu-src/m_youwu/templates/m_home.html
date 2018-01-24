@@ -2,18 +2,17 @@
 {% block content %}
 {% include "m_nav.html" %}
 
+<div class="m_album_box">
 {% for line in showData  %}
-<div class="m_home_album">
-    <div><a href="{% url 'album' line.albumId 1 %}"><img src="{{line.cover}}"></a></div>
-    <div><h2 class="m_home_album_title">{{line.name}}</h2></div>
-
-</div>
-
+    {% include "m_show_album.html" %}
 {% endfor %}
+     </div>
+
 <div style = "clear: both"></div>
 
 {% include "m_pagination.html" %}
-{% include "m_side_bar.html" %}
-
+{% include "m_hot_tags.html" %}
+{% include "m_hot_models.html" %}
 
 {% endblock%}
+

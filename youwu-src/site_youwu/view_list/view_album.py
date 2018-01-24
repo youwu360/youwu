@@ -9,6 +9,7 @@ from .view_common import get_image_list
 from .view_common import recom_albums
 import json
 from .view_common import is_mobile_check
+from .view_common import get_hot_tags
 import logging
 logger = logging.getLogger(__name__)
 
@@ -37,11 +38,14 @@ def album_page(request,albumId,pageId):       # pageID: 专辑下的第几页
         re_com_cnt = 10
 
     # 分页
-    page_content = paging(image_list, pageId, 5, page_cnt)   # 5个图片一个页面  每个页面展现10个分页tag
-    showData = page_content['showData']
-    pageGroup = page_content['pageGroup']
-    currentPage = pageId
-    url_cut = "/albumId=" + str(albumId) + "/pageId="
+    try:
+        page_content = paging(image_list, pageId, 5, page_cnt)   # 5个图片一个页面  每个页面展现10个分页tag
+        showData = page_content['showData']
+        pageGroup = page_content['pageGroup']
+        currentPage = pageId
+        url_cut = "/albumId=" + str(albumId) + "/pageId="
+    except Exception as e:
+        print(e)
 
     # 明星信息
     logger.error('=====================================')
@@ -70,6 +74,9 @@ def album_page(request,albumId,pageId):       # pageID: 专辑下的第几页
 
     # 推荐图册
     recom_data = recom_albums(re_com_cnt)
+
+    # 热门分类
+    hot_tags = get_hot_tags()
 
     if is_mobile:
         return render(request, "m_album.html", locals())

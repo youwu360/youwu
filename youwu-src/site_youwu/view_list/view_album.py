@@ -9,6 +9,7 @@ from .view_common import get_image_list
 from .view_common import recom_albums
 import json
 from .view_common import is_mobile_check
+from .view_common import get_hot_tags
 
 
 def album_page(request,albumId,pageId):       # pageID: 专辑下的第几页
@@ -62,6 +63,9 @@ def album_page(request,albumId,pageId):       # pageID: 专辑下的第几页
 
     # 推荐图册
     recom_data = recom_albums(re_com_cnt)
+
+    # 热门分类
+    hot_tags = get_hot_tags()
 
     if is_mobile:
         return render(request, "m_album.html", locals())

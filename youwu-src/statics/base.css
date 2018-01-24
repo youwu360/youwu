@@ -369,6 +369,11 @@ img{
 
 }
 
+.m_album_box{
+    margin: auto 0 auto 2px;
+
+}
+
 
 /*------------------------------------ for m_pagination.html -------------------------------------------*/
 .m_pagination{
@@ -478,7 +483,7 @@ img{
 
 
 .m_module_title{
-    margin: 0.2rem 0.4rem 0.5rem 0.4rem;
+    margin: 1.2rem 0.4rem 0.5rem 0.4rem;
     line-height: 1.5rem;
     font-size: 1.5rem;
 }

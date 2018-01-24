@@ -7,11 +7,14 @@
 
 
     <!------ tags ------->
+    {% if tag|length > 1 %}
     <div class="m_album_tag">
     {% for line in tag %}
         <span > {{line}}</span>
     {% endfor %}
         </div>
+    {% endif %}
+
     <!------ pictures ------->
     {% for line in showData  %}
     <div class="m_album_pic"><img src="{{line}}" alt=""></div>
@@ -32,7 +35,7 @@
 
 
     <H3 class="m_module_title">猜你喜欢</H3>
-    <div class="m_album_recom">
+    <div class="m_album_box">
         {% for line in recom_data %}
             {% include "m_show_album.html" %}
         {% endfor %}
@@ -41,7 +44,7 @@
 
 </div>
 
-
+{% include "m_hot_tags.html" %}
 
 {% endblock %}
 

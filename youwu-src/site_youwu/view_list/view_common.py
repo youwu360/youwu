@@ -188,3 +188,12 @@ def get_hot_tags():
         {"tagName": "美腿", "tagId": "meitui"}
     ]
     return hot_tags
+
+
+def get_hot_models(x):
+    temp_data = Star.objects.all().values("starId", "cover", "name").order_by('?')[:5]
+    for line in temp_data:
+        line["cover"] = json.loads(line["cover"])[0]
+
+    return list(temp_data)
+

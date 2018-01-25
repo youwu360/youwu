@@ -29,6 +29,8 @@ def album_page(request,albumId,pageId):       # pageID: 专辑下的第几页
     starId = data.values("starId")[0]["starId"]
     image_list = get_image_list(starId, albumId)
 
+
+
     # 参数配置
     if is_mobile:
         page_cnt = 5

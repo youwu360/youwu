@@ -106,7 +106,7 @@ def getAlbumPageUrl(ablumId):
 def recommend(x):
     # 生成一个随机数数组
     count_all = Album.objects.count()
-    print(count_all)
+    #print(count_all)
     recom_list = list()
     recom_list_length = 0
     re_count = x
@@ -125,6 +125,7 @@ def recommend(x):
 
 def recom_albums(x):
     albumId_list = recommend(x)
+
     temp_data = map(lambda x: Album.objects.filter(albumId = x).values("albumId", "name", "cover")[0], albumId_list)
     recom_data = list()
     if temp_data is not None:
@@ -135,7 +136,9 @@ def recom_albums(x):
                 recom_data.append(a)
             except Exception as e:
                 print(e)
+    #print(recom_data)
     return recom_data
+
 
 
 def getAlbumInfoById(albumId_set):

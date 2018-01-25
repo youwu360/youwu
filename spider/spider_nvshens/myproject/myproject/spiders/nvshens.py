@@ -78,8 +78,10 @@ class NvshensSpiderHelper(object):
         album_id = arr[4] if (len(arr) >= 5) else None
         if album_id is not None:
             try:
-                album_name = response.xpath('/html/body/div[2]/h1[@id="htilte"]/text()').extract()
-                album_desc = response.xpath('//*[@id="ddesc"]/text()').extract()
+                # album_name = response.xpath('/html/body/div[2]/h1[@id="htilte"]/text()').extract()
+                album_name = self.try_xpath_extract_first(response, '/html/body/div[2]/h1[@id="htilte"]/text()')
+                # album_desc = response.xpath('//*[@id="ddesc"]/text()').extract()
+                album_desc = self.try_xpath_extract_first(response, '//*[@id="ddesc"]/text()')
                 info = response.xpath('//*[@id="dinfo"]/text()').extract()[1]
                 publish_date = re.findall("\d{4}\/\d{1,2}\/\d{1,2}", info)[0]
                 view_count = re.findall("\d+", re.findall("了 \d+ 次", info)[0])[0]

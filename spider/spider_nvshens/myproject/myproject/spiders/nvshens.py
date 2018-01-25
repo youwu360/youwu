@@ -13,7 +13,7 @@ from scrapy.linkextractors import LinkExtractor
 from urllib import parse
 import re
 import sys
-
+from urllib.parse import urlparse
 
 class NvshensSpiderHelper(object):
 
@@ -57,12 +57,14 @@ class NvshensSpiderHelper(object):
                 if url.endswith('.jpg') or url.endswith('.png'):
                     album_image = AlbumImage()
                     album_image['url'] = url
-                    arr = url.split(r'/')
-                    if len(arr) < 3:
+
+                    urlParsed = urlparse(url)
+                    arr = urlParsed.path.split('/')
+                    if len(arr) < 4:
                         continue
-                    gallery = arr[-4]
-                    star_id = arr[-3]
-                    album_id = arr[-2]
+                    gallery = arr[1]
+                    star_id = arr[2]
+                    album_id = arr[3]
 
                     if gallery != "gallery" or not str.isnumeric(star_id) \
                         or not str.isnumeric(album_id):
@@ -75,12 +77,10 @@ class NvshensSpiderHelper(object):
                     yield album_image
 
         arr = cur_page_url.split(r'/')
-        album_id = arr[4] if (len(arr) >= 5) else None
+        album_id = arr[3] if (len(arr) >= 5) else None
         if album_id is not None:
             try:
-                # album_name = response.xpath('/html/body/div[2]/h1[@id="htilte"]/text()').extract()
                 album_name = self.try_xpath_extract_first(response, '/html/body/div[2]/h1[@id="htilte"]/text()')
-                # album_desc = response.xpath('//*[@id="ddesc"]/text()').extract()
                 album_desc = self.try_xpath_extract_first(response, '//*[@id="ddesc"]/text()')
                 info = response.xpath('//*[@id="dinfo"]/text()').extract()[1]
                 publish_date = re.findall("\d{4}\/\d{1,2}\/\d{1,2}", info)[0]
@@ -272,19 +272,20 @@ class NvshensSpider(Spider):
     domain = 'https://www.nvshens.com'
     allowed_domains = ['nvshens.com']
     start_urls = [
-        'https://www.nvshens.com/g/16239/',
-        'https://www.nvshens.com/girl/21132/album/',
-        'https://www.nvshens.com/tag/f90/',
-        'https://www.nvshens.com/gallery/oumei/',
-        'https://www.nvshens.com/gallery/xinggan/',
-        'https://www.nvshens.com/girl/21132/',
+        'https://www.nvshens.com/g/25182/5.html',
+        # 'https://www.nvshens.com/g/16239/',
+        # 'https://www.nvshens.com/girl/21132/album/',
+        # 'https://www.nvshens.com/tag/f90/',
+        # 'https://www.nvshens.com/gallery/oumei/',
+        # 'https://www.nvshens.com/gallery/xinggan/',
+        # 'https://www.nvshens.com/girl/21132/',
         ]
 
     img_all = {}
     url_all = {}
 
     url_num_limit = 99999999999999999
-    # url_num_limit = 2000
+    # url_num_limit = 2
 
     spider_helper = NvshensSpiderHelper()
     extract_url_on = True

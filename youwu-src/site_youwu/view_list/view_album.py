@@ -57,7 +57,10 @@ def album_page(request,albumId,pageId):       # pageID: 专辑下的第几页
     query_set = Star.objects.filter(starId=starId)
     if query_set is not None and query_set.exists():
         star_name = query_set.values("name")[0]["name"]
-        star_cover = json.loads(query_set.values("cover")[0]["cover"])[0]
+        try:
+            star_cover = json.loads(query_set.values("cover")[0]["cover"])[0]
+        except:
+            star_cover = "https://img.onvshen.com:85/gallery/19864/19304/cover/0.jpg"
         star_des = query_set.values("description")[0]["description"]
         star_birthday = query_set.values("birthday")[0]["birthday"]
         star_threeD = query_set.values("threeD")[0]["threeD"]

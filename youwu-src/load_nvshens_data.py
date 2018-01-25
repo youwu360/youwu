@@ -258,7 +258,7 @@ class LoadNvshensData():
             weight_data = weight_str.split(" ")
             info['weight'] = float(weight_data[0])
         else:
-            info['weight'] = -1
+            info['weight'] = None
 
         info['hobby'] = self.get_value_by_tag(line, '兴 趣：')
         info['birthPlace'] = self.get_value_by_tag(line, '出 生：')

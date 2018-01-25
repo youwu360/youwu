@@ -16,6 +16,9 @@ with open(albumIdFile, 'r') as fp:
         if line is None or line == '':
             break
         line = line.strip()
+        if line.startswith('#'):
+            continue
+
         arr = line.split('/')
         starId = arr[0]
         albumId = arr[1]

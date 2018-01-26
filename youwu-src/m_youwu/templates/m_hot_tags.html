@@ -4,9 +4,7 @@
      <div style="clear: both"></div>
 </div>
 
-
  <div class="hot_tags">
-
     {% for line in hot_tags %}
         <a href="{% url 'classify' line.tagId 1 %}">{{line.tagName}}</a>
     {% endfor %}

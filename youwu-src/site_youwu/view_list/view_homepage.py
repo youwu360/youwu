@@ -49,7 +49,7 @@ def home_page(request,*ids):
     hot_tags = get_hot_tags()
 
     # 热门模特
-    hot_models = get_hot_models(10)
+    hot_models = get_hot_models(9)
     print(hot_models)
 
 

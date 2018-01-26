@@ -3,7 +3,6 @@
 {% include "nav.html" %}
 <!-- 专辑图片展现 -->
 
-
 <div class="thread">
 <div class="text-center" >
     <h3 >{{name}}</h3>
@@ -11,7 +10,7 @@
 
         {% for tag in tag %}
 
-        <a target="_blank" href="www.baidu.com"><span class="label label-default"> {{tag}} </span> </a> <!--#待修改-->
+        <a target="_blank" href=""><span class="label label-default"> {{tag.tag_name}} </span> </a> <!--#待修改-->
 
         {% endfor %}
 

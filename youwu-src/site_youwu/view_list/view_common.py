@@ -141,18 +141,24 @@ def recom_albums(x):
 
 
 
-def getAlbumInfoById(albumId_set):
-    albumId_list = []
-    for line in albumId_set:
-        albumId_list.append(line["albumId"])
-    
-    temp_data = map(lambda x: Album.objects.filter(albumId=x).values("albumId", "name", "cover")[0], albumId_list)
-    data = list()
-    for a in temp_data:  # 增加url
-        a["cover"] = json.loads(a["cover"])[0]
-        a["album_url"] = getAlbumPageUrl(a["albumId"])
-        data.append(a)
-    return data
+def getAlbumInfoById(albumId):
+
+    albums = []
+    print(albumId)
+    for line in albumId:
+        item = dict()
+        try:
+            temp_info = Album.objects.filter(albumId=line).values("name", "cover", "albumId")[0]
+            print(temp_info)
+            item["cover"] = json.loads(temp_info["cover"])[0]
+            item["name"] = temp_info["name"]
+            item["albumId"] = temp_info["albumId"]
+
+        except Exception as e:
+            print(e)
+            continue
+        albums.append(item)
+    return albums
 
 def addAttrToList(list,func,name,id): # 对词典形成的list，通过函数进行增加内容
     # list：内容列表
@@ -200,9 +206,11 @@ def get_hot_tags():
 
 
 def get_hot_models(x):
-    temp_data = Star.objects.all().values("starId", "cover", "name").order_by('?')[:5]
+    temp_data = Star.objects.all().values("starId", "cover", "name").order_by('?')[:x]
     for line in temp_data:
         line["cover"] = json.loads(line["cover"])[0]
+        line["name"] = line["name"].split("(")[0]
 
     return list(temp_data)
+
 

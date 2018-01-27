@@ -1,0 +1,12 @@
+<h3 class="m_module_title">热门尤物</h3>
+<div class="m_hot_star" >
+    {% for line in hot_models %}
+        <div class="m_hot_star_info">
+            <a class="click_line_title" href="{% url 'star' line.starId 1%}">
+            <div  class="img_box"> <img  src="{{ line.cover }}"></div>
+            <h5>{{ line.name }}</h5>
+            </a>
+        </div>
+    {% endfor %}
+    <div style="clear: both"></div>
+</div>

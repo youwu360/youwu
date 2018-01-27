@@ -4284,10 +4284,10 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-width: 1px 0 0;
 }
 .navbar-brand {
-  float:right;
+  float:left;
   padding: 1rem 1rem;
-    margin-right: 40%;
-  font-size: 2rem;
+  margin-right: 40%;
+  font-size: 2.5rem;
 
 }
 .navbar-brand:hover,

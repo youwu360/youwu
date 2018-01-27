@@ -2,13 +2,12 @@
 {% block content %}
 {% include "m_nav.html" %}
 
-<h3 class="m_classify_detail_title">{{tagName}}</h3>
-
 {% for line in showData %}
 {% include "m_show_album.html" %}
 {% endfor %}
 <div style="clear: both"></div>
 
 {% include "m_pagination.html" %}
+{% include "m_hot_tags.html" %}
 
 {% endblock %}

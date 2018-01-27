@@ -38,12 +38,7 @@ def paging(data, current_page, content_cnt, page_num):   # 对内容分页，并
     if current_page > paginator.count:
         current_page = paginator.count
 
-    """
-    groupCount = page_num # 每个页面展现多少个分页
-    group = math.ceil(current_page/groupCount)  #当 前分页在第几组
 
-    pageGroup = Paginator(range(1,paginator.num_pages+1),groupCount).page(group).object_list
-    """
 
     # 定义当前页排序
     if page_num <= 5:
@@ -106,7 +101,7 @@ def getAlbumPageUrl(ablumId):
 def recommend(x):
     # 生成一个随机数数组
     count_all = Album.objects.count()
-    print(count_all)
+    #print(count_all)
     recom_list = list()
     recom_list_length = 0
     re_count = x
@@ -125,6 +120,7 @@ def recommend(x):
 
 def recom_albums(x):
     albumId_list = recommend(x)
+
     temp_data = map(lambda x: Album.objects.filter(albumId = x).values("albumId", "name", "cover")[0], albumId_list)
     recom_data = list()
     if temp_data is not None:
@@ -135,21 +131,29 @@ def recom_albums(x):
                 recom_data.append(a)
             except Exception as e:
                 print(e)
+    #print(recom_data)
     return recom_data
 
 
-def getAlbumInfoById(albumId_set):
-    albumId_list = []
-    for line in albumId_set:
-        albumId_list.append(line["albumId"])
-    
-    temp_data = map(lambda x: Album.objects.filter(albumId=x).values("albumId", "name", "cover")[0], albumId_list)
-    data = list()
-    for a in temp_data:  # 增加url
-        a["cover"] = json.loads(a["cover"])[0]
-        a["album_url"] = getAlbumPageUrl(a["albumId"])
-        data.append(a)
-    return data
+
+def getAlbumInfoById(albumId):
+
+    albums = []
+    print(albumId)
+    for line in albumId:
+        item = dict()
+        try:
+            temp_info = Album.objects.filter(albumId=line).values("name", "cover", "albumId")[0]
+            print(temp_info)
+            item["cover"] = json.loads(temp_info["cover"])[0]
+            item["name"] = temp_info["name"]
+            item["albumId"] = temp_info["albumId"]
+
+        except Exception as e:
+            print(e)
+            continue
+        albums.append(item)
+    return albums
 
 def addAttrToList(list,func,name,id): # 对词典形成的list，通过函数进行增加内容
     # list：内容列表
@@ -181,15 +185,14 @@ def get_hot_tags():
     hot_tags = [
         {"tagName": "尤物", "tagId": "youwu"},
         {"tagName": "女神", "tagId": "nvshen"},
+        {"tagName": "极品", "tagId": "jipin"},
+        {"tagName": "肉感", "tagId": "rougan"},
         {"tagName": "人间胸器", "tagId": "xiongqi"},
         {"tagName": "波涛胸涌", "tagId": "botao"},
         {"tagName": "童颜巨乳", "tagId": "tongyanjuru"},
         {"tagName": "大尺度", "tagId": "dachidu"},
         {"tagName": "美臀", "tagId": "meitun"},
-        {"tagName": "蜜桃臀", "tagId": "mitaotun"},
-        {"tagName": "极品", "tagId": "jipin"},
         {"tagName": "白嫩", "tagId": "bainen"},
-        {"tagName": "肉感", "tagId": "rougan"},
         {"tagName": "气质", "tagId": "qizhi"},
         {"tagName": "美腿", "tagId": "meitui"}
     ]
@@ -197,9 +200,11 @@ def get_hot_tags():
 
 
 def get_hot_models(x):
-    temp_data = Star.objects.all().values("starId", "cover", "name").order_by('?')[:5]
+    temp_data = Star.objects.all().values("starId", "cover", "name").order_by('?')[:x]
     for line in temp_data:
         line["cover"] = json.loads(line["cover"])[0]
+        line["name"] = line["name"].split("(")[0]
 
     return list(temp_data)
+
 

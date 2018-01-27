@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import HttpResponse
 from site_youwu.models import Album
 from site_youwu.models import Star
+from site_youwu.models import Tags
 from .view_common import paging
 from .view_common import getAlbumPageUrl
 from .view_common import recommend
@@ -24,10 +25,22 @@ def album_page(request,albumId,pageId):       # pageID: 专辑下的第几页
 
     data = Album.objects.filter(albumId=albumId)
     name = data.values('name')[0]['name']
-    tag = data.values('tag')[0]['tag'].replace("'","").replace("[","").replace("]","").replace(" ","").split(',')   #原数据待修改
+
+    tag_id = json.loads(data.values('tag')[0]['tag'])
+    tag = []
+    for line in tag_id:
+        item = dict()
+        item["tag_name"] = Tags.objects.filter(tagId = line).values("tagName")[0]["tagName"]
+        item["tagId"] = line
+        tag.append(item)
+    print(tag)
+
     des = data.values('description')[0]['description']
     starId = data.values("starId")[0]["starId"]
     image_list = get_image_list(starId, albumId)
+
+
+
 
     # 参数配置
     if is_mobile:
@@ -69,7 +82,7 @@ def album_page(request,albumId,pageId):       # pageID: 专辑下的第几页
     title = str(star_name) + "_" + str(name) + "_尤物丝"
     keywords = str(star_name)
     for line in tag:
-        keywords = keywords + "," + line
+        keywords = keywords + "," + line["tag_name"]
     description = des + star_name
 
     # 推荐图册

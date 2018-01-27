@@ -10,7 +10,7 @@
     {% if tag|length > 1 %}
     <div class="m_album_tag">
     {% for line in tag %}
-        <span > {{line}}</span>
+        <a href="{% url 'classify' line.tagId 1 %}">{{line.tag_name}}</a>
     {% endfor %}
         </div>
     {% endif %}

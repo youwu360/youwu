@@ -10,6 +10,8 @@ from .view_common import recom_albums
 from .view_common import getAlbumInfoById
 import json
 from .view_common import is_mobile_check
+from .view_common import get_hot_tags
+from .show_tags import get_tags
 import json
 import sys
 import os
@@ -17,6 +19,8 @@ import os
 
 
 def classify_page(request, *ids):
+
+
 
     is_mobile = is_mobile_check(request)
 
@@ -30,58 +34,43 @@ def classify_page(request, *ids):
 
 
     # tag 列表
-
-
-    type = Tags.objects.all().values("tagTypeId","tagTypeName").distinct()
-    tag_data = []
-    for line in type:
-        line["tag_list"] = list(Tags.objects.filter(tagTypeId=line["tagTypeId"]).values("tagId","tagName").distinct())
-        tag_data.append(line)
-
-    """
-    tag_data = []
-    item = []
-    temp_dic = {}
-    file_path = os.path.join(os.path.dirname(os.path.realpath(__file__)),"show_tags")
-    tag_file = open(file_path, "r")
-
-    for line in tag_file:
-        if "@" in line:
-            temp_dic["tag_list"] = item
-            print(temp_dic)
-            tag_data.append(temp_dic)
-            item = []
-            continue
-        if len(line.strip()) > 0 :
-            line = line.strip()
-            item.append(json.loads(line))
-        print("+++++++++")
-
-    print("+++++++++")
+    tag_data = get_tags()
     print(tag_data)
-    """
+
 
     # 当前tag对应的albums   如果没有带参数，则返回列表
     tagName = ""
 
-    if len(ids) > 1 :
+    if len(ids) > 1 :    # 标签分类页
         tagId = ids[0]
         pageId = int(ids[1])
         tagName = Tags.objects.filter(tagId = tagId).values("tagName")[0]["tagName"]
-        albumId = json.loads(Tags.objects.filter(tagId = tagId).values("albumIdList")[0]["albumIdList"])
-        #print(albumId)
-        albums = list(map(lambda x : Album.objects.filter( albumId = x).values("name","cover","albumId")[0],albumId))
-        for line in albums:
-            #print(line)
-            line["cover"] = json.loads(line["cover"])[0]
-            line["to_url"] = getAlbumPageUrl(line["albumId"])
+        albumId = json.loads(Tags.objects.filter(tagId = tagId).values("IdList")[0]["IdList"])
+
+        albums = []
+        for line in albumId:
+            item = dict()
+            try:
+                temp_info = Album.objects.filter( albumId = line).values("name","cover","albumId")[0]
+                item["cover"] = json.loads(temp_info["cover"])[0]
+                item["name"] = temp_info["name"]
+                item["albumId"] = temp_info["albumId"]
+
+            except Exception as e:
+                print(e)
+                continue
+            albums.append(item)
+
+        m_nav_title = tagName
         url_cut = "/tagId=" + str(tagId) + "/pageId="
 
-    else:
-        pageId = int(ids[0])
-        albumId_list = Album.objects.all().values("albumId")
-        albums = getAlbumInfoById(albumId_list)
+    else:       # 总分类页
+        pageId = ids[0]
+        albumId = Album.objects.all().values("albumId")
+        albums = getAlbumInfoById(albumId)
         url_cut =  "/tag/pageId="
+
+        m_nav_title = "尤物分类"
 
 
     # 分页
@@ -90,7 +79,8 @@ def classify_page(request, *ids):
     pageGroup = page_content['pageGroup']
     currentPage = pageId
 
-
+    # 热门分类
+    hot_tags = get_hot_tags()
 
     # 推荐的albums
     #recom_album = recom_albums(10)

@@ -356,16 +356,17 @@ img{
 }
 
 .m_home_album_title{
-    margin: 0.5rem 0 0.4rem 1px;
-    line-height: 1rem;
-    font-size: 1rem;
+    margin: 0 0.2rem 0.5rem 0.2rem;
+    line-height: 2rem;
+    font-size: 1.2rem;
     overflow: hidden;
-    height: 2rem;
-    color: #333;
+    height: 4rem;
+    color: #71767a;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     overflow: hidden;
+
 
 }
 
@@ -438,26 +439,26 @@ img{
 
 /*------------------------------------ for m_album.html -------------------------------------------*/
 .m_album_title{
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     line-height: 2rem;
     height: 2rem;
-    margin: 0 0.5rem 0.1rem 0.5rem;
+    margin: 0 0.8rem 0.5rem 0.8rem;
     width: 100%;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
+    -webkit-line-clamp: 2;
     overflow: hidden;
     align-items:center;
 
 }
 .m_album_des{
-    margin: 0 0.5rem 0.1rem 0.5rem;
+    margin: 0 0.8rem 0.1rem 0.8rem;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
     overflow: hidden;
     align-items:center;
-    font-size: 1rem;
+    font-size: 1.2rem;
 }
 
 .m_album_pic{
@@ -473,17 +474,23 @@ img{
     text-align: left;
 }
 
-.m_album_tag > span{
+.m_album_tag > a{
     background: white;
     color: #8c8c8c;
     display: inline-block;
-    padding: 0.3rem 3%;
-    margin: 0 2%;
+    padding: 0.3rem 0.4rem;
+    margin: 0.2rem 0.4rem;
+}
+
+.m_album_tag > a:hover{
+    text-decoration: none;
+    text-underline: none;
+
 }
 
 
 .m_module_title{
-    margin: 1.2rem 0.4rem 0.5rem 0.4rem;
+    margin: 2rem 0.4rem 0.5rem 0.8rem;
     line-height: 1.5rem;
     font-size: 1.5rem;
 }
@@ -517,17 +524,17 @@ img{
 }
 
 .m_star_title{
-    font-size: 1.2rem;
+    font-size:2rem;
     margin: 0.3rem auto;
+}
+
+.m_star_des{
+    margin: 0.5rem 0.8rem;
 }
 
 /*------------------------------------ for m_classify.html -------------------------------------------*/
 
-.m_classify_title{
-    font-size: 1.2rem;
-    margin: 0.3rem ;
 
-}
 
 .m_classify_tag{
     margin: 0.5rem auto ;
@@ -548,8 +555,9 @@ img{
 
 .m_classify_detail_title{
 
-    font-size: 1.2rem;
+    font-size: 1.8rem;
     margin: 0.8rem auto;
+    text-align: center;
 
 }
 
@@ -732,13 +740,14 @@ img{
 .hot_tags{
     margin-left: 0.3rem;
     margin-right: 0.3rem;
+    margin-bottom: 1.5rem;
 }
 
 .hot_tags > a{
     display: inline-block;
-    padding: 0.6rem 1.2rem;
+    padding: 0.5rem 0.8rem;
     margin: 0.3rem 0.3rem;
-    background: #e5e5e5;
+    background: white;
     color: #777;
 }
 .hot_tags > a:hover{
@@ -749,3 +758,63 @@ img{
     color: #409EFF;
 }
 
+
+/*--------------------------------- for m_hot_tags  -----------------------------------*/
+.m_hot_star{
+    width: 100%;
+    margin: 1rem 0.8rem 1rem 0.8rem;
+}
+
+.m_hot_star_info{
+    width: 33%;
+    position: relative;
+    float: left;
+    display: inline-block;
+    text-align: center;
+
+}
+
+.m_hot_star_info > a > h5{
+    margin: 0.4rem 0.5rem 1rem 0.2rem;
+    line-height: 2rem;
+    font-size: 1.2rem;
+    overflow: hidden;
+    height: 2rem;
+    color: #71767a;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+}
+
+.img_box{
+    width: 100%;
+    height: 30vw;
+
+}
+
+
+.img_box >img{
+
+    margin: 0 auto;
+    text-align: center;
+}
+
+
+.click_line_title{
+    color:#71767a ;
+
+}
+
+.click_line_title:hover{
+    text-decoration: none;
+    color: black;
+}
+
+/*--------------------------------- for m_common  -----------------------------------*/
+
+.m_page_title{
+    font-size: 1.8rem;
+    margin: 0.8rem auto;
+    text-align: center;
+}

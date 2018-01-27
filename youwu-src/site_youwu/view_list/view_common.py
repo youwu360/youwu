@@ -38,12 +38,7 @@ def paging(data, current_page, content_cnt, page_num):   # 对内容分页，并
     if current_page > paginator.count:
         current_page = paginator.count
 
-    """
-    groupCount = page_num # 每个页面展现多少个分页
-    group = math.ceil(current_page/groupCount)  #当 前分页在第几组
 
-    pageGroup = Paginator(range(1,paginator.num_pages+1),groupCount).page(group).object_list
-    """
 
     # 定义当前页排序
     if page_num <= 5:
@@ -190,15 +185,14 @@ def get_hot_tags():
     hot_tags = [
         {"tagName": "尤物", "tagId": "youwu"},
         {"tagName": "女神", "tagId": "nvshen"},
+        {"tagName": "极品", "tagId": "jipin"},
+        {"tagName": "肉感", "tagId": "rougan"},
         {"tagName": "人间胸器", "tagId": "xiongqi"},
         {"tagName": "波涛胸涌", "tagId": "botao"},
         {"tagName": "童颜巨乳", "tagId": "tongyanjuru"},
         {"tagName": "大尺度", "tagId": "dachidu"},
         {"tagName": "美臀", "tagId": "meitun"},
-        {"tagName": "蜜桃臀", "tagId": "mitaotun"},
-        {"tagName": "极品", "tagId": "jipin"},
         {"tagName": "白嫩", "tagId": "bainen"},
-        {"tagName": "肉感", "tagId": "rougan"},
         {"tagName": "气质", "tagId": "qizhi"},
         {"tagName": "美腿", "tagId": "meitui"}
     ]

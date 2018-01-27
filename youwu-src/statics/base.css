@@ -534,11 +534,7 @@ img{
 
 /*------------------------------------ for m_classify.html -------------------------------------------*/
 
-.m_classify_title{
-    font-size: 1.2rem;
-    margin: 0.3rem ;
 
-}
 
 .m_classify_tag{
     margin: 0.5rem auto ;
@@ -763,7 +759,7 @@ img{
 }
 
 
-/*--------------------------------- for hot_tags  -----------------------------------*/
+/*--------------------------------- for m_hot_tags  -----------------------------------*/
 .m_hot_star{
     width: 100%;
     margin: 1rem 0.8rem 1rem 0.8rem;
@@ -778,7 +774,7 @@ img{
 
 }
 
-.m_hot_star_info > h5{
+.m_hot_star_info > a > h5{
     margin: 0.4rem 0.5rem 1rem 0.2rem;
     line-height: 2rem;
     font-size: 1.2rem;
@@ -797,6 +793,7 @@ img{
 
 }
 
+
 .img_box >img{
 
     margin: 0 auto;
@@ -812,4 +809,12 @@ img{
 .click_line_title:hover{
     text-decoration: none;
     color: black;
+}
+
+/*--------------------------------- for m_common  -----------------------------------*/
+
+.m_page_title{
+    font-size: 1.8rem;
+    margin: 0.8rem auto;
+    text-align: center;
 }

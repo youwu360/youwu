@@ -41,7 +41,7 @@ def classify_page(request, *ids):
     # 当前tag对应的albums   如果没有带参数，则返回列表
     tagName = ""
 
-    if len(ids) > 1 :
+    if len(ids) > 1 :    # 标签分类页
         tagId = ids[0]
         pageId = int(ids[1])
         tagName = Tags.objects.filter(tagId = tagId).values("tagName")[0]["tagName"]
@@ -61,13 +61,16 @@ def classify_page(request, *ids):
                 continue
             albums.append(item)
 
+        m_nav_title = tagName
         url_cut = "/tagId=" + str(tagId) + "/pageId="
 
-    else:
+    else:       # 总分类页
         pageId = ids[0]
         albumId = Album.objects.all().values("albumId")
         albums = getAlbumInfoById(albumId)
         url_cut =  "/tag/pageId="
+
+        m_nav_title = "尤物分类"
 
 
     # 分页

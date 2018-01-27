@@ -3,7 +3,13 @@
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header center" >
 
-      <a class="m_nav_title" href="{% url 'home' 1 %}">尤物丝</a>
+      <a class="m_nav_title" href="{% url 'home' 1 %}">
+          {% if m_nav_title %}
+            {{ m_nav_title }}
+          {% else %}
+            尤物丝
+          {% endif %}
+      </a>
     </div>
 
           <button id="side_bar_bottom" type="button" class="navbar-toggle collapsed m_nav_posi" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -41,25 +47,23 @@
 <div id ="m_side_bar_right" class="m_side_bar_right"></div>
 
 <script>
+    $(document).ready(function(){
+      $("#m_side_bar_right").click(function(){
+          $("#m_side_bar_left").hide();
+          $("#m_side_bar_right").hide();
+          $("html").removeClass("not_scroll");
+      });
 
-$(document).ready(function(){
-  $("#m_side_bar_right").click(function(){
-      $("#m_side_bar_left").hide();
-      $("#m_side_bar_right").hide();
-      $("html").removeClass("not_scroll");
-  });
+      $("#m_side_bar_icon").click(function(){
+          $("#m_side_bar_left").hide();
+          $("#m_side_bar_right").hide();
+          $("html").removeClass("not_scroll");
+      });
 
-  $("#m_side_bar_icon").click(function(){
-      $("#m_side_bar_left").hide();
-      $("#m_side_bar_right").hide();
-      $("html").removeClass("not_scroll");
-  });
-
-  $("#side_bar_bottom").click(function(){
-      $("#m_side_bar_left").show();
-      $("#m_side_bar_right").show();
-      $("html").addClass("not_scroll");
-  });
-  });
-
+      $("#side_bar_bottom").click(function(){
+          $("#m_side_bar_left").show();
+          $("#m_side_bar_right").show();
+          $("html").addClass("not_scroll");
+      });
+      });
 </script>

@@ -4,15 +4,12 @@ set -e
 cd $(dirname $0)
 path=$(pwd)
 
-cd $path/../spider/spider_nvshens/myproject/
-
 if [ -f items.json ]
 then
     rm items.json
     fi
 
-cd $path
-tar -zxvf items.json.tar.gz $path/../spider/spider_nvshens/myproject/items.json
+unzip items.json.zip
 
 if [ -f db.sqlite3 ]
 then

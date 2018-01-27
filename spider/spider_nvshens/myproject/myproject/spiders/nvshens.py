@@ -13,7 +13,7 @@ from scrapy.linkextractors import LinkExtractor
 from urllib import parse
 import re
 import sys
-
+from urllib.parse import urlparse
 
 class NvshensSpiderHelper(object):
 
@@ -53,33 +53,46 @@ class NvshensSpiderHelper(object):
         xpaths = ['//@href', '//@src', '//@data-original']
         for xpath in xpaths:
             page_response = response.xpath(xpath).extract()
+            print(page_response)
             for url in page_response:
                 if url.endswith('.jpg') or url.endswith('.png'):
-                    album_image = AlbumImage()
-                    album_image['url'] = url
-                    arr = url.split(r'/')
-                    if len(arr) < 3:
+
+                    urlParsed = urlparse(url)
+                    arr = urlParsed.path.split('/')
+                    if len(arr) < 4:
                         continue
-                    gallery = arr[-4]
-                    star_id = arr[-3]
-                    album_id = arr[-2]
+                    gallery = arr[1]
+                    star_id = arr[2]
+                    album_id = arr[3]
 
                     if gallery != "gallery" or not str.isnumeric(star_id) \
-                        or not str.isnumeric(album_id):
+                        or not str.isnumeric(album_id) \
+                        or url in self.nvshens_spider.img_all:
                         continue
+                    if arr[4] == 'cover':
+                        self.nvshens_spider.img_all[url] = True
+                        album_cover = AlbumCover()
+                        album_cover['star_id'] = star_id
+                        album_cover['album_id'] = album_id
+                        album_cover['url'] = url
+                        album_cover['type'] = 'AlbumCover'
+                        yield album_cover
+                    else:
+                        album_image = AlbumImage()
+                        album_image['url'] = url
+                        album_image['album_id'] = album_id
+                        album_image['star_id'] = star_id
+                        album_image['type'] = "AlbumImage"
+                        self.nvshens_spider.img_all[url] = True
+                        yield album_image
 
-                    album_image['album_id'] = album_id
-                    album_image['star_id'] = star_id
-                    album_image['type'] = "AlbumImage"
-                    self.nvshens_spider.img_all[url] = True
-                    yield album_image
-
-        arr = cur_page_url.split(r'/')
-        album_id = arr[4] if (len(arr) >= 5) else None
+        urlParsed = urlparse(cur_page_url)
+        arr = urlParsed.path.split('/')
+        album_id = arr[2] if (len(arr) >= 4) else None
         if album_id is not None:
             try:
-                album_name = response.xpath('/html/body/div[2]/h1[@id="htilte"]/text()').extract()
-                album_desc = response.xpath('//*[@id="ddesc"]/text()').extract()
+                album_name = self.try_xpath_extract_first(response, '/html/body/div[2]/h1[@id="htilte"]/text()')
+                album_desc = self.try_xpath_extract_first(response, '//*[@id="ddesc"]/text()')
                 info = response.xpath('//*[@id="dinfo"]/text()').extract()[1]
                 publish_date = re.findall("\d{4}\/\d{1,2}\/\d{1,2}", info)[0]
                 view_count = re.findall("\d+", re.findall("了 \d+ 次", info)[0])[0]
@@ -171,6 +184,8 @@ class NvshensSpiderHelper(object):
                     print(url)
                     if url.endswith('.jpg') or url.endswith('.png'):
                         if url not in self.nvshens_spider.img_all:
+                            self.nvshens_spider.img_all[url] = True
+
                             album_cover = AlbumCover()
                             album_cover['url'] = url
                             arr = url.split(r'/')
@@ -189,7 +204,6 @@ class NvshensSpiderHelper(object):
                             album_cover['album_id'] = album_id
                             album_cover['star_id'] = star_id
                             album_cover['type'] = "AlbumCover"
-                            self.nvshens_spider.img_all[url] = True
                             yield album_cover
         except Exception as e:
             print(e)
@@ -270,19 +284,20 @@ class NvshensSpider(Spider):
     domain = 'https://www.nvshens.com'
     allowed_domains = ['nvshens.com']
     start_urls = [
-        'https://www.nvshens.com/g/16239/',
-        'https://www.nvshens.com/girl/21132/album/',
-        'https://www.nvshens.com/tag/f90/',
-        'https://www.nvshens.com/gallery/oumei/',
-        'https://www.nvshens.com/gallery/xinggan/',
-        'https://www.nvshens.com/girl/21132/',
+        'https://www.nvshens.com/g/25182/5.html',
+        # 'https://www.nvshens.com/g/16239/',
+        # 'https://www.nvshens.com/girl/21132/album/',
+        # 'https://www.nvshens.com/tag/f90/',
+        # 'https://www.nvshens.com/gallery/oumei/',
+        # 'https://www.nvshens.com/gallery/xinggan/',
+        # 'https://www.nvshens.com/girl/21132/',
         ]
 
     img_all = {}
     url_all = {}
 
     url_num_limit = 99999999999999999
-    # url_num_limit = 2000
+    # url_num_limit = 1000
 
     spider_helper = NvshensSpiderHelper()
     extract_url_on = True
@@ -292,9 +307,9 @@ class NvshensSpider(Spider):
         self.spider_helper.nvshens_spider = self
 
     def parse(self, response):
-        self.url_all[response.url] = True
-        if len(self.url_all) >= self.url_num_limit:
+        if response.url in self.url_all or len(self.url_all) >= self.url_num_limit:
             return
+        self.url_all[response.url] = True
 
         page_url = PageUrl()
         page_url['url'] = response.url
@@ -338,9 +353,10 @@ class NvshensSpider(Spider):
                 links = link_extractor.extract_links(response)
                 for link in links:
                     print("extract_url in for : " + link.url)
-                    if self.nvshens_url_matcher.match_pattern_extract_page(link.url) \
-                            and link.url not in self.url_all and \
-                            len(self.url_all) < self.url_num_limit:
-                        self.url_all[link.url] = True
+                    if self.nvshens_url_matcher.match_pattern_extract_page(link.url):
+                        if link.url in self.url_all:
+                            print('link.url in self.url_all ==========================')
+                            continue
+
                         print("extract_url : " + link.url)
                         yield Request(link.url, callback=self.parse)

@@ -10,9 +10,10 @@ if [ -f items.json ]
 then
     rm items.json
     fi
-scrapy crawl nvshens -o items.json -t json
 
 cd $path
+tar -zxvf items.json.tar.gz $path/../spider/spider_nvshens/myproject/items.json
+
 if [ -f db.sqlite3 ]
 then
     rm db.sqlite3

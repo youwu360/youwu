@@ -57,11 +57,8 @@ class NvshensSpiderHelper(object):
             for url in page_response:
                 if url.endswith('.jpg') or url.endswith('.png'):
 
-                    print(url)
                     urlParsed = urlparse(url)
-                    print(urlParsed)
                     arr = urlParsed.path.split('/')
-                    print(arr)
                     if len(arr) < 4:
                         continue
                     gallery = arr[1]
@@ -89,8 +86,9 @@ class NvshensSpiderHelper(object):
                         self.nvshens_spider.img_all[url] = True
                         yield album_image
 
-        arr = cur_page_url.split(r'/')
-        album_id = arr[3] if (len(arr) >= 5) else None
+        urlParsed = urlparse(cur_page_url)
+        arr = urlParsed.path.split('/')
+        album_id = arr[2] if (len(arr) >= 4) else None
         if album_id is not None:
             try:
                 album_name = self.try_xpath_extract_first(response, '/html/body/div[2]/h1[@id="htilte"]/text()')

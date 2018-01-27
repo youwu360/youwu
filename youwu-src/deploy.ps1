@@ -1,14 +1,12 @@
 #$ErrorActionPreference = "Stop"
 
 cd $PSScriptRoot
-cd ../spider/spider_nvshens/myproject/
 if (Test-Path items.json)
 {
     rm items.json
 }
-scrapy crawl nvshens -o items.json -t json | out-file log
 
-cd $PSScriptRoot
+Expand-Archive -Path .\items.json.zip -DestinationPath $PSScriptRoot
 
 if (Test-Path db.sqlite3)
 {

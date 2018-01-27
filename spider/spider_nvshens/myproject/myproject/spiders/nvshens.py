@@ -295,9 +295,9 @@ class NvshensSpider(Spider):
         self.spider_helper.nvshens_spider = self
 
     def parse(self, response):
-        self.url_all[response.url] = True
-        if len(self.url_all) >= self.url_num_limit:
+        if response.url in self.url_all or len(self.url_all) >= self.url_num_limit:
             return
+        self.url_all[response.url] = True
 
         page_url = PageUrl()
         page_url['url'] = response.url
@@ -341,9 +341,6 @@ class NvshensSpider(Spider):
                 links = link_extractor.extract_links(response)
                 for link in links:
                     print("extract_url in for : " + link.url)
-                    if self.nvshens_url_matcher.match_pattern_extract_page(link.url) \
-                            and link.url not in self.url_all and \
-                            len(self.url_all) < self.url_num_limit:
-                        self.url_all[link.url] = True
+                    if self.nvshens_url_matcher.match_pattern_extract_page(link.url):
                         print("extract_url : " + link.url)
                         yield Request(link.url, callback=self.parse)

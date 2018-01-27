@@ -355,8 +355,8 @@ class NvshensSpider(Spider):
                     print("extract_url in for : " + link.url)
                     if self.nvshens_url_matcher.match_pattern_extract_page(link.url):
                         if link.url in self.url_all:
+                            print('link.url in self.url_all ==========================')
                             continue
-                        self.url_all[link.url] = True
 
                         print("extract_url : " + link.url)
                         yield Request(link.url, callback=self.parse)

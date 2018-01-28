@@ -265,6 +265,9 @@ class LoadNvshensData():
 
         return info
 
+    def update_null_cover(self):
+        sql = '''update site_youwu_album set cover='["https://t1.onvshen.com:85/gallery/' || starId || '/' || albumId || '/cover/0.jpg"]' where cover='';'''
+
 
 if __name__ == '__main__':
     loader = LoadNvshensData()

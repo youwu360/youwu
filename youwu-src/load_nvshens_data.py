@@ -182,6 +182,10 @@ class LoadNvshensData():
                 print('album cover exists, albumId : ' + str(album_id))
                 album_info['cover'] = json.dumps(self.starAlbumCover[album_id])
             else:
+                list_tmp = []
+                list_tmp.append('https://t1.onvshen.com:85/gallery/' +str(star_id) + '/' \
+                                + str(album_id) + '/cover/0.jpg')
+                album_info['cover'] = json.dumps(self.starAlbumCover[album_id])
                 print('album cover not exists, albumId : ' + str(album_id))
 
             album_info['imageListFile'] = album_path

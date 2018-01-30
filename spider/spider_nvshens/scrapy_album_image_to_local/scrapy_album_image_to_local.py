@@ -46,6 +46,7 @@ with open(albumIdFile, 'r') as fp:
                     arr = url.split('/')
                     img_path = os.path.join(localAlbumDir, arr[-1])
                     if os.path.exists(img_path):
+                        print("already exists url : " + url)
                         continue
                     urllib.request.urlretrieve(url, img_path)
                     print("success url : " + url)

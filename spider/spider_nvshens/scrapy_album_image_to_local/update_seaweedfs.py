@@ -39,12 +39,9 @@ for sub in os.listdir(dataPath):
             #res = w.delete_file(fid)
 
             processedImg[img] = img_url
-            print(processedImg)
-            with open(albumInJsonPath, 'w') as fp:
-                json.dump(processedImg, fp)
-            break
-        break
-    break
+        print(processedImg)
+        with open(albumInJsonPath, 'w') as fp:
+            json.dump(processedImg, fp)
 
 
 

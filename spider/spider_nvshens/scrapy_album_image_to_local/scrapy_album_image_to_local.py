@@ -4,6 +4,7 @@ import urllib.request
 import shutil
 import hashlib
 import time
+import threading
 from scrapy_album_image_to_local_helper import get_hash_code, down_load_image_async
 
 basePath = os.path.dirname(os.path.realpath(__file__))
@@ -44,7 +45,10 @@ with open(albumIdFile, 'r') as fp:
             urls = json.load(fp)
             for url in urls:
                 down_load_image_async(localAlbumDir, url)
-                time.sleep(0.5)
+                cnt = threading.active_count()
+                print(cnt)
+                if (cnt > 3):
+                    time.sleep((cnt - 3) / 5.0)
                 # try:
                 #     arr = url.split('/')
                 #     img_path = os.path.join(localAlbumDir, arr[-1])

@@ -4,7 +4,7 @@ from pyseaweed import WeedFS
 
 
 basePath = os.path.dirname(os.path.realpath(__file__))
-dataPath = os.path.join(basePath, "test_data")
+dataPath = os.path.join(basePath, "data")
 daolianSize = 4039
 
 print(dataPath)

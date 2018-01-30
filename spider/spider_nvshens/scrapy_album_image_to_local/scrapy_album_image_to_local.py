@@ -48,6 +48,7 @@ with open(albumIdFile, 'r') as fp:
                     if os.path.exists(img_path):
                         continue
                     urllib.request.urlretrieve(url, img_path)
+                    print("success url : " + url)
                 except Exception as e:
                     print("failed url : " + url)
                     print(e)

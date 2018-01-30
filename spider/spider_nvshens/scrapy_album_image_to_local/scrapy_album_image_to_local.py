@@ -5,13 +5,15 @@ import shutil
 import hashlib
 import time
 import threading
-from scrapy_album_image_to_local_helper import get_hash_code, down_load_image_async
+from scrapy_album_image_to_local_helper import ImageDownloadHelper
 
 basePath = os.path.dirname(os.path.realpath(__file__))
 albumIdFile = os.path.join(basePath, "starAndAlbumId.txt")
 albumImageListFIlePath = "../../../youwu-resource/data/url_info/"
 
-coverUrl = "https://img.onvshen.com:85/gallery/__sub__/cover/0.jpg"
+coverUrl = 'https://img.onvshen.com:85/gallery/__sub__/cover/0.jpg'
+
+image_download_helper = ImageDownloadHelper()
 
 with open(albumIdFile, 'r') as fp:
     lines = fp.readlines()
@@ -26,7 +28,7 @@ with open(albumIdFile, 'r') as fp:
         starId = arr[0]
         albumId = arr[1]
 
-        subFolder = "test_data/" + get_hash_code(starId, albumId)
+        subFolder = "data/" + image_download_helper.get_hash_code(starId, albumId)
         subFolderPath = os.path.join(basePath, subFolder)
         if not os.path.exists(subFolderPath):
             os.mkdir(subFolderPath)
@@ -35,33 +37,19 @@ with open(albumIdFile, 'r') as fp:
         if not os.path.exists(localAlbumDir):
             os.mkdir(localAlbumDir)
 
-        cover = coverUrl.replace('__sub__', line)
-        try:
-            urllib.request.urlretrieve(cover, os.path.join(localAlbumDir, "cover.jpg"))
-        except Exception as e:
-            print("error in cover :" + localAlbumDir)
-            print(e)
+        image_url = coverUrl.replace('__sub__', line)
+        image_download_helper.download_album_image(localAlbumDir, image_url, starId, albumId)
 
         urlFileName = str(starId) + "." + str(albumId)
         albumImageListFile = os.path.join(basePath, albumImageListFIlePath + urlFileName)
         print(os.path.abspath(albumImageListFile))
         with open(albumImageListFile, 'r') as fp:
-            urls = json.load(fp)
-            for url in urls:
-                down_load_image_async(localAlbumDir, url)
+            imageUrls = json.load(fp)
+            for image_url in imageUrls:
+                image_download_helper.download_album_image(localAlbumDir, image_url, starId, albumId)
                 cnt = threading.active_count()
                 print(cnt)
                 if (cnt > 3):
                     time.sleep((cnt - 3) / 5.0)
-                # try:
-                #     arr = url.split('/')
-                #     img_path = os.path.join(localAlbumDir, arr[-1])
-                #     if os.path.exists(img_path):
-                #         print("already exists url : " + url)
-                #         continue
-                #     urllib.request.urlretrieve(url, img_path)
-                #     print("success url : " + url)
-                # except Exception as e:
-                #     print("failed url : " + url)
-                #     print(e)
+
 

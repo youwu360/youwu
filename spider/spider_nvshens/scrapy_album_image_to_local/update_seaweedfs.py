@@ -5,6 +5,7 @@ from pyseaweed import WeedFS
 
 basePath = os.path.dirname(os.path.realpath(__file__))
 dataPath = os.path.join(basePath, "test_data")
+daolianSize = 4039
 
 print(dataPath)
 for sub in os.listdir(dataPath):
@@ -33,6 +34,11 @@ for sub in os.listdir(dataPath):
 
             imgFullPath = os.path.join(albumPath, img)
             print(imgFullPath)
+            fileSize = os.path.getsize(imgFullPath)
+            if fileSize == daolianSize:
+                print("daolian size : " + imgFullPath)
+                continue
+
             w = WeedFS("localhost", 9333)
             fid = w.upload_file(imgFullPath)
             img_url = w.get_file_url(fid)

@@ -61,7 +61,7 @@ class ImageDownloadHelper(object):
         for image_pattern in imagePatterns:
             try:
                 new_url = image_pattern.replace('__sub__',
-                                                str(starId) + "/" + str(albumId)) + arr[-1]
+                    str(starId) + "/" + str(albumId)) + arr[-1]
                 urllib.request.urlretrieve(new_url, img_path)
                 fileSize = os.path.getsize(img_path)
                 if fileSize != self.daolianSize:

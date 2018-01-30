@@ -3,7 +3,8 @@ import json
 import urllib.request
 import shutil
 import hashlib
-from scrapy_album_image_to_local_helper import get_hash_code
+import time
+from scrapy_album_image_to_local_helper import get_hash_code, down_load_image_async
 
 basePath = os.path.dirname(os.path.realpath(__file__))
 albumIdFile = os.path.join(basePath, "starAndAlbumId.txt")
@@ -42,15 +43,17 @@ with open(albumIdFile, 'r') as fp:
         with open(albumImageListFile, 'r') as fp:
             urls = json.load(fp)
             for url in urls:
-                try:
-                    arr = url.split('/')
-                    img_path = os.path.join(localAlbumDir, arr[-1])
-                    if os.path.exists(img_path):
-                        print("already exists url : " + url)
-                        continue
-                    urllib.request.urlretrieve(url, img_path)
-                    print("success url : " + url)
-                except Exception as e:
-                    print("failed url : " + url)
-                    print(e)
+                down_load_image_async(localAlbumDir, url)
+                time.sleep(0.5)
+                # try:
+                #     arr = url.split('/')
+                #     img_path = os.path.join(localAlbumDir, arr[-1])
+                #     if os.path.exists(img_path):
+                #         print("already exists url : " + url)
+                #         continue
+                #     urllib.request.urlretrieve(url, img_path)
+                #     print("success url : " + url)
+                # except Exception as e:
+                #     print("failed url : " + url)
+                #     print(e)
 

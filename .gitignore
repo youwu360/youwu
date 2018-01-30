@@ -3,5 +3,5 @@
 *.json
 *.bak
 */data/url_info/*
-*/test_data/*
+*test_data*
 

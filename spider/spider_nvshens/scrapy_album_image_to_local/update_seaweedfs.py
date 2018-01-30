@@ -1,6 +1,4 @@
 import os
-import pycurl
-from io import BytesIO
 import json
 from pyseaweed import WeedFS
 
@@ -41,7 +39,7 @@ for sub in os.listdir(dataPath):
             #res = w.delete_file(fid)
 
             processedImg[img] = img_url
-
+            print(processedImg)
             with open(albumInJsonPath, 'w') as fp:
                 json.dump(processedImg, fp)
             break

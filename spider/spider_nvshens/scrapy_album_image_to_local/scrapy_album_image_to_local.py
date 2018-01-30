@@ -36,7 +36,11 @@ with open(albumIdFile, 'r') as fp:
             os.mkdir(localAlbumDir)
 
         cover = coverUrl.replace('__sub__', line)
-        urllib.request.urlretrieve(cover, os.path.join(localAlbumDir, "cover.jpg"))
+        try:
+            urllib.request.urlretrieve(cover, os.path.join(localAlbumDir, "cover.jpg"))
+        except Exception as e:
+            print("error in cover :" + localAlbumDir)
+            print(e)
 
         urlFileName = str(starId) + "." + str(albumId)
         albumImageListFile = os.path.join(basePath, albumImageListFIlePath + urlFileName)

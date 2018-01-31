@@ -38,6 +38,9 @@ for sub in os.listdir(dataPath):
             if fileSize == daolianSize:
                 print("daolian size : " + imgFullPath)
                 continue
+            if fileSize == 0:
+                print("null image, continue " + imgFullPath)
+                continue
 
             w = WeedFS("localhost", 9333)
             fid = w.upload_file(imgFullPath)

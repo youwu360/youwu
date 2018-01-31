@@ -13,25 +13,24 @@ def get_all_urls(starId, albumId):
     jsonDataSubPath = os.path.join(jsonDataPath, hashlib.md5((str(starId) + "-" + str(albumId)).encode('utf-8')).hexdigest()[0:2])
 
     jsonFilePath = os.path.join(jsonDataSubPath, str(starId) + "." + str(albumId) + ".json")
-    fp = open(jsonFilePath)
-    res = json.load(fp)
-    fp.close()
-    return res
 
-def cover_url(request, starId, albumId):
-    urls = {}
+    if not os.path.exists(jsonFilePath):
+        return {}
     try:
-        urls = get_all_urls(starId, albumId)
+        fp = open(jsonFilePath)
+        res = json.load(fp)
+        fp.close()
+        return res
     except:
         pass
+    return {}
+
+def cover_url(request, starId, albumId):
+    urls = get_all_urls(starId, albumId)
     return HttpResponse(json.dumps([urls['cover.jpg']]))
 
 def list_url(request, starId, albumId):
-    urls = {}
-    try:
-        urls = get_all_urls(starId, albumId)
-    except:
-        pass
+    urls = get_all_urls(starId, albumId)
     res = []
     for k in urls:
         if k != 'cover.jpg':

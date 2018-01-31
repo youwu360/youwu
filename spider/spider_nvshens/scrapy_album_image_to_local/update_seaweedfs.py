@@ -38,8 +38,12 @@ for sub in os.listdir(dataPath):
             if fileSize == daolianSize:
                 print("daolian size : " + imgFullPath)
                 continue
-            if fileSize == 0:
+            elif fileSize == 0:
                 print("null image, continue " + imgFullPath)
+                continue
+            elif fileSize >= 2000000:
+                os.remove(imgFullPath)
+                print("too large file, removed ! fileSize:" + str(fileSize) + " fileName:" + imgFullPath)
                 continue
 
             w = WeedFS("localhost", 9333)

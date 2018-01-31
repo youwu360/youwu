@@ -6,7 +6,7 @@ import hashlib
 
 # Create your views here.
 
-def cover_url(request, starId, albumId):
+def get_all_urls(starId, albumId):
     basePath = os.path.dirname(os.path.realpath(__file__))
     jsonDataPath = os.path.abspath(os.path.join(basePath,
                     "../../spider/spider_nvshens/scrapy_album_image_to_local/data"))
@@ -15,4 +15,25 @@ def cover_url(request, starId, albumId):
     jsonFilePath = os.path.join(jsonDataSubPath, str(starId) + "." + str(albumId) + ".json")
     fp = open(jsonFilePath)
     res = json.load(fp)
+    fp.close()
+    return res
+
+def cover_url(request, starId, albumId):
+    urls = {}
+    try:
+        urls = get_all_urls(starId, albumId)
+    except:
+        pass
+    return HttpResponse(json.dumps([urls['cover.jpg']]))
+
+def list_url(request, starId, albumId):
+    urls = {}
+    try:
+        urls = get_all_urls(starId, albumId)
+    except:
+        pass
+    res = []
+    for k in urls:
+        if k != 'cover.jpg':
+            res.append(urls[k])
     return HttpResponse(json.dumps(res))

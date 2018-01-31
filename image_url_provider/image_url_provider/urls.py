@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from url_server.views import cover_url
+from url_server.views import cover_url, list_url
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^cover/starId=([0-9]{1,})/albumId=([0-9]{1,})/$', cover_url),
+    url(r'^list/starId=([0-9]{1,})/albumId=([0-9]{1,})/$', list_url),
 ]

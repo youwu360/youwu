@@ -13,10 +13,18 @@ class ImageDownloadHelper(object):
     add = 'add'
     minus = 'minus'
 
+    starCover = 'starCover'
+    albumCover = 'albumCover'
+    albumToStar = 'albumToStar'
+    albumImageList = 'albumImageList'
+
     daolianSize = 4039
     basePath = os.path.dirname(os.path.realpath(__file__))
 
-    coverPatterns = ["https://img.onvshen.com:85/gallery/__sub__/cover/",
+    starCoverPatterns = ["https://img.onvshen.com:85/girl/__sub__/",
+                         "https://t1.onvshen.com:85/girl/__sub__/"]
+
+    albumCoverPatterns = ["https://img.onvshen.com:85/gallery/__sub__/cover/",
                      "https://t1.onvshen.com:85/gallery/__sub__/cover/"]
 
     imagePatterns = ['https://img.onvshen.com:85/gallery/__sub__/',
@@ -24,8 +32,12 @@ class ImageDownloadHelper(object):
                      'https://t1.onvshen.com:85/gallery/__sub__/s/',
                      'https://t1.onvshen.com:85/gallery/__sub__/']
 
+    def download_star_cover(self, localAlbumDir, cover_url, starId):
+        albumId = None
+        self.down_load_image_async(localAlbumDir, cover_url, starId, albumId, self.starCoverPatterns)
+
     def download_album_cover(self, localAlbumDir, cover_url, starId, albumId):
-        self.down_load_image_async(localAlbumDir, cover_url, starId, albumId, self.coverPatterns)
+        self.down_load_image_async(localAlbumDir, cover_url, starId, albumId, self.albumCoverPatterns)
 
     def download_album_image(self, localAlbumDir, image_url, starId, albumId):
         self.down_load_image_async(localAlbumDir, image_url, starId, albumId, self.imagePatterns)
@@ -48,24 +60,23 @@ class ImageDownloadHelper(object):
         arr = url.split('/')
         img_path = os.path.join(os.path.join(localAlbumDir, arr[-1]))
         if os.path.exists(img_path):
-            fileSize = os.path.getsize(img_path)
-            if fileSize != self.daolianSize:
+            if not self.invalid_file_and_contine(img_path):
                 print("already exists url : " + url)
                 return
             else:
                 print('daolian file; retry image : ' + url)
 
-        try:
-            urllib.request.urlretrieve(url, img_path)
-            fileSize = os.path.getsize(img_path)
-            if fileSize != self.daolianSize:
-                print("success url : " + url)
-            else:
-                self.down_load_by_pattern(starId, albumId, url, img_path, imagePatterns)
-        except:
-                self.down_load_by_pattern(starId, albumId, url, img_path, imagePatterns)
+        urllib.request.urlretrieve(url, img_path)
+        if not self.invalid_file_and_contine(img_path):
+            print("success url : " + url)
+            return
 
-    def down_load_by_pattern(self, starId, albumId, url, img_path, imagePatterns):
+        if albumId is None:
+            self.download_star_cover_by_pattern(starId, url, img_path, imagePatterns)
+        else:
+            self.download_album_by_pattern(starId, albumId, url, img_path, imagePatterns)
+
+    def download_album_by_pattern(self, starId, albumId, url, img_path, imagePatterns):
         success = False
         arr = url.split('/')
         for image_pattern in imagePatterns:
@@ -73,8 +84,23 @@ class ImageDownloadHelper(object):
                 new_url = image_pattern.replace('__sub__',
                     str(starId) + "/" + str(albumId)) + arr[-1]
                 urllib.request.urlretrieve(new_url, img_path)
-                fileSize = os.path.getsize(img_path)
-                if fileSize != self.daolianSize:
+                if not self.invalid_file_and_contine(img_path):
+                    print("success url by pattern : " + image_pattern + "  url: " + url)
+                    success = True
+                    break
+            except:
+                pass
+        if not success:
+            print("failed eventually ; url : " + url)
+
+    def download_star_cover_by_pattern(self, starId, url, img_path, imagePatterns):
+        success = False
+        arr = url.split('/')
+        for image_pattern in imagePatterns:
+            try:
+                new_url = image_pattern.replace('__sub__', str(starId)) + arr[-1]
+                urllib.request.urlretrieve(new_url, img_path)
+                if not self.invalid_file_and_contine(img_path):
                     print("success url by pattern : " + image_pattern + "  url: " + url)
                     success = True
                     break
@@ -94,10 +120,10 @@ class ImageDownloadHelper(object):
     #starCover, albumCover, albumToStar, albumImageList
     def join_result(self, json1, json2, action):
         res = {}
-        res['starCover'] = self.join_dict(json1['starCover'], json2['starCover'], action)
-        res['albumCover'] = self.join_dict(json1['albumCover'], json2['albumCover'], action)
-        # res['albumToStar'] = self.join_dict(json1['albumToStar'], json2['albumToStar'], action)
-        res['albumImageList'] = self.join_dict(json1['albumImageList'], json2['albumImageList'], action)
+        res[self.starCover] = self.join_dict(json1['starCover'], json2['starCover'], action)
+        res[self.albumCover] = self.join_dict(json1['albumCover'], json2['albumCover'], action)
+        res[self.albumToStar] = self.join_dict(json1['albumToStar'], json2['albumToStar'], self.add)
+        res[self.albumImageList] = self.join_dict(json1['albumImageList'], json2['albumImageList'], action)
         return res
 
     def join_dict(self, d1, d2, action):
@@ -123,21 +149,43 @@ class ImageDownloadHelper(object):
 
         return res
 
-    def get_local_product_data_url_json(self):
+    def invalid_file_and_contine(self, imgFullPath):
+        print(imgFullPath)
+        if not os.path.exists(imgFullPath):
+            print("img path not exists : " + imgFullPath)
+            return True
 
+        fileSize = os.path.getsize(imgFullPath)
+        if fileSize == self.daolianSize:
+            os.remove(imgFullPath)
+            print("daolian size : " + imgFullPath)
+            return True
+        elif fileSize == 0:
+            os.remove(imgFullPath)
+            print("null image, continue " + imgFullPath)
+            return True
+        elif fileSize >= 10000000:
+            os.remove(imgFullPath)
+            print("too large file, removed ! fileSize:" + str(fileSize) + " fileName:" + imgFullPath)
+            return True
+        return False
+
+    def default_dict(self):
         res = {}
-        starCover = 'starCover'
-        albumCover = 'albumCover'
-        albumToStar = 'albumToStar'
-        albumImageList = 'albumImageList'
+        starCover = self.starCover
+        albumCover = self.albumCover
+        albumToStar = self.albumToStar
+        albumImageList = self.albumImageList
         res[starCover] = {}
         res[albumCover] = {}
         res[albumToStar] = {}
         res[albumImageList] = {}
+        return res
+
+    def get_local_product_data_url_json(self):
 
         basePath = os.path.dirname(os.path.realpath(__file__))
         dataPath = os.path.join(basePath, "data")
-        daolianSize = 4039
 
         print(dataPath)
         for sub in os.listdir(dataPath):
@@ -167,18 +215,7 @@ class ImageDownloadHelper(object):
 
                     imgFullPath = os.path.join(albumPath, img)
                     print(imgFullPath)
-                    fileSize = os.path.getsize(imgFullPath)
-                    if fileSize == daolianSize:
-                        os.remove(imgFullPath)
-                        print("daolian size : " + imgFullPath)
-                        continue
-                    elif fileSize == 0:
-                        os.remove(imgFullPath)
-                        print("null image, continue " + imgFullPath)
-                        continue
-                    elif fileSize >= 10000000:
-                        os.remove(imgFullPath)
-                        print("too large file, removed ! fileSize:" + str(fileSize) + " fileName:" + imgFullPath)
+                    if self.invalid_file_and_contine(imgFullPath):
                         continue
 
                     res[albumToStar][albumId] = starId
@@ -196,20 +233,9 @@ class ImageDownloadHelper(object):
         return res
 
     def get_local_product_cover_url_json(self):
-
-        res = {}
-        starCover = 'starCover'
-        albumCover = 'albumCover'
-        albumToStar = 'albumToStar'
-        albumImageList = 'albumImageList'
-        res[starCover] = {}
-        res[albumCover] = {}
-        res[albumToStar] = {}
-        res[albumImageList] = {}
-
+        res = self.default_dict()
         basePath = os.path.dirname(os.path.realpath(__file__))
         dataPath = os.path.join(basePath, "cover")
-        daolianSize = 4039
 
         print(dataPath)
         allCoverJsonPath = os.path.join(dataPath, 'allStarCover.json')
@@ -235,18 +261,7 @@ class ImageDownloadHelper(object):
                     print(starCoverImgPath)
 
                 print(starCoverImgPath)
-                fileSize = os.path.getsize(starCoverImgPath)
-                if fileSize == daolianSize:
-                    os.remove(starCoverImgPath)
-                    print("daolian size : " + starCoverImgPath)
-                    continue
-                elif fileSize == 0:
-                    os.remove(starCoverImgPath)
-                    print("null image, continue " + starCoverImgPath)
-                    continue
-                elif fileSize >= 10000000:
-                    os.remove(starCoverImgPath)
-                    print("too large file, removed ! fileSize:" + str(fileSize) + " fileName:" + starCoverImgPath)
+                if self.invalid_file_and_contine(starCoverImgPath):
                     continue
 
                 res[starCover][starId] = True

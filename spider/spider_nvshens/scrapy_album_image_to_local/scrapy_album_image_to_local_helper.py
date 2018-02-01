@@ -115,7 +115,8 @@ class ImageDownloadHelper(object):
                 with open(filePath) as fp:
                     return json.load(fp)
             except:
-                return None
+                pass
+        return self.default_dict()
 
     #starCover, albumCover, albumToStar, albumImageList
     def join_result(self, json1, json2, action):

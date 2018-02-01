@@ -169,6 +169,10 @@ class ImageDownloadHelper(object):
             os.remove(imgFullPath)
             print("too large file, removed ! fileSize:" + str(fileSize) + " fileName:" + imgFullPath)
             return True
+        elif fileSize <= 8192:
+            os.remove(imgFullPath)
+            print("too small file, removed ! fileSize:" + str(fileSize) + " fileName:" + imgFullPath)
+            return True
         return False
 
     def default_dict(self):

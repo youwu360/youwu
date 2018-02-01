@@ -45,7 +45,7 @@ for starId in joined_json[image_download_helper.starCover]:
     break
 
 
-for albumId in joined_json[image_download_helper.starCover]:
+for albumId in joined_json[image_download_helper.albumCover]:
     url = joined_json[image_download_helper.albumCover][albumId]
     if albumId in joined_json[image_download_helper.albumToStar]:
         starId = joined_json[image_download_helper.albumToStar][albumId]

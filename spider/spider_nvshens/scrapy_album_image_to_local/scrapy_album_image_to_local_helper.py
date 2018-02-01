@@ -64,7 +64,7 @@ class ImageDownloadHelper(object):
                 print("already exists url : " + url)
                 return
             else:
-                print('daolian file; retry image : ' + url)
+                print('invalid file; retry image : ' + url)
 
         urllib.request.urlretrieve(url, img_path)
         if not self.invalid_file_and_contine(img_path):

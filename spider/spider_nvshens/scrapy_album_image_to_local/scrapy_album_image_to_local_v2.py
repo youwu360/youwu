@@ -42,14 +42,19 @@ for starId in joined_json[image_download_helper.starCover]:
     print("in albumImageList, cnt: " + str(cnt))
     if (cnt > 3):
         time.sleep((cnt - 3) / 5.0)
-
     break
 
-exit(0)
 
 for albumId in joined_json[image_download_helper.starCover]:
-    starId = joined_json[image_download_helper.albumToStar][albumId]
     url = joined_json[image_download_helper.albumCover][albumId]
+    if albumId in joined_json[image_download_helper.albumToStar][albumId]:
+        starId = joined_json[image_download_helper.albumToStar][albumId]
+    else:
+        print('----------')
+        print("albumId is null")
+        print(url)
+        continue
+
     subFolder = "data/" + image_download_helper.get_hash_code(starId, albumId)
     subFolderPath = os.path.join(basePath, subFolder)
     if not os.path.exists(subFolderPath):
@@ -64,6 +69,8 @@ for albumId in joined_json[image_download_helper.starCover]:
     print("in albumImageList, cnt: " + str(cnt))
     if (cnt > 3):
         time.sleep((cnt - 3) / 5.0)
+
+exit(0)
 
 for albumId in joined_json[image_download_helper.albumImageList]:
     starId = joined_json[image_download_helper.albumToStar][albumId]

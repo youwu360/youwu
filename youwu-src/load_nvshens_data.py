@@ -240,9 +240,13 @@ class LoadNvshensData():
             to[id].append(url)
 
     def get_value_by_tag(self, line, tag):
-        for i in range(0, len(line), 2):
-            if tag == line[i]:
-                return line[i + 1]
+        try:
+            for i in range(0, len(line)):
+                if tag == line[i]:
+                    return line[i + 1]
+        except Exception as e:
+            print(e)
+            print(line)
         return None
 
     def parse_star(self, line):

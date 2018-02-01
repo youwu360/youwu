@@ -33,10 +33,17 @@ failed_json = image_download_helper.default_dict()
 
 for starId in joined_json[image_download_helper.starCover]:
     url = joined_json[image_download_helper.starCover][starId]
+    subFolder = "cover/" + image_download_helper.get_hash_code(starId, None)
+    subFolderPath = os.path.join(basePath, subFolder)
+    if not os.path.exists(subFolderPath):
+        os.mkdir(subFolderPath)
+    image_download_helper.download_star_cover(subFolderPath, url, starId)
     cnt = threading.active_count()
     print("in albumImageList, cnt: " + str(cnt))
     if (cnt > 3):
         time.sleep((cnt - 3) / 5.0)
+
+    break
 
 exit(0)
 

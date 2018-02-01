@@ -7,12 +7,12 @@ class WeedUpLoader:
 
     basePath = os.path.dirname(os.path.realpath(__file__))
     daolianSize = 4039
-    dataPath = os.path.join(basePath, "data")
+
 
     def upload_data(self):
-
-        for sub in os.listdir(self.dataPath):
-            subPath = os.path.join(self.dataPath, sub)
+        dataPath = os.path.join(self.basePath, "data")
+        for sub in os.listdir(dataPath):
+            subPath = os.path.join(dataPath, sub)
             if os.path.isfile(subPath):
                 continue
 

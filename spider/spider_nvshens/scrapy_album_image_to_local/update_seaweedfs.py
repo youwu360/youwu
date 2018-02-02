@@ -106,11 +106,11 @@ class WeedUpLoader:
 
                 cachedStarCover[starCoverImg] = img_url
         print(cachedStarCover)
-        with open(allStarCoverDataInJson, 'w') as fp:
+        with open(allCoverJsonPath, 'w') as fp:
             json.dump(cachedStarCover, fp)
 
 
 if __name__ == '__main__':
     uploader = WeedUpLoader()
     uploader.upload_cover()
-    uploader.upload_cover()
+    uploader.upload_data()

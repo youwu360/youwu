@@ -53,6 +53,7 @@ for albumId in joined_json[image_download_helper.albumCover]:
         print('----------')
         print("albumId is null")
         print(url)
+        continue
 
     subFolder = "data/" + image_download_helper.get_hash_code(starId, albumId)
     subFolderPath = os.path.join(basePath, subFolder)

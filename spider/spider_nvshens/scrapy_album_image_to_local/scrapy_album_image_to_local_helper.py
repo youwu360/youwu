@@ -57,8 +57,11 @@ class ImageDownloadHelper(object):
         t.start()
 
     def down_load_image(self, localAlbumDir, url, starId, albumId, imagePatterns):
-        arr = url.split('/')
-        img_path = os.path.join(os.path.join(localAlbumDir, arr[-1]))
+        if imagePatterns[0] == self.albumCoverPatterns[0]:
+            img_name = 'cover.jpg'
+        else:
+            img_name = url.split('/')[-1]
+        img_path = os.path.join(os.path.join(localAlbumDir, img_name))
         if os.path.exists(img_path):
             if not self.invalid_file_and_contine(img_path):
                 print("already exists url : " + url)

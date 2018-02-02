@@ -1,13 +1,14 @@
 import os
 import json
 from pyseaweed import WeedFS
-
+from scrapy_album_image_to_local_helper import ImageDownloadHelper
 
 class WeedUpLoader:
 
     basePath = os.path.dirname(os.path.realpath(__file__))
     daolianSize = 4039
 
+    image_download_helper = ImageDownloadHelper()
 
     def upload_data(self):
         dataPath = os.path.join(self.basePath, "data")
@@ -37,16 +38,8 @@ class WeedUpLoader:
 
                     imgFullPath = os.path.join(albumPath, img)
                     print(imgFullPath)
-                    fileSize = os.path.getsize(imgFullPath)
-                    if fileSize == self.daolianSize:
-                        print("daolian size : " + imgFullPath)
-                        continue
-                    elif fileSize == 0:
-                        print("null image, continue " + imgFullPath)
-                        continue
-                    elif fileSize >= 10000000:
-                        os.remove(imgFullPath)
-                        print("too large file, removed ! fileSize:" + str(fileSize) + " fileName:" + imgFullPath)
+
+                    if self.image_download_helper.invalid_file_and_contine(imgFullPath):
                         continue
 
                     w = WeedFS("localhost", 9333)
@@ -84,27 +77,17 @@ class WeedUpLoader:
                 except Exception as e:
                     print(e)
                     print(starCoverImgPath)
+                    continue
 
                 print(starCoverImgPath)
-                fileSize = os.path.getsize(starCoverImgPath)
-                if fileSize == self.daolianSize:
-                    os.remove(starCoverImgPath)
-                    print("daolian size : " + starCoverImgPath)
-                    continue
-                elif fileSize == 0:
-                    os.remove(starCoverImgPath)
-                    print("null image, continue " + starCoverImgPath)
-                    continue
-                elif fileSize >= 10000000:
-                    os.remove(starCoverImgPath)
-                    print("too large file, removed ! fileSize:" + str(fileSize) + " fileName:" + starCoverImgPath)
+                if self.image_download_helper.invalid_file_and_contine(starCoverImgPath):
                     continue
 
                 w = WeedFS("localhost", 9333)
                 fid = w.upload_file(starCoverImgPath)
                 img_url = w.get_file_url(fid)
 
-                cachedStarCover[starCoverImg] = img_url
+                cachedStarCover[starId] = img_url
         print(cachedStarCover)
         with open(allCoverJsonPath, 'w') as fp:
             json.dump(cachedStarCover, fp)

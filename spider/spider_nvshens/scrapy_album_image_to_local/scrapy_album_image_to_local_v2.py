@@ -42,7 +42,6 @@ for starId in joined_json[image_download_helper.starCover]:
     print("in albumImageList, cnt: " + str(cnt))
     if (cnt > 3):
         time.sleep((cnt - 3) / 5.0)
-    break
 
 
 for albumId in joined_json[image_download_helper.albumCover]:
@@ -70,7 +69,6 @@ for albumId in joined_json[image_download_helper.albumCover]:
     if (cnt > 3):
         time.sleep((cnt - 3) / 5.0)
 
-exit(0)
 
 for albumId in joined_json[image_download_helper.albumImageList]:
     starId = joined_json[image_download_helper.albumToStar][albumId]

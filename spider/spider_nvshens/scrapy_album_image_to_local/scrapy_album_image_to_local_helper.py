@@ -19,6 +19,10 @@ class ImageDownloadHelper(object):
     albumImageList = 'albumImageList'
 
     daolianSize = 4039
+    daolianSizeList = [4039, 8192]
+    sizeLowerBound = 1000
+    sizeUppderBound = 10000000
+
     basePath = os.path.dirname(os.path.realpath(__file__))
 
     starCoverPatterns = ["https://img.onvshen.com:85/girl/__sub__/",
@@ -160,7 +164,7 @@ class ImageDownloadHelper(object):
             return True
 
         fileSize = os.path.getsize(imgFullPath)
-        if fileSize == self.daolianSize:
+        if fileSize in self.daolianSizeList:
             os.remove(imgFullPath)
             print("daolian size : " + imgFullPath)
             return True
@@ -168,15 +172,14 @@ class ImageDownloadHelper(object):
             os.remove(imgFullPath)
             print("null image, continue " + imgFullPath)
             return True
-        elif fileSize >= 10000000:
+        elif fileSize >= self.sizeUppderBound:
             os.remove(imgFullPath)
             print("too large file, removed ! fileSize:" + str(fileSize) + " fileName:" + imgFullPath)
             return True
-        elif fileSize <= 8192:
+        elif fileSize <= self.sizeLowerBound:
             os.remove(imgFullPath)
             print("too small file, removed ! fileSize:" + str(fileSize) + " fileName:" + imgFullPath)
             return True
-        return False
 
     def default_dict(self):
         res = {}

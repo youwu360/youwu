@@ -2,4 +2,6 @@
 *log
 *.json
 *.bak
-*/data/url_info/*
+**/data/url_info/*
+**/scrapy_album_image_to_local/data/*
+**/scrapy_album_image_to_local/cover/*

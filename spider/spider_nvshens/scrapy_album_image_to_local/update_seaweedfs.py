@@ -159,6 +159,6 @@ class WeedUpLoader:
 
 if __name__ == '__main__':
     uploader = WeedUpLoader()
-    # uploader.upload_cover()
-    # uploader.upload_data()
+    uploader.upload_cover()
+    uploader.upload_data()
     uploader.generate_all_url_for_product()

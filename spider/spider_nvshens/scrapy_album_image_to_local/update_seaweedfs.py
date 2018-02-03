@@ -76,9 +76,6 @@ class WeedUpLoader:
 
                 try:
                     starId = starCoverImg.split('.')[0]
-                    if starId in cachedStarCover:
-                        self.add_star_cover(starId, cachedStarCover[starId])
-                        continue
                 except Exception as e:
                     print(e)
                     print(starCoverImgPath)
@@ -93,7 +90,6 @@ class WeedUpLoader:
                 img_url = w.get_file_url(fid)
 
                 cachedStarCover[starId] = img_url
-                self.add_star_cover(starId, cachedStarCover[starId])
         print(cachedStarCover)
         with open(allCoverJsonPath, 'w') as fp:
             json.dump(cachedStarCover, fp)

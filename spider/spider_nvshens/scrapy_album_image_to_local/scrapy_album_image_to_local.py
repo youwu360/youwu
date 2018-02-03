@@ -40,8 +40,8 @@ for starId in joined_json[image_download_helper.starCover]:
     image_download_helper.download_star_cover(subFolderPath, url, starId)
     cnt = threading.active_count()
     print("in albumImageList, cnt: " + str(cnt))
-    if (cnt > 6):
-        time.sleep((cnt - 6) / 5.0)
+    if (cnt > 5):
+        time.sleep(0.3)
 
 
 for albumId in joined_json[image_download_helper.albumCover]:
@@ -66,8 +66,8 @@ for albumId in joined_json[image_download_helper.albumCover]:
     image_download_helper.download_album_cover(localAlbumDir, url, starId, albumId)
     cnt = threading.active_count()
     print("in albumImageList, cnt: " + str(cnt))
-    if (cnt > 3):
-        time.sleep((cnt - 3) / 5.0)
+    if (cnt > 5):
+        time.sleep(0.3)
 
 
 for albumId in joined_json[image_download_helper.albumImageList]:
@@ -88,8 +88,8 @@ for albumId in joined_json[image_download_helper.albumImageList]:
         image_download_helper.download_album_image(localAlbumDir, imgUrl, starId, albumId)
         cnt = threading.active_count()
         print("in albumImageList, cnt: " + str(cnt))
-        if (cnt > 3):
-            time.sleep((cnt - 3) / 5.0)
+        if (cnt > 5):
+            time.sleep(0.3)
 
 time.sleep(10)
 

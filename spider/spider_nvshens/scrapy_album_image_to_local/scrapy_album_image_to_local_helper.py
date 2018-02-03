@@ -19,7 +19,7 @@ class ImageDownloadHelper(object):
     albumImageList = 'albumImageList'
 
     daolianSize = 4039
-    daolianSizeList = [4039, 8192]
+    daolianSizeList = [4039, 8192, 6404]
     sizeLowerBound = 1000
     sizeUppderBound = 10000000
 

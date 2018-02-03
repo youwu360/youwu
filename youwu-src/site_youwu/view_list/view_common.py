@@ -29,16 +29,16 @@ def get_album_cover(albumId):
 def get_star_cover(starId):
     if allUrlsForProductInJson is not None:
         try:
-            if starId in allUrlsForProductInJson[starCover]:
-                return allUrlsForProductInJson[starCover][starId]
+            if str(starId) in allUrlsForProductInJson[starCover]:
+                return allUrlsForProductInJson[starCover][str(starId)]
         except:
             pass
 
 def get_image_list(starId, albumId):
     if allUrlsForProductInJson is not None:
         try:
-            if albumId in allUrlsForProductInJson[albumImageList]:
-                return list(allUrlsForProductInJson[albumImageList][albumId].values())
+            if str(albumId) in allUrlsForProductInJson[albumImageList]:
+                return list(allUrlsForProductInJson[albumImageList][str(albumId)].values())
         except:
             pass
     path = os.path.abspath(os.path.join(os.path.realpath(__file__),

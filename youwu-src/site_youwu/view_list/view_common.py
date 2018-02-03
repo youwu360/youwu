@@ -25,6 +25,7 @@ def get_album_cover(albumId):
                 return allUrlsForProductInJson[albumCover][(albumId)]
         except:
             pass
+    return None
 
 def get_star_cover(starId):
     if allUrlsForProductInJson is not None:
@@ -33,6 +34,7 @@ def get_star_cover(starId):
                 return allUrlsForProductInJson[starCover][str(starId)]
         except:
             pass
+    return None
 
 def get_image_list(starId, albumId):
     if allUrlsForProductInJson is not None:

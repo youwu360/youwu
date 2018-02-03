@@ -21,8 +21,8 @@ albumImageList = 'albumImageList'
 def get_album_cover(albumId):
     if allUrlsForProductInJson is not None:
         try:
-            if albumId in allUrlsForProductInJson[albumCover]:
-                return allUrlsForProductInJson[albumCover][albumId]
+            if str(albumId) in allUrlsForProductInJson[albumCover]:
+                return allUrlsForProductInJson[albumCover][(albumId)]
         except:
             pass
 

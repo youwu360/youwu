@@ -81,7 +81,7 @@ for albumId in joined_json[image_download_helper.albumImageList]:
         print("can not get starId by albumId : " + str(albumId))
         continue
 
-    url = joined_json[image_download_helper.albumCover][albumId]
+    url = joined_json[image_download_helper.albumImageList][albumId]
     subFolder = "data/" + image_download_helper.get_hash_code(starId, albumId)
     subFolderPath = os.path.join(basePath, subFolder)
     if not os.path.exists(subFolderPath):

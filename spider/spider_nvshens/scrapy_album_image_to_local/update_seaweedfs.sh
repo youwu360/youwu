@@ -5,7 +5,7 @@ log=logs/log.${t}
 
 
 date > ${log}
-a=`ps aux | grep update_seaweedf | grep -v grep |wc -l`
+a=`ps aux | grep "update_seaweedf.py" | grep -v grep |wc -l`
 if [ $a -gt 0 ]
 then
     echo "update_seaweedf is executing , exit now !"

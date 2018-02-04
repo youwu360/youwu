@@ -38,8 +38,6 @@ class LoadNewCover:
             except Exception as e:
                 print("try update fail in updated star")
                 print(e)
-            break
-
 
     def loadAlbumCover(self):
         for albumId in allUrlsForProductInJson[albumCover]:

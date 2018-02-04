@@ -35,6 +35,8 @@ class LoadNewCover:
                     v.cover = json.dumps([url])
                     v.save()
                     print("updated starId : " + str(starId))
+                else:
+                    print("updated starId failed , starId not exists : " + str(starId))
             except Exception as e:
                 print("try update fail in updated star")
                 print(e)

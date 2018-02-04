@@ -30,7 +30,7 @@ class LoadNewCover:
         for starId in allUrlsForProductInJson[starCover]:
             url = allUrlsForProductInJson[starCover][starId]
             try:
-                if Album.objects.filter(starId=starId).exists():
+                if Star.objects.filter(starId=starId).exists():
                     v = Star.objects.get(starId=starId)
                     v.cover = json.dumps([url])
                     v.save()

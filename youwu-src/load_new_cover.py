@@ -121,8 +121,8 @@ class CleanNullAlbum:
 
 if __name__ == '__main__':
     loader = LoadNewCover()
-    loader.loadStarCover()
+    # loader.loadStarCover()
     loader.loadAlbumCover()
 
-    cleaner = CleanNullAlbum()
-    cleaner.delete_album_and_star()
+    # cleaner = CleanNullAlbum()
+    # cleaner.delete_album_and_star()

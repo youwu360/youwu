@@ -104,6 +104,7 @@ class AlbumCoverExtractor:
         self.extractOneFolder(albumImageFileDir)
 
     def extractOneFolder(self, folderPath):
+        print("in extractOneFolder, folderPath : " + folderPath)
         cover_path = os.path.join(folderPath, 'cover.jpg')
         if os.path.exists(cover_path):
             return

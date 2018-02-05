@@ -103,21 +103,21 @@ class CleanNullAlbum:
             tag.IdList = id_list
             tag.save()
 
-        tags = Tags.objects.filter(tagTypeId='Star')
-        for tag in tags:
-            id_list = json.loads(tag.IdList)
-            cleared_list = []
-            for starId in id_list:
-                if str(starId) not in allUrlsForProductInJson[starCover]:
-                    print("delete starId : " + str(starId))
-                    continue
-                cleared_list.append(starId)
-            if len(cleared_list) == len(id_list):
-                continue
-
-            id_list = json.dumps(cleared_list)
-            tag.IdList = id_list
-            tag.save()
+        # tags = Tags.objects.filter(tagTypeId='Star')
+        # for tag in tags:
+        #     id_list = json.loads(tag.IdList)
+        #     cleared_list = []
+        #     for starId in id_list:
+        #         if str(starId) not in allUrlsForProductInJson[starCover]:
+        #             print("delete starId : " + str(starId))
+        #             continue
+        #         cleared_list.append(starId)
+        #     if len(cleared_list) == len(id_list):
+        #         continue
+        #
+        #     id_list = json.dumps(cleared_list)
+        #     tag.IdList = id_list
+        #     tag.save()
 
 if __name__ == '__main__':
     loader = LoadNewCover()

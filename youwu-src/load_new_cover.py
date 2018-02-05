@@ -74,31 +74,31 @@ class CleanNullAlbum:
 
         albums = Album.objects.all()
 
-        cnt = 0
         for album in albums:
             albumId = str(album.albumId)
             if albumId in self.toSave:
                 continue
+            else:
+                self.toDelete[albumId] = True
+                album.delete()
 
-            cnt += 1
-            print("album.delete()")
-            print(album.albumId)
-            print("cnt: " + str(cnt))
+        print('album to delete :')
+        print(self.toDelete)
 
-        print(len(self.toSave))
-        print(len(self.toDelete))
+        tags = Tags.objects.filter(tagTypeId='Album')
 
-        # for albumId in allUrlsForProductInJson[albumCover]:
-        #     url = allUrlsForProductInJson[albumCover][albumId]
-        #     try:
-        #         if Album.objects.filter(albumId=albumId).exists():
-        #             v = Album.objects.get(albumId=albumId)
-        #             v.cover = json.dumps([url])
-        #             v.save()
-        #             print("updated albumId : " + str(albumId))
-        #     except Exception as e:
-        #         print("try update fail in updated album")
-        #         print(e)
+        for tag in tags:
+            id_list = json.loads(tag.IdList)
+            cleared_list = []
+            for albumId in id_list:
+                if str(albumId) in self.toDelete:
+                    continue
+                cleared_list.append(albumId)
+
+            id_list = json.dumps(cleared_list)
+
+            tag.IdList = id_list
+            tag.save()
 
 
 if __name__ == '__main__':

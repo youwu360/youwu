@@ -76,6 +76,8 @@ class WeedUpLoader:
 
                 try:
                     starId = starCoverImg.split('.')[0]
+                    if starId in cachedStarCover:
+                        continue
                 except Exception as e:
                     print(e)
                     print(starCoverImgPath)

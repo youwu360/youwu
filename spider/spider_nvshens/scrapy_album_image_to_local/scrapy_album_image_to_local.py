@@ -15,20 +15,15 @@ albumImageListFIlePath = "../../../youwu-resource/data/url_info/"
 
 
 newly_scrapyed_json_file = os.path.join(basePath, "../../../youwu-src/all_image_urls.json")
-failed_json_file = os.path.join(basePath, "failed.json")
-product_json_file = os.path.join(basePath, "product.json")
+product_json_file = os.path.join(basePath, "allUrlsForProduct.json")
 
 
 newly_scrapyed_json = image_download_helper.load_file_to_json(newly_scrapyed_json_file)
-last_failed_json = image_download_helper.load_file_to_json(failed_json_file)
 product_json = image_download_helper.load_file_to_json(product_json_file)
 
-joined_json = image_download_helper.join_result(newly_scrapyed_json, last_failed_json,
-                                                image_download_helper.add)
-joined_json = image_download_helper.join_result(joined_json, product_json,
+joined_json = image_download_helper.join_result(newly_scrapyed_json, product_json,
                                                 image_download_helper.minus)
 
-failed_json = image_download_helper.default_dict()
 
 
 for starId in joined_json[image_download_helper.starCover]:

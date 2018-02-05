@@ -21,7 +21,7 @@ class ImageDownloadHelper(object):
     daolianSize = 4039
     daolianSizeList = [4039, 8192, 6404]
     sizeLowerBound = 1000
-    sizeUppderBound = 10000000
+    sizeUppderBound = 15000000
 
     basePath = os.path.dirname(os.path.realpath(__file__))
 

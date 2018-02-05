@@ -15,3 +15,5 @@ fi
 /usr/bin/python3 update_seaweedfs.py >> ${log}
 date >> ${log}
 
+scp allUrlsForProduct.json kaqin@52.250.115.245:/tmp
+

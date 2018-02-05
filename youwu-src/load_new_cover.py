@@ -13,6 +13,8 @@ import datetime
 
 
 allUrlsForProductInJsonFile = 'allUrlsForProduct.json'
+if os.path.exists('/tmp/allUrlsForProduct.json'):
+    allUrlsForProductInJsonFile = '/tmp/allUrlsForProduct.json'
 allUrlsForProductInJson = None
 if os.path.exists(allUrlsForProductInJsonFile):
     allUrlsForProductInJson = json.load(open(allUrlsForProductInJsonFile))

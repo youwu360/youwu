@@ -73,7 +73,11 @@ class ImageDownloadHelper(object):
             else:
                 print('invalid file; retry image : ' + url)
 
-        urllib.request.urlretrieve(url, img_path)
+        try:
+            urllib.request.urlretrieve(url, img_path)
+        except Exception as e:
+            print(e)
+
         if not self.invalid_file_and_contine(img_path):
             print("success url : " + url)
             return

@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 import os
+import hashlib
 
 
 class AlbumCoverExtractor:
@@ -15,6 +16,14 @@ class AlbumCoverExtractor:
     def __init__(self):
         self.face_cascade = cv2.CascadeClassifier(self.cascadePath)
 
+    def get_hash_code(self, starId, albumId):
+        if starId is None:
+            starId = ""
+        if albumId is None:
+            albumId = ""
+        res = hashlib.md5((str(starId) + "-" + str(albumId)).encode('utf-8')).hexdigest()[0:2]
+        return str(res)
+
     def extractOneImage(self, imagePath):
         image = cv2.imread(imagePath)
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -28,15 +37,12 @@ class AlbumCoverExtractor:
 
         shape = image.shape
         ratio = 1.0 * shape[0] / shape[1]
-        print(shape)
-        cv2.imshow("Finding : " + imagePath, image)
-        cv2.waitKey(0)
         if faces is not None and len(faces) != 0:
             for (x, y, w, h) in faces:
                 if w * h * 100 < shape[0] * shape[1]:
                     continue
 
-                cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
+                # cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
                 midX = x + w / 2
                 midY = y + h / 2
 
@@ -65,36 +71,66 @@ class AlbumCoverExtractor:
                         xLeft += shape[1] - xRight
                     cropedImage = image[:, xLeft:xRight]
                 cropedImage =cv2.resize(cropedImage, (333, 500))
-                cv2.imshow("croped image : " + imagePath, cropedImage)
-                cv2.waitKey(0)
-
-            cv2.imshow("Faces found : " + imagePath, image)
-            cv2.waitKey(0)
-            return True
+                # cv2.imshow("croped image : " + imagePath, cropedImage)
+                path = os.path.join(os.path.dirname(imagePath), "cover.jpg")
+                print(path)
+                cv2.imwrite(path, cropedImage)
+                print("generate cover by face ! ")
+                return True
         else:
-            cv2.imshow("Faces not found : " + imagePath, image)
-            cv2.waitKey(0)
+            print("Faces not found : " + imagePath)
             return False
+
+    def cropOneImage(self, imagePath):
+        image = cv2.imread(imagePath)
+        shape = image.shape
+
+        xlen = min(shape[0], shape[1] * 1.5)
+        ylen = min(shape[1], shape[0] * 1.5)
+
+        cropedImage = image[0:ylen, 0:xlen]
+        cropedImage = cv2.resize(cropedImage, (333, 500))
+
+        cover_path = os.path.join(os.path.dirname(imagePath), "cover.jpg")
+        print(cover_path)
+        cv2.imwrite(cover_path, cropedImage)
+
 
     def extractOneAlbum(self, starId, albumId):
         albumImageFileDir = os.path.abspath(os.path.join(self.basePath,
-                        "test_data/" + str(starId) + "." + str(albumId)))
+                        "../../../spider/spider_nvshens/scrapy_album_image_to_local/data/"
+                        + self.get_hash_code(starId, albumId) + "/"
+                        + str(starId) + "." + str(albumId)))
         self.extractOneFolder(albumImageFileDir)
 
     def extractOneFolder(self, folderPath):
+        cover_path = os.path.join(folderPath, 'cover.jpg')
+        if os.path.exists(cover_path):
+            return
+
         imageList = os.listdir(folderPath)
+
+        success = False
         for image in imageList:
             if self.extractOneImage(os.path.join(folderPath, image)):
-                print(111)
-                # break
+                success = True
+                break
+
+        if not success:
+            for image in imageList:
+                self.cropOneImage(os.path.join(folderPath, image))
+                break
 
     def runWithStarIdAndAlbumId(self):
         with open(self.starAndAlbumIdFile, 'r') as fp:
             lines = fp.readlines()
+            print(lines)
             for line in lines:
                 if line is None:
                     continue
                 line = line.strip()
+                print(line)
+
                 if line == '' or line.startswith('#'):
                     continue
 
@@ -104,4 +140,4 @@ class AlbumCoverExtractor:
 
 if __name__ == '__main__':
     ins = AlbumCoverExtractor()
-    ins.extractOneFolder('test_data/other_images')
+    ins.runWithStarIdAndAlbumId()

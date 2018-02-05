@@ -48,7 +48,6 @@ class WeedUpLoader:
                     w = WeedFS("localhost", 9333)
                     fid = w.upload_file(imgFullPath)
                     img_url = w.get_file_url(fid)
-                    #res = w.delete_file(fid)
 
                     processedImg[img] = img_url
                 print(processedImg)

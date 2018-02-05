@@ -302,7 +302,6 @@ class AlbumCoverLoader(object):
                 for line in fp:
                     line = line.strip('/ \n\[\]\"\'')
                     if len(line) > 10:
-                        print(line)
                         arr = line.split('/')
                         albumId = None
                         for i in range(len(arr)):

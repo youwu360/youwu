@@ -23,7 +23,7 @@ newly_scrapyed_json = image_download_helper.load_file_to_json(newly_scrapyed_jso
 product_json = image_download_helper.load_file_to_json(product_json_file)
 extra_album_cover_json = album_cover_loader.load(extra_album_cover_file)
 
-joined_json = image_download_helper.join_result(newly_scrapyed_json, extra_album_cover_file,
+joined_json = image_download_helper.join_result(newly_scrapyed_json, extra_album_cover_json,
                                                 image_download_helper.add)
 joined_json = image_download_helper.join_result(joined_json, product_json,
                                                 image_download_helper.minus)

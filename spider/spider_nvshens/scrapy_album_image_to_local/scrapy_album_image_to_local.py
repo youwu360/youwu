@@ -16,14 +16,16 @@ albumImageListFIlePath = "../../../youwu-resource/data/url_info/"
 
 newly_scrapyed_json_file = os.path.join(basePath, "../../../youwu-src/all_image_urls.json")
 product_json_file = os.path.join(basePath, "allUrlsForProduct.json")
-
+extra_album_cover_file = os.path.join(basePath, "extra_album_cover_file")
 
 newly_scrapyed_json = image_download_helper.load_file_to_json(newly_scrapyed_json_file)
 product_json = image_download_helper.load_file_to_json(product_json_file)
+extra_album_cover_json = image_download_helper.load_file_to_json(extra_album_cover_file)
 
-joined_json = image_download_helper.join_result(newly_scrapyed_json, product_json,
+joined_json = image_download_helper.join_result(newly_scrapyed_json, extra_album_cover_file,
+                                                image_download_helper.add)
+joined_json = image_download_helper.join_result(joined_json, product_json,
                                                 image_download_helper.minus)
-
 
 
 for starId in joined_json[image_download_helper.starCover]:

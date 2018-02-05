@@ -291,56 +291,28 @@ class ImageDownloadHelper(object):
         res = self.join_result(res1, res2, ins.add)
         return res
 
+
+class AlbumCoverLoader(object):
+    helper = ImageDownloadHelper()
+    res = helper.default_dict()
+
+    def load(self, file):
+        if os.path.exists(file):
+            with open(file) as fp:
+                for line in fp:
+                    line = line.strip('/ \n\[\]\"\'')
+                    if len(line) > 10:
+                        print(line)
+                        arr = line.split('/')
+                        albumId = None
+                        for i in range(len(arr)):
+                            if arr[i] == 'cover':
+                                albumId = arr[i - 1]
+                        if albumId is not None:
+                            self.res[self.helper.albumCover][albumId] = line
+        return self.res
+
 if __name__ == '__main__':
-    ins = ImageDownloadHelper()
-    res1 = ins.get_local_product_data_url_json()
-    res2 = ins.get_local_product_cover_url_json()
-    res = ins.join_result(res1, res2, ins.add)
+    ins = AlbumCoverLoader()
+    res = ins.load('starAndAlbumId.txt')
     print(res)
-    if True:
-        exit(0)
-
-    starCover = 'starCover'
-    albumCover = 'albumCover'
-    albumToStar = 'albumToStar'
-    albumImageList = 'albumImageList'
-
-    a = {}
-    a[starCover] = {}
-    a[starCover][1] = 'starcover1'
-
-    a[albumCover] = {}
-    a[albumCover][3] = 'adfefe'
-    a[albumToStar] = {}
-    a[albumToStar][4] = 'xsxx'
-
-    a[albumImageList] = {}
-    a[albumImageList][1] = {}
-    a[albumImageList][1][12] = 'afdfad'
-    a[albumImageList][1][13] = 'afdfad'
-
-    a[albumImageList][2] = {}
-    a[albumImageList][2][1] = 'xxxxxx'
-
-    b = {}
-    b[starCover] = {}
-    b[starCover][1] = 'starcover1'
-
-    b[albumCover] = {}
-    b[albumCover][1] = 'adfe'
-    b[albumToStar] = {}
-    b[albumToStar][1] = 'xxx'
-
-    b[albumImageList] = {}
-    b[albumImageList][1] = {}
-    b[albumImageList][1][1] = 'adfad'
-    b[albumImageList][1][2] = 'axdfad'
-
-    b[albumImageList][2] = {}
-    b[albumImageList][2][1] = 'xxxxxx'
-
-    print(a)
-    print(b)
-    res = ins.join_result(a, b, 'minus')
-    print(res)
-

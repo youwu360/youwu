@@ -233,18 +233,18 @@ class ImageDownloadHelper(object):
                     if self.invalid_file_and_contine(imgFullPath):
                         continue
 
-                    res[albumToStar][albumId] = starId
+                    res[self.albumToStar][albumId] = starId
                     if img == 'cover.jpg':
-                        res[albumCover][starId] = True
+                        res[self.albumCover][starId] = True
                         if img in processedImg:
-                            res[albumCover][starId] = processedImg[img]
+                            res[self.albumCover][starId] = processedImg[img]
                     else:
-                        if albumId not in res[albumImageList]:
-                            res[albumImageList][albumId] = {}
-                            res[albumImageList][albumId][img] = True
+                        if albumId not in res[self.albumImageList]:
+                            res[self.albumImageList][albumId] = {}
+                            res[self.albumImageList][albumId][img] = True
 
                             if img in processedImg:
-                                res[albumImageList][albumId][img] = processedImg[img]
+                                res[self.albumImageList][albumId][img] = processedImg[img]
         return res
 
     def get_local_product_cover_url_json(self):
@@ -279,9 +279,9 @@ class ImageDownloadHelper(object):
                 if self.invalid_file_and_contine(starCoverImgPath):
                     continue
 
-                res[starCover][starId] = True
+                res[self.starCover][starId] = True
                 if starId in cachedStarCover:
-                    res[starCover][starId] = cachedStarCover[starId]
+                    res[self.starCover][starId] = cachedStarCover[starId]
 
         return res
 

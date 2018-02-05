@@ -6,9 +6,10 @@ import hashlib
 import time
 import threading
 from scrapy_album_image_to_local_helper import ImageDownloadHelper
+from scrapy_album_image_to_local_helper import AlbumCoverLoader
 
 image_download_helper = ImageDownloadHelper()
-
+album_cover_loader = AlbumCoverLoader()
 
 basePath = os.path.dirname(os.path.realpath(__file__))
 albumImageListFIlePath = "../../../youwu-resource/data/url_info/"
@@ -20,7 +21,7 @@ extra_album_cover_file = os.path.join(basePath, "extra_album_cover_file")
 
 newly_scrapyed_json = image_download_helper.load_file_to_json(newly_scrapyed_json_file)
 product_json = image_download_helper.load_file_to_json(product_json_file)
-extra_album_cover_json = image_download_helper.load_file_to_json(extra_album_cover_file)
+extra_album_cover_json = album_cover_loader.load(extra_album_cover_file)
 
 joined_json = image_download_helper.join_result(newly_scrapyed_json, extra_album_cover_file,
                                                 image_download_helper.add)

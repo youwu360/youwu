@@ -1,6 +1,6 @@
 <h3 class="m_module_title">热门尤物</h3>
 <div class="m_hot_star" >
-    {% for line in hot_models %}
+    {% for line in m_hot_models %}
         <div class="m_hot_star_info">
             <a class="click_line_title" href="{% url 'star' line.starId 1%}">
             <div  class="img_box"> <img  src="{{ line.cover }}"></div>

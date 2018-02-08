@@ -1,3 +1,4 @@
+{%  if pageGroup|length > 1 %}
 <div class="pagination_box">
      <ul class="pagination pagination-lg" >
         {#上一页按钮开始#}
@@ -29,3 +30,5 @@
         {# 下一页按钮结束#}
     </ul>
 </div>
+
+{% endif %}

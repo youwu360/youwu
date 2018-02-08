@@ -139,12 +139,11 @@ def recom_albums(x):
 def getAlbumInfoById(albumId):
 
     albums = []
-    print(albumId)
     for line in albumId:
         item = dict()
         try:
             temp_info = Album.objects.filter(albumId=line).values("name", "cover", "albumId")[0]
-            print(temp_info)
+            #print(temp_info)
             item["cover"] = json.loads(temp_info["cover"])[0]
             item["name"] = temp_info["name"]
             item["albumId"] = temp_info["albumId"]
@@ -200,11 +199,52 @@ def get_hot_tags():
 
 
 def get_hot_models(x):
-    temp_data = Star.objects.all().values("starId", "cover", "name").order_by('?')[:x]
+    temp_data = Star.objects.all().values("starId", "cover", "name","work").order_by('?')[:x]
     for line in temp_data:
         line["cover"] = json.loads(line["cover"])[0]
         line["name"] = line["name"].split("(")[0]
 
     return list(temp_data)
 
+
+
+def get_famous_site():
+    site = [
+        {"tagName": "爱尤物", "tagId": "aiyouwu", "tagTypeId": "Album"},
+        {"tagName": "尤果网", "tagId": "ugirl", "tagTypeId": "Album"},
+        {"tagName": "尤物馆", "tagId": "youwuguan", "tagTypeId": "Album"},
+        {"tagName": "尤蜜荟", "tagId": "youmihui", "tagTypeId": "Album"},
+        {"tagName": "蜜桃社", "tagId": "miitao", "tagTypeId": "Album"},
+        {"tagName": "爱蜜社", "tagId": "imiss", "tagTypeId": "Album"},
+        {"tagName": "优星馆", "tagId": "uxing", "tagTypeId": "Album"},
+        {"tagName": "魅妍社", "tagId": "mistar", "tagTypeId": "Album"},
+        {"tagName": "波萝社", "tagId": "bololi", "tagTypeId": "Album"},
+        {"tagName": "优果网", "tagId": "youguo", "tagTypeId": "Album"},
+        {"tagName": "青豆客", "tagId": "qingdouke", "tagTypeId": "Album"},
+        {"tagName": "秀人网", "tagId": "xiuren", "tagTypeId": "Album"},
+        {"tagName": "推女神", "tagId": "tgod", "tagTypeId": "Album"},
+        {"tagName": "美媛馆", "tagId": "meiyuanguan", "tagTypeId": "Album"},
+        {"tagName": "推女郎", "tagId": "tuigirl", "tagTypeId": "Album"},
+        {"tagName": "头条女神", "tagId": "toutiao", "tagTypeId": "Album"},
+        {"tagName": "兔几盟", "tagId": "tukmo", "tagTypeId": "Album"},
+        {"tagName": "激萌文化", "tagId": "kimoe", "tagTypeId": "Album"},
+        {"tagName": "花漾", "tagId": "huayan", "tagTypeId": "Album"},
+        {"tagName": "影私荟", "tagId": "wings", "tagTypeId": "Album"},
+        {"tagName": "克拉女神", "tagId": "kela", "tagTypeId": "Album"},
+        {"tagName": "星颜社", "tagId": "xingyan", "tagTypeId": "Album"},
+        {"tagName": "花漾", "tagId": "huayang", "tagTypeId": "Album"},
+        {"tagName": "猫萌榜", "tagId": "micat", "tagTypeId": "Album"},
+        {"tagName": "果团网", "tagId": "girlt", "tagTypeId": "Album"},
+        {"tagName": "51modo", "tagId": "51modo", "tagTypeId": "Album"},
+        {"tagName": "薄荷叶", "tagId": "mintye", "tagTypeId": "Album"},
+        {"tagName": "御女郎", "tagId": "yunvlang", "tagTypeId": "Album"},
+        {"tagName": "嗲囡囡", "tagId": "feilin", "tagTypeId": "Album"},
+        {"tagName": "模范学院", "tagId": "mfstar", "tagTypeId": "Album"},
+    ]
+    return site
+
+
+def get_hot_star():
+    data = list(Star.objects.all().values("name","cover","work")[0:9])
+    print(data)
 

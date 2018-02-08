@@ -15,6 +15,7 @@ def get_tags():
         {"tagName": "推女神", "tagId": "tgod", "tagTypeId": "Album"},
         {"tagName": "美媛馆", "tagId": "meiyuanguan", "tagTypeId": "Album"},
         {"tagName": "推女郎", "tagId": "tuigirl", "tagTypeId": "Album"},
+        {"tagName": "头条女神", "tagId": "toutiao", "tagTypeId": "Album"},
         {"tagName": "兔几盟", "tagId": "tukmo", "tagTypeId": "Album"},
         {"tagName": "激萌文化", "tagId": "kimoe", "tagTypeId": "Album"},
         {"tagName": "花漾", "tagId": "huayan", "tagTypeId": "Album"},
@@ -33,7 +34,7 @@ def get_tags():
         {"tagName": "御女郎", "tagId": "yunvlang", "tagTypeId": "Album"},
         {"tagName": "嗲囡囡", "tagId": "feilin", "tagTypeId": "Album"},
         {"tagName": "模范学院", "tagId": "mfstar", "tagTypeId": "Album"},
-        {"tagName": "头条女神", "tagId": "toutiao", "tagTypeId": "Album"},
+
     ]
 
     body_type = [
@@ -142,3 +143,5 @@ def get_tags():
         {"tagName": "体育画报", "tagId": "sportillustrated", "tagTypeId": "Album"},
     ]
     return [company_type, body_type, person_feature_type, place_type,country_type ,other_company_type ]
+
+

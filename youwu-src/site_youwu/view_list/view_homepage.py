@@ -5,10 +5,18 @@ from .view_common import is_mobile_check
 from .view_common import paging
 from .view_common import get_hot_tags
 from .view_common import get_hot_models
+from .view_common import get_famous_site
+from .view_common import get_hot_star
 
 # Create your views here.
 
 def home_page(request,*ids):
+
+    # 页面类型
+    page_type = 'homepage'
+
+    # 知名站点
+    famous_site = get_famous_site
 
     # seo_info
     title = "尤物丝_美女图片社区"
@@ -49,8 +57,11 @@ def home_page(request,*ids):
     hot_tags = get_hot_tags()
 
     # 热门模特
-    hot_models = get_hot_models(9)
-    print(hot_models)
+    m_hot_models = get_hot_models(9)
+    pc_hot_models = get_hot_models(10)
+
+
+
 
 
     # 根据移动端和pc端返回不同的结果

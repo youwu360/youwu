@@ -1,4 +1,72 @@
 
+
+/*  ---------------------------------------for base.html ----------------------------------------------------  */
+
+.home_page_box{
+    width: 1300px;
+    margin: auto;
+    text-align: center;
+
+}
+
+
+.hot_star_list{
+    margin: auto;
+    width: 20%;
+    float: right;
+}
+
+.hot_star_list >h2{
+    font-size: 1.5rem;
+}
+
+
+
+.home_album_box{
+    margin: auto;
+    width: 80%;
+    float: left;
+
+}
+
+.home_hot_star_info{
+    margin: 1rem ;
+
+
+}
+
+.home_hot_star_info >a >img{
+    height: 5rem;
+    float: left;
+
+}
+
+.home_hot_star_info >a{
+    text-align: left;
+}
+
+.home_hot_star_info >a >div {
+
+    margin: 1rem auto auto 1rem;
+    float: left;
+
+}
+
+.home_hot_star_info >a >div>h3 {
+    color: #7d7d7d;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+
+}
+
+.home_hot_star_info >a >div>span{
+    color: #7d7d7d;
+    font-size: 1rem;
+}
+
+
+
+
 .group {
     float: left;
     position: relative;
@@ -27,7 +95,6 @@ img{
     width: auto;
     height: auto;
     max-width: 100%;
-    max-height: 100%;
 }
 
 
@@ -54,10 +121,25 @@ img{
 
 
 .text {
+
     position: absolute;
     color:white;
     background-color:rgba(255,255,255,0.2) ;
-    font-size: 13px;
+    font-size: 1.5rem;
+    width: 100%;
+    margin: 3rem 0 1rem 0;
+    left: 0;
+    bottom: 0;
+    text-align: left;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    line-height: 3rem;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; //文本行数
+    overflow: hidden;
+
 
 
 }
@@ -72,10 +154,10 @@ img{
     height: 65px;
     background: black;
     background: rgba(0, 0, 0, 0.6);
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.6)), to(rgba(0, 0, 0, 0.6)));
-    background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.6) 100%);
-    background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 100%);
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 30%,rgba(0, 0, 0, 0.6) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.6)), to(rgba(0, 0, 0, 0.8)));
+    background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.8) 100%);
+    background: -moz-linear-gradient(top, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.8) 100%);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.6) 30%,rgba(0, 0, 0, 0.8) 100%);
     text-shadow: 0px 0px 1px #000;
 
 }
@@ -117,33 +199,59 @@ img{
 /*  ---------------------------------------for album.html ----------------------------------------------------  */
 
 
-.album_des{
-    font-size: 12px;
-    color: #666;
-    margin: 5px auto 0px auto;
-
-
-}
-
-
 .thread{
-    width: 1102px;
+    width: 1010px;
     margin: 1px auto 20px auto;
     background: #fff;
     border: 1px #eeeff2 solid;
 
+}
 
+.thread >h3{
+    margin: 3rem auto 2rem 3rem ;
+    text-align: left;
+    font-size: 2.5rem;
+    color: black;
+}
+
+.album_des{
+    color: #666;
+    margin: 0 auto 2rem 3rem;
+    text-align: left;
+    font-size: 1.5rem;
 }
 
 .album_img{
     display:block;
     margin: 0 auto 20px auto;
-    width: auto;
+    width: 100%;
     height: auto;
     max-width: 100%;
-    max-height: 100%;
+
 
 }
+
+.tag{
+    margin: 0 auto 1rem 3rem;
+
+}
+
+.tag >a{
+    padding: 0.8rem 1rem;
+    background: #aaaaaa;
+    font-size: 1.5rem;
+    display: inline-block;
+    float: left;
+    color: white;
+
+}
+
+.tag >a:hover{
+    text-underline: none;
+    text-decoration: none;
+    background: #8c8c8c;
+}
+
 
 .star_box_title{
     font-size: 12px;
@@ -151,28 +259,33 @@ img{
     color: #333;
     text-align: left;
     font-weight: normal;
-    margin: 20px 30px 10px 30px;
+    margin: 20px 30px 10px 2rem;
 }
 
 .album_star_box{
-    margin: 10px 30px ;
+    margin: 1rem 1rem ;
     background: #fff;
     border: 1px #eeeff2 solid;
-    height: 250px;
-
 }
 
 
 .album_star_img{
-    padding: 20px ;
-    height: 95%;
+    padding: 2rem ;
     float: left;
+    width: 20%
+}
+
+.album_star_img >a>img{
+    width: 100%;
+
+
 }
 
 .star_info_box {
-    margin: 30px 0 auto 20px;
+    margin: 2rem auto auto 1rem;
     width: 85%;
     height: auto;
+    text-align: left;
 }
 
 .recommend{
@@ -213,7 +326,7 @@ img{
 
 }
 .star_page_star_info{
-    margin: 0 auto 20px 180px;
+    margin: 0 2rem 20px 180px;
 
 }
 
@@ -225,18 +338,83 @@ img{
 }
 
 .star_page_albums{
-    margin: 20px auto 0 20px;
+    margin: 1rem auto 0 2rem;
 
 }
 
 .star_page_recom_box{
 
-    width: 1200px;
+    max-width: 100%;
     text-align: center;
-    margin:0 auto;
+    margin:1rem auto 2rem 2rem;
+
+}
+
+
+/*--------------------------------for pc_common_css ---------------------------------------*/
+
+.module_title{
+    font-size: 1.8rem;
+    line-height: 2rem;
+    color: #333;
+    text-align: left;
+    font-weight: bold;
+    margin: 4rem  auto 0 2rem;
 
 
 }
+
+.album_box{
+    max-width: 100%;
+    text-align: center;
+    margin: 1rem auto 2rem 2rem;
+}
+
+.nav_active{
+    background: #dbdbdb;
+}
+
+.nav_active :hover{
+    background: #dbdbdb;
+}
+
+
+.famous_site{
+    z-index:100;
+    position: absolute;
+    top: 99%;
+    left: -1px;
+    width: 30vw;
+    height: 24rem;
+    background: white;
+    box-shadow: 1px 1px 4px #aaaaaa;
+    display: none;
+
+
+}
+
+
+.famous_site >a{
+    display: inline-block;
+    width: 20%;
+    height: 4rem;
+    line-height: 4rem;
+    text-align: center;
+    margin-left: 0;
+    background: #f6f6f6;
+    float: left;
+    border:1px white solid;
+}
+
+
+.famous_site > a:hover{
+    text-decoration: none;
+    color: white;
+    background: #aaaaaa;
+}
+
+
+
 
 
 /*--------------------------------for common_show_album.html ---------------------------------------*/
@@ -244,8 +422,9 @@ img{
 .com_album_group {
     float: left;
     position: relative;
-    margin: 0 1% 1% 0;
-    width: 19%;
+    margin-right: 1%;
+    margin-bottom: 1%;
+    width: 23.8%;
     border: 1px #eeeff2 solid;
     border-top: none;
     border-radius: 0 0 3px 3px;
@@ -265,33 +444,26 @@ img{
     height: 65px;
     background: black;
     background: rgba(0, 0, 0, 0.6);
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.6)), to(rgba(0, 0, 0, 0.6)));
-    background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.6) 100%);
-    background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 100%);
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 30%,rgba(0, 0, 0, 0.6) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.3)), to(rgba(0, 0, 0, 0.3)));
+    background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.3) 100%);
+    background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3) 100%);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 30%,rgba(0, 0, 0, 0.6) 100%);
     text-shadow: 0px 0px 1px #000;
-
 }
 
 
 .com_album_des_info_issue {
     position: absolute;
     z-index: 2;
-    left: 2%;
-    bottom: -35px;
+    left: 0;
+    bottom: 0;
     height: 80px;
-    width: 96%;
+    width: 100%;
     color: white;
     transition: 0.2s ease-out;
     overflow:hidden;
 
 }
-
-
-
-
-
-
 
 .pagination_box{
     text-align: center;
@@ -304,20 +476,33 @@ img{
 
 /*------------------------------------ for classify.html -------------------------------------------*/
 .classify_title{
-    margin: 10px auto auto 20px;
+    margin: 1.5rem auto auto auto;
+    text-align: center;
 
 
 
 }
 .classify_tag{
-    margin: 10px auto 5px auto;
+    margin: 1.5rem 2rem 1.5rem 2rem;
 
 }
 
-.classify_tag_span{
-    margin-right: 10px;
-    margin-left: 5px;
+.classify_tag >span,
+.classify_tag >a>span
+{
+    padding: 0.5rem 1rem;
+    background: #f6f6f6;
+    display: inline-block;
+    margin-bottom: 0.5rem;
 }
+
+.classify_tag >span:hover,
+.classify_tag >a>span:hover{
+    background: #aaaaaa;
+    color: white;
+
+}
+
 
 .classify_tag_name{
     margin-right: 10px;
@@ -326,22 +511,14 @@ img{
 }
 
 .classify_album {
-    width: 1350px;
+    width: 100%;
     text-align: center;
-    margin:0 auto;
+    margin:1rem 0 2rem 1%;
 }
+
 .classify_tag_active{
-    background-color: #337ab7;
-    display: inline-block;
-    padding: .2em .6em .3em;
-    font-size: 100%;
-    font-weight: bold;
-    line-height: 1;
-    color: #fff;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: baseline;
-    border-radius: .25em;
+    background: #1ac6ff;
+    color: #373737;
 
 }
 
@@ -374,6 +551,7 @@ img{
     margin: auto 0 auto 2px;
 
 }
+
 
 
 /*------------------------------------ for m_pagination.html -------------------------------------------*/
@@ -818,3 +996,4 @@ img{
     margin: 0.8rem auto;
     text-align: center;
 }
+

@@ -2,42 +2,34 @@
 {% block content %}
 {% include "nav.html" %}
 <!-- 专辑图片展现 -->
+<div class="thread text-center"  >
 
-<div class="thread">
-<div class="text-center" >
-    <h3 >{{name}}</h3>
-    <div class="album_des">
+    <h3>{{name}}</h3>
 
+    <!-- tag展现 -->
+    <div class="tag">
         {% for tag in tag %}
-
-        <a target="_blank" href=""><span class="label label-default"> {{tag.tag_name}} </span> </a> <!--#待修改-->
-
+        <a target="_blank" href=""> {{tag.tag_name}} </a> <!--#待修改-->
         {% endfor %}
+        <div style="clear: both"></div>
+    </div>
+    <div class="album_des"><p >{{des}}</p></div>
 
+    <!--图片展现-->
+    <div >
+        {% for url in showData %}
+            <div ><img class="album_img" src={{url}} alt="{{name}}" ></div>
+        {% endfor %}
     </div>
 
-    <div ><p class="album_des text-center">{{des}}</p></div>
-
-
- <!--图片展现-->
-
-<div >
-    {% for url in showData %}
-        <div ><img  class="album_img"  src={{url}} alt="" ></div>
-    {% endfor %}
-</div>
-
-</div>
-
-
-<!--分页-->
-{% include "common_pagination.html" %}
+    <!--分页-->
+    {% include "common_pagination.html" %}
 
     <!--女神资料-->
 <div class="star_box_title"><h4>女神资料</h4></div>
     <div class="album_star_box ">
         <div class="album_star_img text-center" >
-            <a target="_blank" href="{% url 'star' starId 1 %}"><img src="{{star_cover}}"  alt=""></a>
+            <a target="_blank" href="{% url 'star' starId 1 %}"><img src="{{star_cover}}"  alt="{{star_name}}"></a>
              <a target="_blank" href="{% url 'star' starId 1 %}" style="display: block ;">{{star_name}}</a>
             </div>
 
@@ -47,10 +39,10 @@
             {% if star_threeD  %}<p>三维：{{star_threeD}}</p>{% endif %}
             {% if star_hobby  %}<p>兴趣：{{star_hobby}}</p>{% endif %}
             {% if star_des  %}<p>描述：{{star_des}}</p>{% endif %}
-
+        <div style="clear: both"></div>
         </div>
     </div>
-</div>
+
 
 
 <!--图册推荐-->
@@ -60,5 +52,7 @@
     {% for line in recom_data%}
     {% include "common_show_album.html" %}
     {% endfor %}
+    <div style="clear: both"></div>
 </div>
+    </div>
 {% endblock %}

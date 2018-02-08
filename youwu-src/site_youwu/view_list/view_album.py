@@ -41,14 +41,13 @@ def album_page(request,albumId,pageId):       # pageID: 专辑下的第几页
 
 
 
-
     # 参数配置
     if is_mobile:
         page_cnt = 5
         re_com_cnt = 6
     else:
         page_cnt = 10
-        re_com_cnt = 10
+        re_com_cnt = 8
 
     # 分页
     try:

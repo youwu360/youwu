@@ -10,18 +10,51 @@
       </a>
 
       <ul class="nav navbar-nav">
-        <li ><a href="{% url 'home' 1 %}">首页 </a></li>
-        <li><a href="{% url 'classify_default' 1%}">分类</a></li>
-          <li style="clear: both"></li>
+          {% ifequal page_type 'homepage' %}
+          <li ><a id = "homepage" class="nav_active" href="{% url 'home' 1 %}">首页 </a></li>
+          {% else %}
+          <li ><a id = "homepage" href="{% url 'home' 1 %}">首页 </a></li>
+          {% endifequal %}
 
+          {% ifequal page_type 'classify' %}
+          <li><a class="nav_active" id = "classify" href="{% url 'classify_default' 1 %}">分类</a></li>
+          {% else %}
+          <li><a  id = "classify" href="{% url 'classify_default' 1 %}">分类</a></li>
+          {% endifequal %}
+
+          <li id="famous_site"><a id="famous_site_button" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">名站套图<span class="caret"></span></a>
+          <div id ="famous_site_div" class="famous_site">
+              {% for line in famous_site %}
+              <a href="{% url 'classify' line.tagId 1 %}">{{line.tagName}}</a>
+              {% endfor %}
+          </div>
+          </li>
+           <script>
+               $(document).ready(function(){
+                  $("#famous_site_button").hover(function(){
+                    $("#famous_site_div").show();
+                  });
+                });
+
+                $(document).ready(function(){
+                    $("#famous_site").mouseleave(function(){
+                        $("#famous_site_div").hide();
+                    });
+                });
+
+              </script>
+
+
+
+
+
+          <li style="clear: both"></li>
       </ul>
+
+
 
 
   </div>
     <div style="clear: both"></div>
 </nav>
 <div style="clear: both"></div>
-
-
-
-

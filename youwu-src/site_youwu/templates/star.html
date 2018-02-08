@@ -18,10 +18,8 @@
         <div style = "clear: both"></div>
 
     </div >
-
-    <div class="star_page_album_box_title">
-        <H4>女神套图</H4>
-    </div>
+    <div style = "clear: both"></div>
+    <H4 class="module_title">女神套图</H4>
 
     <div class="star_page_albums">
         {% for line in showData %}
@@ -32,15 +30,17 @@
 
     {% include "common_pagination.html" %}
 
-</div>
 
+  <h4 class="module_title">套图推荐</h4>
 <div class="star_page_recom_box">
-    <div><H3>套图推荐</H3></div>
+
     {% for line in recom_data%}
     {% include "common_show_album.html" %}
     {% endfor %}
+    <div style="clear: both"></div>
 </div>
 
+    </div>
 
 
 

@@ -26,8 +26,8 @@ def star_page(request,starId,pageId):
         re_com_cnt = 6  #推荐的album个数
     else:
         page_cnt = 10
-        re_com_cnt = 10
         content_cnt = 40
+        re_com_cnt = 8
 
         # star信息
     star_info = Star.objects.filter(starId=starId)

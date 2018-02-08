@@ -20,7 +20,7 @@ import os
 
 def classify_page(request, *ids):
 
-
+    page_type = 'classify'  # 页面类型
 
     is_mobile = is_mobile_check(request)
 
@@ -35,7 +35,7 @@ def classify_page(request, *ids):
 
     # tag 列表
     tag_data = get_tags()
-    print(tag_data)
+    #print(tag_data)
 
 
     # 当前tag对应的albums   如果没有带参数，则返回列表
@@ -57,7 +57,7 @@ def classify_page(request, *ids):
                 item["albumId"] = temp_info["albumId"]
 
             except Exception as e:
-                print(e)
+                #print(e)
                 continue
             albums.append(item)
 
@@ -66,7 +66,10 @@ def classify_page(request, *ids):
 
     else:       # 总分类页
         pageId = ids[0]
-        albumId = Album.objects.all().values("albumId")
+        albumId_temp = Album.objects.all().values("albumId")
+        albumId = []
+        for line in albumId_temp:
+            albumId.append(line["albumId"])
         albums = getAlbumInfoById(albumId)
         url_cut =  "/tag/pageId="
 

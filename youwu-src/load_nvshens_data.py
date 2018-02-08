@@ -182,6 +182,10 @@ class LoadNvshensData():
                 print('album cover exists, albumId : ' + str(album_id))
                 album_info['cover'] = json.dumps(self.starAlbumCover[album_id])
             else:
+                list_tmp = []
+                list_tmp.append('https://img.onvshen.com:85/gallery/' +str(star_id) + '/' \
+                                + str(album_id) + '/cover/0.jpg')
+                album_info['cover'] = json.dumps(list_tmp)
                 print('album cover not exists, albumId : ' + str(album_id))
 
             album_info['imageListFile'] = album_path
@@ -236,9 +240,13 @@ class LoadNvshensData():
             to[id].append(url)
 
     def get_value_by_tag(self, line, tag):
-        for i in range(0, len(line), 2):
-            if tag == line[i]:
-                return line[i + 1]
+        try:
+            for i in range(0, len(line)):
+                if tag == line[i]:
+                    return line[i + 1]
+        except Exception as e:
+            print(e)
+            print(line)
         return None
 
     def parse_star(self, line):
@@ -264,6 +272,9 @@ class LoadNvshensData():
         info['description'] = self.get_value_by_tag(line, 'description')
 
         return info
+
+    def update_null_cover(self):
+        sql = '''update site_youwu_album set cover='["https://t1.onvshen.com:85/gallery/' || starId || '/' || albumId || '/cover/0.jpg"]' where cover='';'''
 
 
 if __name__ == '__main__':

@@ -8,8 +8,41 @@ import os
 import logging
 logger = logging.getLogger(__name__)
 
+allUrlsForProductInJsonFile = '/tmp/allUrlsForProduct.json'
+allUrlsForProductInJson = None
+if os.path.exists(allUrlsForProductInJsonFile):
+    allUrlsForProductInJson = json.load(open(allUrlsForProductInJsonFile))
+
+starCover = 'starCover'
+albumCover = 'albumCover'
+albumToStar = 'albumToStar'
+albumImageList = 'albumImageList'
+
+def get_album_cover(albumId):
+    if allUrlsForProductInJson is not None:
+        try:
+            if str(albumId) in allUrlsForProductInJson[albumCover]:
+                return allUrlsForProductInJson[albumCover][(albumId)]
+        except:
+            pass
+    return None
+
+def get_star_cover(starId):
+    if allUrlsForProductInJson is not None:
+        try:
+            if str(starId) in allUrlsForProductInJson[starCover]:
+                return allUrlsForProductInJson[starCover][str(starId)]
+        except:
+            pass
+    return None
 
 def get_image_list(starId, albumId):
+    if allUrlsForProductInJson is not None:
+        try:
+            if str(albumId) in allUrlsForProductInJson[albumImageList]:
+                return list(allUrlsForProductInJson[albumImageList][str(albumId)].values())
+        except:
+            pass
     path = os.path.abspath(os.path.join(os.path.realpath(__file__),
         "../../../../youwu-resource/data/url_info/"
         + str(starId) + "."

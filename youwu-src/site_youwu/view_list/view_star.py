@@ -7,6 +7,7 @@ from .view_common import getAlbumPageUrl
 from .view_common import recommend
 from .view_common import recom_albums
 from .view_common import is_mobile_check
+from .view_common import get_famous_site
 import json
 
 def star_page(request,starId,pageId):
@@ -17,6 +18,9 @@ def star_page(request,starId,pageId):
     # 基础信息
     starId = int(starId)
     pageId = int(pageId)
+
+    # 知名站点
+    famous_site = get_famous_site
 
 
     # 参数配置

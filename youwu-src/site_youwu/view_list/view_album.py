@@ -11,34 +11,40 @@ from .view_common import recom_albums
 import json
 from .view_common import is_mobile_check
 from .view_common import get_hot_tags
+from .view_common import get_famous_site
 import logging
 logger = logging.getLogger(__name__)
 
 
 def album_page(request,albumId,pageId):       # pageID: 专辑下的第几页
 
+    # url参数
     pageId = int(pageId)
     albumId = int(albumId)
+
+
+    # 知名站点
+    famous_site = get_famous_site
 
     # 检查请求是否来自移动端
     is_mobile = is_mobile_check(request)
 
+    # album 信息
     data = Album.objects.filter(albumId=albumId)
     name = data.values('name')[0]['name']
 
     tag_id = json.loads(data.values('tag')[0]['tag'])
     tag = []
+
     for line in tag_id:
         item = dict()
         item["tag_name"] = Tags.objects.filter(tagId = line).values("tagName")[0]["tagName"]
         item["tagId"] = line
         tag.append(item)
-    print(tag)
 
     des = data.values('description')[0]['description']
     starId = data.values("starId")[0]["starId"]
     image_list = get_image_list(starId, albumId)
-
 
 
     # 参数配置
@@ -82,7 +88,10 @@ def album_page(request,albumId,pageId):       # pageID: 专辑下的第几页
     keywords = str(star_name)
     for line in tag:
         keywords = keywords + "," + line["tag_name"]
+    if not des:   # 当description为空时的异常处理
+        des = ""
     description = des + star_name
+
 
     # 推荐图册
     recom_data = recom_albums(re_com_cnt)
@@ -94,3 +103,4 @@ def album_page(request,albumId,pageId):       # pageID: 专辑下的第几页
         return render(request, "m_album.html", locals())
     else:
         return render(request, "album.html", locals())
+

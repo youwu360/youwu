@@ -1,17 +1,14 @@
 from django.shortcuts import render
-from django.shortcuts import HttpResponse
 from site_youwu.models import Album
 from site_youwu.models import Star
 from site_youwu.models import Tags
 from .view_common import paging
-from .view_common import getAlbumPageUrl
-from .view_common import recommend
-from .view_common import recom_albums
 from .view_common import getAlbumInfoById
 import json
 from .view_common import is_mobile_check
 from .view_common import get_hot_tags
 from .show_tags import get_tags
+from .view_common import get_famous_site
 import json
 import sys
 import os
@@ -23,6 +20,9 @@ def classify_page(request, *ids):
     page_type = 'classify'  # 页面类型
 
     is_mobile = is_mobile_check(request)
+
+    # 知名站点
+    famous_site = get_famous_site
 
     # 参数配置
     if is_mobile:

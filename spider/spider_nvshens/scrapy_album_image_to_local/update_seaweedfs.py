@@ -13,7 +13,9 @@ class WeedUpLoader:
     allStarCoverDataInJson = 'allStarCover.json'
     allUrlsForProductInJsonFile = 'allUrlsForProduct.json'
 
-    def upload_data(self):
+    weedFs = WeedFS("localhost", 9333)
+
+    def upload_album_data(self):
         dataPath = os.path.join(self.basePath, "data")
         for sub in os.listdir(dataPath):
             subPath = os.path.join(dataPath, sub)
@@ -45,16 +47,15 @@ class WeedUpLoader:
                     if self.image_download_helper.invalid_file_and_contine(imgFullPath):
                         continue
 
-                    w = WeedFS("localhost", 9333)
-                    fid = w.upload_file(imgFullPath)
-                    img_url = w.get_file_url(fid)
+                    fid = self.weedFs.upload_file(imgFullPath)
+                    img_url = self.weedFs.get_file_url(fid)
 
                     processedImg[img] = img_url
                 print(processedImg)
                 with open(albumInJsonPath, 'w') as fp:
                     json.dump(processedImg, fp)
 
-    def upload_cover(self):
+    def upload_star_cover(self):
 
         dataPath = os.path.join(self.basePath, "cover")
         allCoverJsonPath = os.path.join(dataPath, self.allStarCoverDataInJson)
@@ -86,11 +87,11 @@ class WeedUpLoader:
                 if self.image_download_helper.invalid_file_and_contine(starCoverImgPath):
                     continue
 
-                w = WeedFS("localhost", 9333)
-                fid = w.upload_file(starCoverImgPath)
-                img_url = w.get_file_url(fid)
+                fid = self.weedFs.upload_file(starCoverImgPath)
+                img_url = self.weedFs.get_file_url(fid)
 
                 cachedStarCover[starId] = img_url
+
         print(cachedStarCover)
         with open(allCoverJsonPath, 'w') as fp:
             json.dump(cachedStarCover, fp)
@@ -160,6 +161,6 @@ class WeedUpLoader:
 
 if __name__ == '__main__':
     uploader = WeedUpLoader()
-    uploader.upload_cover()
-    uploader.upload_data()
+    uploader.upload_star_cover()
+    uploader.upload_album_data()
     uploader.generate_all_url_for_product()

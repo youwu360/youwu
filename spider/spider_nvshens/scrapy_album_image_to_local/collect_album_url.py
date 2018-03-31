@@ -1,24 +1,17 @@
 # -*- coding: utf-8 -*-
 import os
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "basics.settings")
-import django
 import re
-import time
-django.setup()
 import json
-import random
-from site_youwu.models import Star, Album, Tags
-from load_nvshens_helper import insert_star, insert_album, insert_tags
-import datetime
+import Constants
 
 
-class LoadNvshensData():
+class CollectNvshensUrl():
     lineNum = 0
     lineNumLimit = 11000000000
     # lineNumLimit = 10000
 
     path = os.path.dirname(os.path.realpath(__file__))
-    items_json = os.path.join(path, "items.json")
+    items_json = os.path.join(path, r"..\myproject\items.json")
 
     pattern_star_cover = re.compile("https://img\.onvshen\.com:85/girl/\d+\/\d+(_s)?\.jpg")
     pattern_album_cover = re.compile("https://img\.onvshen\.com:85/gallery/\d+/\d+/cover/[0-9]+\.jpg")
@@ -96,18 +89,20 @@ class LoadNvshensData():
                     print(e)
                     print(url)
                     print(data)
+
     def save(self, target='all_image_urls.json'):
         res = {}
-        res['starCover'] = self.starCover
-        res['albumCover'] = self.albumCover
-        res['albumToStar'] = self.albumToStar
-        res['albumImageList'] = self.albumImageList
+        res[Constants.starCover] = self.starCover
+        res[Constants.albumCover] = self.albumCover
+        res[Constants.albumToStar] = self.albumToStar
+        res[Constants.albumImageList] = self.albumImageList
         with open(target, 'w') as fp:
             json.dump(res, fp)
+
     def run(self):
         self.load_data()
         self.save()
 
 if __name__ == '__main__':
-    loader = LoadNvshensData()
-    loader.run()
+    instance = CollectNvshensUrl()
+    instance.run()

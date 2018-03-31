@@ -71,8 +71,6 @@ for albumId in joined_json[image_download_helper.albumCover]:
     if (cnt > 5):
         time.sleep(0.3)
 
-exit(0)
-
 for albumId in joined_json[image_download_helper.albumImageList]:
     try:
         starId = joined_json[image_download_helper.albumToStar][albumId]

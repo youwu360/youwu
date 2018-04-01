@@ -172,11 +172,17 @@ def recom_albums(x):
 def getAlbumInfoById(albumId):
 
     albums = []
+
     for line in albumId:
         item = dict()
         try:
-            temp_info = Album.objects.filter(albumId=line).values("name", "cover", "albumId")[0]
-            #print(temp_info)
+            if type(albumId[0]) == dict:
+                temp_info = Album.objects.filter(albumId=line['albumId']).values("name", "cover", "albumId")[0]
+            else:
+                temp_info = Album.objects.filter(albumId=line).values("name", "cover", "albumId")[0]
+
+
+            print(temp_info)
             item["cover"] = json.loads(temp_info["cover"])[0]
             item["name"] = temp_info["name"]
             item["albumId"] = temp_info["albumId"]
@@ -185,6 +191,9 @@ def getAlbumInfoById(albumId):
             print(e)
             continue
         albums.append(item)
+        
+
+
     return albums
 
 def addAttrToList(list,func,name,id): # 对词典形成的list，通过函数进行增加内容
@@ -280,4 +289,5 @@ def get_famous_site():
 def get_hot_star():
     data = list(Star.objects.all().values("name","cover","work")[0:9])
     print(data)
+
 

@@ -4,6 +4,7 @@ from site_youwu.models import Star
 from site_youwu.models import Tags
 from .view_common import paging
 from .view_common import getAlbumInfoById
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import json
 from .view_common import is_mobile_check
 from .view_common import get_hot_tags
@@ -47,6 +48,7 @@ def classify_page(request, *ids):
         tagName = Tags.objects.filter(tagId = tagId).values("tagName")[0]["tagName"]
         albumId = json.loads(Tags.objects.filter(tagId = tagId).values("IdList")[0]["IdList"])
 
+        """
         albums = []
         for line in albumId:
             item = dict()
@@ -60,25 +62,24 @@ def classify_page(request, *ids):
                 #print(e)
                 continue
             albums.append(item)
+        """
 
         m_nav_title = tagName
         url_cut = "/tagId=" + str(tagId) + "/pageId="
 
     else:       # 总分类页
         pageId = ids[0]
-        albumId_temp = Album.objects.all().values("albumId")
-        albumId = []
-        for line in albumId_temp:
-            albumId.append(line["albumId"])
-        albums = getAlbumInfoById(albumId)
+        albumId = list(Album.objects.all().values("albumId"))
+
+        # albums = getAlbumInfoById(albumIdShow)
         url_cut =  "/tag/pageId="
 
-        m_nav_title = "尤物分类"
 
+        m_nav_title = "尤物分类"  # 移动端title
 
     # 分页
-    page_content = paging(albums, pageId, content_cnt, page_cnt)   # 40个图片一个页面  每个页面展现10个分页tag
-    showData = page_content['showData']
+    page_content = paging(albumId, pageId, content_cnt, page_cnt)   # 40个图片一个页面  每个页面展现10个分页tag
+    showData = getAlbumInfoById(page_content['showData'])
     pageGroup = page_content['pageGroup']
     currentPage = pageId
 

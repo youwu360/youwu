@@ -11,7 +11,7 @@ class CollectNvshensUrl():
     # lineNumLimit = 10000
 
     path = os.path.dirname(os.path.realpath(__file__))
-    items_json = os.path.join(path, r"..\myproject\items.json")
+    items_json = os.path.join(path, "items.json")
 
     pattern_star_cover = re.compile("https://img\.onvshen\.com:85/girl/\d+\/\d+(_s)?\.jpg")
     pattern_album_cover = re.compile("https://img\.onvshen\.com:85/gallery/\d+/\d+/cover/[0-9]+\.jpg")

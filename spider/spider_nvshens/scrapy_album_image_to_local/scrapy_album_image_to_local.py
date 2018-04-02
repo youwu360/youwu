@@ -28,6 +28,8 @@ joined_json = image_download_helper.join_result(newly_scrapyed_json, extra_album
 joined_json = image_download_helper.join_result(joined_json, product_json,
                                                 image_download_helper.minus)
 
+json.dumps(joined_json)
+exit(0)
 
 for starId in joined_json[image_download_helper.starCover]:
     url = joined_json[image_download_helper.starCover][starId]
